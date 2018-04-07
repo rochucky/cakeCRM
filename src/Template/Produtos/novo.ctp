@@ -3,12 +3,13 @@
 </div>
 <div class="row">
 	<?php 
-		echo $this->Form->create($item,['url' => ['action' => 'salva']]);
+		echo $this->Form->create($item,['url' => ['action' => 'salvar']]);
 		echo $this->Form->input('id');
-		echo $this->Form->input('nome');
-		echo $this->Form->input('preco', ['label' => 'Preço']);
-		echo $this->Form->input('descricao', ['label' => 'Descrição']);
+		foreach ($fields as $key => $data){
+			echo $this->Form->input($key, $data);	
+		}
 		echo $this->Form->button('Salvar');
+		echo $this->Html->Link('Cancelar',$controller,['class' => 'button']);
 		echo $this->Form->end();
 	 ?>
 </div>

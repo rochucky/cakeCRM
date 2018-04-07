@@ -6,18 +6,54 @@ use Cake\ORM\TableRegistry;
 class ProdutosController extends BaseController {
 
 	public $controller = 'Produtos';
+	
+	/**
+     * Module Permissions CRUD
+     * @var add -> Create
+     * @var edit -> Edit
+     * @var add -> Delete
+     */
+	public $permission = [
+		'add' => 1,
+		'edit' => 1,
+		'del' => 1
+	];
+
+
+	/**
+     * Fields to be used on screen
+     * @var add -> Create
+     * @var edit -> Edit
+     * @var add -> Delete
+     */
+	public $fields = [
+		'id' => ['label' => 'Id'],
+		'nome' => ['label' => 'Nome'],
+		'preco' => ['label' =>'Preço'],
+		'descricao' => ['label' => 'Descrição']
+	];
 
 	public function index(){
+		parent::load_index();
+		$fields = [
+			'id' => 'Id',
+			'nome' => 'Nome',
+			'preco' => 'Preço',  
+			'descricao' => 'Descrição'  
+		];
 
-		$produtosTable = TableRegistry::get('Produtos');
-		$produtos = $produtosTable->find('all');
-
-		$this->set('msg', 'Bom dia');
-		$this->set('produtos', $produtos);
+		$this->set('fields',$fields);
 	}
 
 	public function novo(){
 		parent::add('produto');
+		$fields = [
+			'nome' => ['label' => 'Nome'],
+			'preco' => ['label' =>'Preço'],
+			'descricao' => ['label' => 'Descrição']
+		];
+
+		$this->set('fields',$fields);
 	}
 
 	public function excluir($id){
@@ -25,32 +61,12 @@ class ProdutosController extends BaseController {
 	}
 
 	public function editar($id){
-
 		parent::edit($id);
-		// $produtosTable = TableRegistry::get('Produtos');
-
-		// $produto = $produtosTable->get($id);
-		// $this->set('produto', $produto);
-		// $this->render('novo');
 	}
 
 	public function salva(){
-
 		parent::save();
-
-		// $produtosTable = TableRegistry::get('Produtos');
-		// $produto = $produtosTable->newEntity($this->request->data());
-
-		// if ($produtosTable->save($produto)){
-		// 	$msg = "Registro salvo com sucesso!";
-		// 	$this->Flash->set($msg, ['element' => 'success']);
-		// }
-		// else{
-		// 	$msg = "Erro ao inserir Registro";
-		// 	$this->Flash->set($msg, ['element' => 'error']);
-		// }
-
-		$this->redirect('Produtos/index');
+		$this->redirect('Produtos');
 	}
 
 }

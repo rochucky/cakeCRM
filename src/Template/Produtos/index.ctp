@@ -1,40 +1,65 @@
 <div class="row">
-	<h1>Produtos</h1>
+	<h1 class="title">Produtos</h1>
 </div>
 <div class="row">
 	<table class="table">
 		<thead>
 			<tr>
-				<th>Id</th>
-				<th>Nome</th>
-				<th>Preço</th>
-				<th>Preço com desconto</th>
-				<th>Descrição</th>
-				<th>Ações</th>
+				<?php foreach($fields as $field) { ?>
+					<th><?= $field['label'] ?></th>
+				<?php } ?>
+				<?php if($del || $edit) { ?>
+					<th>Ações</th>
+				<?php } ?>
 			</tr>
 		</thead>
 		<tbody>
 			<?php 
-				foreach($produtos as $produto) { 
+				foreach($items as $item) { 
 			?>
 			<tr>
-				<td><?= $produto['id'] ?></td>
-				<td><?= $produto['nome'] ?></td>
-				<td><?= $this->Currency->format($produto['preco']) ?></td>
-				<td><?= $this->Currency->format($produto->calculaDesconto()) ?></td>
-				<td><?= $produto['descricao'] ?></td>
-				<td>
-					<?php echo $this->Html->Link('Editar', ['controller' => 'produtos', 'action' => 'editar', $produto['id']]) ?> | 
-					<?php echo $this->Form->postLink('Excluir', ['controller' => 'produtos', 'action' => 'excluir', $produto['id']],['confirm' => 'Deseja realmente excluir o produto '.$produto['nome'].'?']) ?>
-					
-				</td>
+				<?php foreach ($fields as $key => $val) { ?>
+					<td>
+						<?php 
+							if (isset($val['format'])){
+								switch ($val['format']){
+									case 'currency':
+										echo $this->Currency->format($item[$key]);
+										break;
+									default:
+										echo $item[$key];
+								}
+							} 
+							else{
+								echo $item[$key];
+							}
+						?>
+					</td>
+				<?php } ?>
+				<?php if($del || $edit) { ?>
+					<td>
+						<?php
+							if($edit){
+								echo $this->Html->Link('Editar', ['controller' => $controller, 'action' => 'editar', $item['id']]);
+							} 
+						?> 
+						<?php 
+							if($del){
+								echo $this->Form->postLink('Excluir', ['controller' => $controller, 'action' => 'excluir', $item['id']],['confirm' => 'Deseja realmente excluir o produto '.$item['nome'].'?']);
+							}
+						?>
+						
+					</td>
+				<?php } ?>
 			</tr>
 			<?php 
 				} 
 			?>
 		</tbody>
 	</table>
-	<?php 
-		echo $this->Html->Link('Novo Produto',['controller' => 'produtos', 'action' => 'novo']);
+	<?php
+		if($add){
+			echo $this->Html->Link('Novo',['controller' => $controller, 'action' => 'novo']);
+		} 
 	 ?>
 </div>

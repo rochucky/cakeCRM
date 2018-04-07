@@ -28,6 +28,7 @@ $cakeDescription = 'Software';
 
     <?= $this->Html->css('base.css') ?>
     <?= $this->Html->css('cake.css') ?>
+    <?= $this->Html->css('custom.css') ?>
 
     <?= $this->fetch('meta') ?>
     <?= $this->fetch('css') ?>
@@ -36,8 +37,14 @@ $cakeDescription = 'Software';
 <body>
     <nav class="top-bar expanded menu" data-topbar role="navigation">
         <ul class="large-3 medium-4 columns">
-            <li class="name">
-                <h1><a href=""><?= $this->fetch('title') ?></a></h1>
+            <li class="name menu-item">
+                <h1><?= $this->Html->Link('Logo','/') ?></h1>
+            </li>
+            <li class="name menu-item">
+                <h1><?= $this->Html->Link('Produtos','produtos') ?></h1>
+            </li>
+            <li class="name menu-item">
+                <h1><?= $this->Html->Link('Usuários','users') ?></h1>
             </li>
         </ul>
     </nav>

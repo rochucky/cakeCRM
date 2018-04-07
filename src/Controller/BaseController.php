@@ -5,14 +5,49 @@ use Cake\ORM\TableRegistry;
 
 class BaseController extends AppController {
 
-	public function add($var){
+	public $home = 'Produtos';
+
+	/**
+     * Loads index table data
+     *
+     * @param $var - name of variable to be used in the view
+     * 
+     */
+	public function load_index($var = 'items'){
 
 		$table = TableRegistry::get($this->controller);
+		$items = $table->find('all');
 
+		$this->set($var, $items);
+		$this->set('controller',strtolower($this->controller));
+		$this->set('add',$this->permission['add']);
+		$this->set('edit',$this->permission['edit']);
+		$this->set('del',$this->permission['del']);
+		$this->set('fields',$this->fields);
+	
+	}
+
+	/**
+     * Fetch new record to add a data in the table
+     * 
+     */
+	public function add(){
+
+		$table = TableRegistry::get($this->controller);
 		$item = $table->newEntity();
 
-		$this->set($var,$item);
+		$this->set('item',$item);
+		$this->set('controller',strtolower($this->controller));
+		$this->set('fields',$this->fields);
+
 	}
+
+	/**
+     * Delete record
+     *
+     * @param $id - record id
+     * 
+     */
 
 	public function delete($id){
 
@@ -33,14 +68,28 @@ class BaseController extends AppController {
 
 	}
 
+	/**
+     * Get record to edit
+     *
+     * @param $id - record id
+     * 
+     */
+
 	public function edit($id){
 
 		$table = TableRegistry::get($this->controller);
 
 		$item = $table->get($id);
 		$this->set('item', $item);
+		$this->set('controller',strtolower($this->controller));
+		$this->set('fields',$this->fields);
 		$this->render('novo');
 	}
+
+	/**
+     * Save data to the table
+     * 
+     */
 
 	public function save(){
 
@@ -55,8 +104,6 @@ class BaseController extends AppController {
 			$msg = "Erro ao inserir Registro";
 			$this->Flash->set($msg, ['element' => 'error']);
 		}
-
-		$this->redirect($this->controller);
 	}
 
 }
