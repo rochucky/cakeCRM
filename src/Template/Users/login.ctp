@@ -1,12 +1,27 @@
 <div class="row">
-	<h2>Login</h2>
+	<div class="col-md-12">
+		<p class="text-center header">INSTORE</p>
+	</div>
 </div>
 <div class="row">
-	<?php 
-		echo $this->Form->create(); 
-		echo $this->Form->input('username',['label' => 'Usuário']); 
-		echo $this->Form->input('password', ['label' => 'Senha']); 
-		echo $this->Form->button('Entrar');
-		echo $this->Form->end(); 
-	?>
+	<div class="col-lg-4"></div>
+	<div class="col-lg-4">	
+		<form method="post" action="/">
+			<div class="form-group">
+				<label for="username">Usuário: </label>
+				<input type="text" class="form-control fill" id="username" name="username" />
+			</div>
+			<div class="form-group">
+				<label for="password">Senha: </label>
+				<input type="password" class="form-control fill" id="password" name="password" />
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary fill">Entrar</button>
+			</div>
+		</form>
+	</div>
 </div>
+
+
+
+<?= $this->Html->script('user/login.js');

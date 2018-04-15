@@ -7,8 +7,7 @@ use Cake\Auth\DefaultPasswordHasher;
 class User extends Entity  {
 
 	protected $_accessible = [
-		'*' => true,
-		'id' => false
+		'*' => true
 	];
 
 	public function _setPassword($password){

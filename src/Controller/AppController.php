@@ -28,6 +28,9 @@ use Cake\Event\Event;
 class AppController extends Controller
 {
 
+    // public function beforeFilter(){
+    //     $this->layout = 'bootstrap';
+    // }
     /**
      * Initialization hook method.
      *
@@ -45,7 +48,7 @@ class AppController extends Controller
         $this->loadComponent('Flash');
         $this->loadComponent('Auth', [
             'loginRedirect' => [
-                'controller' => 'Produtos',
+                'controller' => 'Home',
                 'action' => 'index'
             ],
             'logoutRedirect' => [
@@ -53,6 +56,8 @@ class AppController extends Controller
                 'action' => 'login'
             ]
         ]);
+
+        $this->set('Auth', $this->Auth);
 
         /*
          * Enable the following components for recommended CakePHP security settings.

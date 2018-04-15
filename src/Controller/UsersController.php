@@ -25,7 +25,6 @@ class UsersController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'id' => ['label' => 'Id'],
 		'name' => ['label' => 'Nome'],
 		'email' => ['label' =>'E-mail'],
 		'username' => ['label' => 'Usuário']
@@ -36,6 +35,7 @@ class UsersController extends BaseController {
 	}
 
 	public function novo(){
+		$this->fields['password'] = ['label' => 'Senha', "type" => "password"];
 		parent::add(strtolower($this->controller));
 	}
 
@@ -52,7 +52,7 @@ class UsersController extends BaseController {
 		$this->redirect($this->controller);
 	}
 	public function login(){
-        
+
 		if ($this->request->is('post')){
 			$user = $this->Auth->identify();
 
@@ -64,7 +64,16 @@ class UsersController extends BaseController {
 				$this->Flash->error('Usuário ou senha inválidos');
 			}
 		}
+		else{
+			if($this->Auth->user()){
+				return $this->redirect($this->Auth->redirectUrl());
+			}
+		}
 
+    }
+
+    public function logout(){
+    	$this->redirect($this->Auth->logout());
     }
 }
 ?>

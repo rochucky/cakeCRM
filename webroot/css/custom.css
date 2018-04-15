@@ -1,3 +1,7 @@
-li.name.menu-item {
-	float: left;
+.fill{
+	width: 100% !important;
+}
+
+p.header{
+	font-size: 36px;
 }

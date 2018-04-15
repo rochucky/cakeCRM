@@ -97,12 +97,10 @@ class BaseController extends AppController {
 		$item = $table->newEntity($this->request->data());
 
 		if ($table->save($item)){
-			$msg = "Registro salvo com sucesso!";
-			$this->Flash->set($msg, ['element' => 'success']);
+			$this->Flash->success("Registro salvo com sucesso!");
 		}
 		else{
-			$msg = "Erro ao inserir Registro";
-			$this->Flash->set($msg, ['element' => 'error']);
+			$this->Flash->error("Erro ao inserir Registro");
 		}
 	}
 

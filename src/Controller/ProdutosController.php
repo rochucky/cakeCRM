@@ -27,7 +27,6 @@ class ProdutosController extends BaseController {
      * @var add -> Delete
      */
 	public $fields = [
-		'id' => ['label' => 'Id'],
 		'nome' => ['label' => 'Nome'],
 		'preco' => ['label' =>'Preço'],
 		'descricao' => ['label' => 'Descrição']
@@ -35,25 +34,10 @@ class ProdutosController extends BaseController {
 
 	public function index(){
 		parent::load_index();
-		$fields = [
-			'id' => 'Id',
-			'nome' => 'Nome',
-			'preco' => 'Preço',  
-			'descricao' => 'Descrição'  
-		];
-
-		$this->set('fields',$fields);
 	}
 
 	public function novo(){
-		parent::add('produto');
-		$fields = [
-			'nome' => ['label' => 'Nome'],
-			'preco' => ['label' =>'Preço'],
-			'descricao' => ['label' => 'Descrição']
-		];
-
-		$this->set('fields',$fields);
+		parent::add($this->controller);
 	}
 
 	public function excluir($id){
@@ -64,9 +48,9 @@ class ProdutosController extends BaseController {
 		parent::edit($id);
 	}
 
-	public function salva(){
+	public function salvar(){
 		parent::save();
-		$this->redirect('Produtos');
+		$this->redirect($this->controller);
 	}
 
 }
