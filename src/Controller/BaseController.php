@@ -109,9 +109,11 @@ class BaseController extends AppController {
 
 		$table = TableRegistry::get($this->controller);
 		$item = $table->newEntity($this->request->data());
-
-		var_dump($item); die;
-
+		if(!$item->id){
+			$item->created_by = $this->Auth->user('id');
+		}
+		$item->modified_by = $this->Auth->user('id');
+		
 		if ($table->save($item)){
 			$this->Flash->success("Registro salvo com sucesso!");
 		}

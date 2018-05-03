@@ -2,11 +2,13 @@ $(document).ready(function(){
 	
 	$('.datatable').dataTable({
 		"scrollY": "100%",
-		// "scrollX": true,
+		"scrollX": true,
 		"scrollCollapse": true,
         "paging": false,
-        "fixedColumns": {
-        	"rightColumns": 1
+        "fixedColumns":   {
+            "leftColumns": 0,
+            "rightColumns": 1,
+            "heightMatch": 'none'
         },
         "language": {
 		    "decimal":        "",
@@ -32,6 +34,10 @@ $(document).ready(function(){
 		        "sortDescending": ": activate to sort column descending"
 		    }
 		}
+	});
+
+	$('.datatable tbody tr').dblclick(function(){
+		location.href = location.href + '/editar/' + $(this).attr('id');
 	});
 
 });

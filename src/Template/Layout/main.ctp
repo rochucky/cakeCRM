@@ -10,7 +10,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<table class="datatable">
+		<table class="datatable display nowrap">
 			<thead>
 				<tr>
 					<?php foreach($fields as $field) { ?>
@@ -25,7 +25,7 @@
 				<?php 
 					foreach($items as $item) { 
 				?>
-				<tr>
+				<tr id="<?= $item['id'] ?>">
 					<?php foreach ($fields as $key => $param) { ?>
 						<td>
 							<?php 

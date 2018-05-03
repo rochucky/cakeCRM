@@ -50,7 +50,7 @@ class UsersTable extends Table
         ]);
         $this->belongsTo('ModifiedByData', [
             'className' => 'Users',
-            'foreignKey' => 'created_by'            
+            'foreignKey' => 'modified_by'            
         ]);
     }
 

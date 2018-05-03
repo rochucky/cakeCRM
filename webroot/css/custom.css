@@ -7,10 +7,18 @@ p.header{
 }
 
 /*Table*/
-td.actions{
+.datatable td.actions{
 	width: 10%;
 }
-.datatable tbody tr:nth-child(odd){ background-color: rgba(0,0,0,0.03); }
+.datatable tbody tr{
+	height: 20px;
+}
+.oi-x{
+	color: rgba(255,0,0,0.6);
+}
+.oi-brush{
+	color: rgba(0,0,255,0.6);
+}
 
 /*Form*/
 form label{

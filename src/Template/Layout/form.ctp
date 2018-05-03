@@ -13,7 +13,7 @@
 						    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 							</div>
 							<div class="col">
-						    	<input type="text" class="form-control" id="<?= $key ?>" name="<?= $key ?>" <?= isset($data['readonly']) ? 'readonly' : '' ?> value="<?= $item[$key] ?>"/>
+						    	<input type="text" class="form-control" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> value="<?= $item[$key] ?>"/>
 							</div>	
 						</div>
 					</div>
@@ -24,7 +24,7 @@
 					    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
 					    	</div>
 					    	<div class="col">
-							    <select id="<?= $key ?>" name="<?= $key ?>" class="form-control" <?= isset($data['readonly']) ? 'readonly' : '' ?>>
+							    <select id="<?= $key ?>" class="form-control" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> >
 							    	<option value="null"></option>
 							    	<?php foreach($joins[$data['joinController']] as $join): ?>
 										<option value="<?= $join['id'] ?>" <?= ($item[$key] == $join['id']) ? 'selected' : ''; ?>><?= $join[$data['joinCol']] ?></option>
@@ -40,7 +40,7 @@
 						    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 							</div>
 							<div class="col">
-						    	<input type="<?= $data['type'] ?>" class="form-control" id="<?= $key ?>" name="<?= $key ?>" <?= isset($data['readonly']) ? 'readonly' : '' ?> value="<?= $item[$key] ?>"/>
+						    	<input type="<?= $data['type'] ?>" class="form-control" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> value="<?= $item[$key] ?>"/>
 							</div>	
 						</div>
 					</div>
@@ -51,3 +51,4 @@
 		</form>
 	</div>
 </div>
+<?= $this->Html->script('form.js') ?>
