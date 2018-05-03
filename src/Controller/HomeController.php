@@ -9,6 +9,7 @@ class HomeController extends BaseController {
 	public $controller = 'Home';
 
 	public function index(){
+		$this->set('user', $this->Auth->User('name'));
 		// parent::load_index();
 	}
 

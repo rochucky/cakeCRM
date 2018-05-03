@@ -5,8 +5,6 @@ use Cake\ORM\TableRegistry;
 
 class BaseController extends AppController {
 
-	public $home = 'Produtos';
-
 	/**
      * Loads index table data
      *
@@ -17,13 +15,15 @@ class BaseController extends AppController {
 
 		$table = TableRegistry::get($this->controller);
 		$items = $table->find('all');
-
+			$items->contain($this->joins['Main']);
 		$this->set($var, $items);
-		$this->set('controller',strtolower($this->controller));
+		$this->set('controller',$this->controller);
 		$this->set('add',$this->permission['add']);
 		$this->set('edit',$this->permission['edit']);
 		$this->set('del',$this->permission['del']);
 		$this->set('fields',$this->fields);
+		$this->set('title',$this->title);
+		$this->render('/Layout/main');
 	
 	}
 
@@ -35,10 +35,20 @@ class BaseController extends AppController {
 
 		$table = TableRegistry::get($this->controller);
 		$item = $table->newEntity();
+		$join = [];
+		foreach ($this->joins['Form'] as $val){
+			$joinTable = TableRegistry::get($val);
+			$join[$val] = $joinTable->find('all');
+		}
+			
 
 		$this->set('item',$item);
-		$this->set('controller',strtolower($this->controller));
+		$this->set('controller',$this->controller);
 		$this->set('fields',$this->fields);
+		$this->set('joins',$join);
+		$this->set('title','Criar '.$this->title);
+		$this->set('back',$this->request->referer());
+		$this->render('/Layout/form');
 
 	}
 
@@ -52,16 +62,13 @@ class BaseController extends AppController {
 	public function delete($id){
 
 		$table = TableRegistry::get($this->controller);
-
 		$item = $table->get($id);
 		
 		if($table->delete($item)){
-			$msg = 'Registro excluido';
-			$this->Flash->set($msg, ['element' => 'error']);
+			$this->Flash->success('Registro excluido');
 		}
 		else{
-			$msg = 'Erro ao excluir registro';
-			$this->Flash->set($msg, ['element' => 'error']);
+			$this->Flash->error('Erro ao excluir registro');
 		}
 
 		$this->redirect($this->controller);
@@ -78,12 +85,19 @@ class BaseController extends AppController {
 	public function edit($id){
 
 		$table = TableRegistry::get($this->controller);
-
 		$item = $table->get($id);
+		$join = [];
+		foreach ($this->joins['Form'] as $val){
+			$joinTable = TableRegistry::get($val);
+			$join[$val] = $joinTable->find('all');
+		}
+
 		$this->set('item', $item);
-		$this->set('controller',strtolower($this->controller));
+		$this->set('controller',$this->controller);
 		$this->set('fields',$this->fields);
-		$this->render('novo');
+		$this->set('joins',$join);
+		$this->set('title','Editar '.$this->title);
+		$this->render('/Layout/form');
 	}
 
 	/**
@@ -95,6 +109,8 @@ class BaseController extends AppController {
 
 		$table = TableRegistry::get($this->controller);
 		$item = $table->newEntity($this->request->data());
+
+		var_dump($item); die;
 
 		if ($table->save($item)){
 			$this->Flash->success("Registro salvo com sucesso!");

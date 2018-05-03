@@ -4,10 +4,11 @@ namespace App\Controller;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 
-class UsersController extends BaseController {
+class UserTypesController extends BaseController {
 
-	public $controller = 'Users';
-	public $title = 'Usuário';
+	public $controller = 'UserTypes';
+	public $title = 'Tipo de Usuário';
+	
 	/**
      * Module Permissions CRUD
      * @var add -> Create
@@ -25,43 +26,16 @@ class UsersController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'name' => ['label' => 'Nome'],
-		'email' => ['label' =>'E-mail'],
-		'username' => ['label' => 'Usuário'],
-		'user_type_id' => [
-			'label' => 'Tipo',
-			'type' => 'join',
-			'joinController' => 'UserTypes',
-			'joinCol' => 'name',
-			'joinName' => 'user_type'
-		],
-		'created' => [
-			'label' => 'Criado Em',
-			'format' => 'datetime',
-			'readonly' => true
-		],
-		'created_by' => [
-			'label' => 'Criado Por',
-			'type' => 'join',
-			'joinController' => 'Users',
-			'joinCol' => 'name',
-			'joinName' => 'created_by_data',
-			'readonly' => true
-		]
+		'name' => ['label' => 'Nome']
 	];
 
-	public $joins = [
-		'Main' => ['UserTypes', 'CreatedByData'],
-		'Form' => ['UserTypes', 'Users']
-	];
+	public $joins = [];
 
 	public function index(){
 		parent::load_index();
 	}
 
 	public function novo(){
-		$this->set('title', 'Criar '.$this->title);
-		$this->fields['password'] = ['label' => 'Senha', "type" => "password"];
 		parent::add(strtolower($this->controller));
 	}
 
@@ -70,7 +44,6 @@ class UsersController extends BaseController {
 	}
 
 	public function editar($id){
-		$this->set('title', 'Criar '.$this->title);
 		parent::edit($id);
 	}
 

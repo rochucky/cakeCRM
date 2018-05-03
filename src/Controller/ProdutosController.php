@@ -5,8 +5,9 @@ use Cake\ORM\TableRegistry;
 
 class ProdutosController extends BaseController {
 
+
 	public $controller = 'Produtos';
-	
+	public $title = 'Produto';
 	/**
      * Module Permissions CRUD
      * @var add -> Create
@@ -22,22 +23,23 @@ class ProdutosController extends BaseController {
 
 	/**
      * Fields to be used on screen
-     * @var add -> Create
-     * @var edit -> Edit
-     * @var add -> Delete
      */
 	public $fields = [
 		'nome' => ['label' => 'Nome'],
-		'preco' => ['label' =>'Preço'],
+		'preco' => ['label' =>'Preço',  'type' => 'number'],
 		'descricao' => ['label' => 'Descrição']
 	];
 
+	public $joins = [];	
+
 	public function index(){
+		$this->set('title', $this->title);
 		parent::load_index();
 	}
 
 	public function novo(){
-		parent::add($this->controller);
+		$this->set('title', 'Criar '.$this->title);
+		parent::add(strtolower($this->controller));
 	}
 
 	public function excluir($id){
@@ -45,6 +47,7 @@ class ProdutosController extends BaseController {
 	}
 
 	public function editar($id){
+		$this->set('title', 'Editar '.$this->title);
 		parent::edit($id);
 	}
 

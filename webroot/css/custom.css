@@ -1,7 +1,18 @@
+/*General*/
 .fill{
 	width: 100% !important;
 }
-
 p.header{
 	font-size: 36px;
+}
+
+/*Table*/
+td.actions{
+	width: 10%;
+}
+.datatable tbody tr:nth-child(odd){ background-color: rgba(0,0,0,0.03); }
+
+/*Form*/
+form label{
+	padding-top: 10px;
 }

@@ -1,107 +1,55 @@
-<?php
+<?php 
 namespace App\Controller;
 
-use App\Controller\AppController;
+use Cake\ORM\TableRegistry;
+use Cake\Event\Event;
 
-/**
- * Clientes Controller
- *
- * @property \App\Model\Table\ClientesTable $Clientes
- *
- * @method \App\Model\Entity\Cliente[]|\Cake\Datasource\ResultSetInterface paginate($object = null, array $settings = [])
- */
-class ClientesController extends AppController
-{
+class ClientesController extends BaseController {
 
-    /**
-     * Index method
-     *
-     * @return \Cake\Http\Response|void
+	public $controller = 'Clientes';
+	
+	/**
+     * Module Permissions CRUD
+     * @var add -> Create
+     * @var edit -> Edit
+     * @var add -> Delete
      */
-    public function index()
-    {
-        $clientes = $this->paginate($this->Clientes);
+	public $permission = [
+		'add' => 1,
+		'edit' => 1,
+		'del' => 1
+	];
 
-        $this->set(compact('clientes'));
-    }
 
-    /**
-     * View method
-     *
-     * @param string|null $id Cliente id.
-     * @return \Cake\Http\Response|void
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
+	/**
+     * Fields to be used on screen
      */
-    public function view($id = null)
-    {
-        $cliente = $this->Clientes->get($id, [
-            'contain' => []
-        ]);
+	public $fields = [
+		'name' => ['label' => 'Nome'],
+		'cnpj' => ['label' => 'CNPJ']
+	];
 
-        $this->set('cliente', $cliente);
-    }
+	public $joins = '';
 
-    /**
-     * Add method
-     *
-     * @return \Cake\Http\Response|null Redirects on successful add, renders view otherwise.
-     */
-    public function add()
-    {
-        $cliente = $this->Clientes->newEntity();
-        if ($this->request->is('post')) {
-            $cliente = $this->Clientes->patchEntity($cliente, $this->request->getData());
-            if ($this->Clientes->save($cliente)) {
-                $this->Flash->success(__('The cliente has been saved.'));
+	public function index(){
+		parent::load_index();
+	}
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The cliente could not be saved. Please, try again.'));
-        }
-        $this->set(compact('cliente'));
-    }
+	public function novo(){
+		parent::add(strtolower($this->controller));
+	}
 
-    /**
-     * Edit method
-     *
-     * @param string|null $id Cliente id.
-     * @return \Cake\Http\Response|null Redirects on successful edit, renders view otherwise.
-     * @throws \Cake\Network\Exception\NotFoundException When record not found.
-     */
-    public function edit($id = null)
-    {
-        $cliente = $this->Clientes->get($id, [
-            'contain' => []
-        ]);
-        if ($this->request->is(['patch', 'post', 'put'])) {
-            $cliente = $this->Clientes->patchEntity($cliente, $this->request->getData());
-            if ($this->Clientes->save($cliente)) {
-                $this->Flash->success(__('The cliente has been saved.'));
+	public function excluir($id){
+		parent::delete($id);
+	}
 
-                return $this->redirect(['action' => 'index']);
-            }
-            $this->Flash->error(__('The cliente could not be saved. Please, try again.'));
-        }
-        $this->set(compact('cliente'));
-    }
+	public function editar($id){
+		parent::edit($id);
+	}
 
-    /**
-     * Delete method
-     *
-     * @param string|null $id Cliente id.
-     * @return \Cake\Http\Response|null Redirects to index.
-     * @throws \Cake\Datasource\Exception\RecordNotFoundException When record not found.
-     */
-    public function delete($id = null)
-    {
-        $this->request->allowMethod(['post', 'delete']);
-        $cliente = $this->Clientes->get($id);
-        if ($this->Clientes->delete($cliente)) {
-            $this->Flash->success(__('The cliente has been deleted.'));
-        } else {
-            $this->Flash->error(__('The cliente could not be deleted. Please, try again.'));
-        }
-
-        return $this->redirect(['action' => 'index']);
-    }
+	public function salvar(){
+		parent::save();
+		$this->redirect($this->controller);
+	}
 }
+?>
