@@ -5,12 +5,25 @@
 p.header{
 	font-size: 36px;
 }
+.navbar{
+	background-color: gainsboro;
+}
+.message{
+	display: none;
+}
+.confirm-button{
+	width: 46%;
+	margin-left: 2%;
+}
 
 /*Table*/
-.datatable td.actions{
+#datatable{
+	width: 100% !important;
+}
+#datatable td.actions{
 	width: 10%;
 }
-.datatable tbody tr{
+#datatable tbody tr{
 	height: 20px;
 }
 .oi-x{
@@ -23,4 +36,9 @@ p.header{
 /*Form*/
 form label{
 	padding-top: 10px;
+}
+
+/*Modal*/
+.modal-dialog{
+	max-width: 60%;
 }

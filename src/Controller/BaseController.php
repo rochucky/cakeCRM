@@ -16,7 +16,15 @@ class BaseController extends AppController {
 		$table = TableRegistry::get($this->controller);
 		$items = $table->find('all');
 			$items->contain($this->joins['Main']);
+
+		$join = [];
+		foreach ($this->joins['Form'] as $val){
+			$joinTable = TableRegistry::get($val);
+			$join[$val] = $joinTable->find('all');
+		}
+
 		$this->set($var, $items);
+		$this->set('joins',$join);
 		$this->set('controller',$this->controller);
 		$this->set('add',$this->permission['add']);
 		$this->set('edit',$this->permission['edit']);
@@ -65,14 +73,12 @@ class BaseController extends AppController {
 		$item = $table->get($id);
 		
 		if($table->delete($item)){
-			$this->Flash->success('Registro excluido');
+			$this->response->body('ok');
 		}
 		else{
-			$this->Flash->error('Erro ao excluir registro');
+			$this->response->body(json_encode($table));
 		}
-
-		$this->redirect($this->controller);
-
+		return $this->response;
 	}
 
 	/**
@@ -120,6 +126,7 @@ class BaseController extends AppController {
 		else{
 			$this->Flash->error("Erro ao inserir Registro");
 		}
+		$this->redirect($this->controller);
 	}
 
 }

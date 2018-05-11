@@ -26,11 +26,43 @@ class ProdutosController extends BaseController {
      */
 	public $fields = [
 		'nome' => ['label' => 'Nome'],
-		'preco' => ['label' =>'Preço',  'type' => 'number'],
-		'descricao' => ['label' => 'Descrição']
+		'preco' => [
+			'label' =>'Preço',
+			'type' => 'number'
+		],
+		'descricao' => ['label' => 'Descrição'],
+		'modified' => [
+			'label' => 'Alterado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		],
+		'modified_by' => [
+			'label' => 'Alterado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'modified_by_data',
+			'readonly' => true
+		],
+		'created' => [
+			'label' => 'Criado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		],
+		'created_by' => [
+			'label' => 'Criado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'created_by_data',
+			'readonly' => true
+		]
 	];
 
-	public $joins = [];	
+	public $joins = [
+		'Main' => ['CreatedByData','ModifiedByData'],
+		'Form' => ['Users']
+	];	
 
 	public function index(){
 		$this->set('title', $this->title);

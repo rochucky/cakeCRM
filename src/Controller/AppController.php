@@ -54,10 +54,15 @@ class AppController extends Controller
             'logoutRedirect' => [
                 'controller' => 'Users',
                 'action' => 'login'
-            ]
+            ],
+            'authError' => 'Você não tem autorização para acessar esta página'
         ]);
 
         $this->set('Auth', $this->Auth);
+
+        if($this->Auth->user()){
+            $this->set('user_type', $this->Auth->user('type'));
+        }
 
         /*
          * Enable the following components for recommended CakePHP security settings.

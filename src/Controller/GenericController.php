@@ -2,12 +2,12 @@
 namespace App\Controller;
 
 use Cake\ORM\TableRegistry;
-use Cake\Event\Event;
 
-class UsersController extends BaseController {
+class GenericController extends BaseController {
 
-	public $controller = 'Users';
-	public $title = 'Usuário';
+
+	public $controller = 'Controller'; // Used Controller
+	public $title = 'Controller'; // Page Top title
 	/**
      * Module Permissions CRUD
      * @var add -> Create
@@ -23,18 +23,14 @@ class UsersController extends BaseController {
 
 	/**
      * Fields to be used on screen
+     * @label -> field label ro be shown on screen
+     * @format -> data format
+     * @readonly -> if exists, field will  be readonly
+     * @
+     *
+     *
      */
 	public $fields = [
-		'name' => ['label' => 'Nome'],
-		'email' => ['label' =>'E-mail'],
-		'username' => ['label' => 'Usuário'],
-		'user_type_id' => [
-			'label' => 'Tipo',
-			'type' => 'join',
-			'joinController' => 'UserTypes',
-			'joinCol' => 'name',
-			'joinName' => 'user_type'
-		],
 		'created' => [
 			'label' => 'Criado Em',
 			'format' => 'datetime',
@@ -64,17 +60,17 @@ class UsersController extends BaseController {
 	];
 
 	public $joins = [
-		'Main' => ['UserTypes', 'CreatedByData', 'ModifiedByData'],
-		'Form' => ['UserTypes', 'Users']
-	];
+		'Main' => [],
+		'Form' => []
+	];	
 
 	public function index(){
+		$this->set('title', $this->title);
 		parent::load_index();
 	}
 
 	public function novo(){
 		$this->set('title', 'Criar '.$this->title);
-		$this->fields['password'] = ['label' => 'Senha', "type" => "password"];
 		parent::add(strtolower($this->controller));
 	}
 
@@ -83,7 +79,7 @@ class UsersController extends BaseController {
 	}
 
 	public function editar($id){
-		$this->set('title', 'Criar '.$this->title);
+		$this->set('title', 'Editar '.$this->title);
 		parent::edit($id);
 	}
 
@@ -91,33 +87,6 @@ class UsersController extends BaseController {
 		parent::save();
 		$this->redirect($this->controller);
 	}
-	public function login(){
 
-		if ($this->request->is('post')){
-			$user = $this->Auth->identify();
-			
-			if($user){
-				$userTypesTable = TableRegistry::get('UserTypes');
-				$userType = $userTypesTable->get($user['user_type_id']);
-				$user['type'] = $userType->name;
-
-				$this->Auth->setUser($user);
-				return $this->redirect($this->Auth->redirectUrl());
-			}
-			else{
-				$this->Flash->error('Usuário ou senha inválidos');
-			}
-		}
-		else{
-			if($this->Auth->user()){
-				return $this->redirect($this->Auth->redirectUrl());
-			}
-		}
-
-    }
-
-    public function logout(){
-    	$this->redirect($this->Auth->logout());
-    }
 }
 ?>

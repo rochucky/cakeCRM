@@ -29,8 +29,11 @@ class UserTypesController extends BaseController {
 		'name' => ['label' => 'Nome']
 	];
 
-	public $joins = [];
-
+	public $joins = [
+		'Main' => [],
+		'Form' => []
+	];
+	
 	public function index(){
 		parent::load_index();
 	}
