@@ -124,9 +124,6 @@ $cakeDescription = 'Software';
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/clientes">Clientes</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/produtos">Produtos</a>
                 </li>
                 <?php if($user_type != 'user'): ?>

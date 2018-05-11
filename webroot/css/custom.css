@@ -39,6 +39,8 @@ form label{
 }
 
 /*Modal*/
-.modal-dialog{
-	max-width: 60%;
+@media screen and (min-width: 800px){
+    .modal-dialog{
+     	max-width: 60%;
+    }
 }
