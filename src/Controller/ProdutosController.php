@@ -25,12 +25,18 @@ class ProdutosController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'nome' => ['label' => 'Nome'],
+		'nome' => [
+			'label' => 'Nome',
+			'type' => 'text'
+		],
 		'preco' => [
 			'label' =>'Preço',
 			'type' => 'number'
 		],
-		'descricao' => ['label' => 'Descrição'],
+		'descricao' => [
+			'label' => 'Descrição',
+			'type' => 'text'
+		],
 		'modified' => [
 			'label' => 'Alterado Em',
 			'format' => 'datetime',

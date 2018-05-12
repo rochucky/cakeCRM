@@ -25,9 +25,18 @@ class UsersController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'name' => ['label' => 'Nome'],
-		'email' => ['label' =>'E-mail'],
-		'username' => ['label' => 'Usuário'],
+		'name' => [
+			'label' => 'Nome',
+			'type' => 'text',
+		],
+		'email' => [
+			'label' => 'E-mail',
+			'type' => 'email'
+		],
+		'username' => [
+			'label' => 'Usuário',
+			'type' => 'text'
+		],
 		'user_type_id' => [
 			'label' => 'Tipo',
 			'type' => 'join',

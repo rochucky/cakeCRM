@@ -5,7 +5,7 @@
 </div>
 <div class="row">
 	<div class="col">
-		<a href="" class="btn btn-secondary do-nothing newbtn">Novo</a>
+		<a href="" class="btn btn-secondary do-nothing newbtn">Criar</a>
 	</div>
 </div>
 <div class="row">
@@ -21,60 +21,7 @@
 					<?php } ?>
 				</tr>
 			</thead>
-			<tbody>
-				<?php 
-					foreach($items as $item) { 
-				?>
-				<tr id="<?= $item['id'] ?>">
-					<?php foreach ($fields as $key => $param) { ?>
-						<td name="<?= $key ?>">
-							<?php 
-								if(isset($param['type'])){
-									if($param['type'] == 'join'){
-										$value = $item[$param['joinName']][$param['joinCol']];
-									}
-									else{
-										$value = $item[$key];
-									}
-								}
-								else{
-									$value = $item[$key];
-								}
-
-								if (isset($param['format'])){
-									switch ($param['format']){
-										case 'currency':
-											echo $this->Format->currency($value);
-											break;
-										case 'datetime':
-											echo $this->Format->datetime($value);
-											break;
-										default:
-											echo $value;
-									}
-								} 
-								else{
-									echo $value;
-								}
-							?>
-						</td>
-					<?php } ?>
-					<?php if($del || $edit) { ?>
-						<td class="actions">
-							<?php if($edit): ?>
-								<a href="/<?= $controller ?>/editar/<?= $item['id'] ?>"><span class="oi oi-brush" title="Editar" aria-hidden="true"></span></a>								 
-							<?php endif; ?> 
-							<?php if($del): ?>
-								<a href=""><span class="oi oi-x delete do-nothing" data-id="<?= $item['id'] ?>" title="Excluir" aria-hidden="true"></span></a>								 
-							<?php endif; ?> 
-							
-						</td>
-					<?php } ?>
-				</tr>
-				<?php 
-					} 
-				?>
-			</tbody>
+			
 		</table>
 	</div>
 
@@ -103,7 +50,7 @@
 									    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 										</div>
 										<div class="col">
-									    	<input type="text" class="form-control" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> value=""/>
+									    	<input type="text" class="form-control" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> <?= ($data == reset($fields)) ? 'autofocus' : '' ?> value=""/>
 										</div>	
 									</div>
 								</div>
@@ -114,10 +61,10 @@
 								    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
 								    	</div>
 								    	<div class="col">
-										    <select id="<?= $key ?>" class="form-control" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> >
+										    <select id="<?= $key ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> >
 										    	<option value="null"></option>
 										    	<?php foreach($joins[$data['joinController']] as $join): ?>
-													<option value="<?= $join['id'] ?>" <?= ($item[$key] == $join['id']) ? 'selected' : ''; ?>><?= $join[$data['joinCol']] ?></option>
+													<option value="<?= $join['id'] ?>" ><?= $join[$data['joinCol']] ?></option>
 										    	<?php endforeach; ?>
 										    </select>
 								       	</div>
@@ -130,7 +77,7 @@
 									    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 										</div>
 										<div class="col">
-									    	<input type="<?= $data['type'] ?>" class="form-control" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> value=""/>
+									    	<input type="<?= $data['type'] ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> value=""/>
 										</div>	
 									</div>
 								</div>
@@ -144,7 +91,7 @@
           <!-- Modal footer -->
           <div class="modal-footer">
             <button type="button" class="btn btn-primary do-nothing save-data" data-dismiss="modal">Salvar</button>
-            <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-secondary cancel-data"  data-dismiss="modal">Cancelar</button>
           </div>
 
         </div>

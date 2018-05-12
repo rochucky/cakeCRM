@@ -35,6 +35,39 @@ class BaseController extends AppController {
 	
 	}
 
+	public function getData(){
+		
+		$table = TableRegistry::get($this->controller);
+		$items = $table->find('all');
+		$items->contain($this->joins['Main']);
+
+		foreach($items as $item){
+			$array['rowid'] = $item->id;
+			foreach($this->fields as $field_name => $field_params){
+				if(isset($field_params['format'])){
+					if($field_params['format'] == 'datetime'){
+						$array[] = '<span name="'.$field_name.'">'.date('d/m/Y H:i:s', strtotime($item->$field_name->nice())).'</span>';
+					}
+				}
+				else if ($field_params['type'] == 'join'){
+					$joinName = $field_params['joinName'];
+					$joinCol = $field_params['joinCol'];
+					$array[] = '<span name="'.$field_name.'" data-id="'.$item->$joinName->id.'">'.$item->$joinName->$joinCol.'</span>';
+				}
+				else{
+					$array[] = '<span name="'.$field_name.'">'.$item->$field_name.'</span>';
+				}
+			}
+			$array[] ='<a href="/'. $this->controller .'/editar/'. $item['id'] .'"><span class="oi oi-brush" title="Editar" aria-hidden="true"></span></a>
+		<a href=""><span class="oi oi-x delete do-nothing" data-id="'. $item['id'] .'" title="Excluir" aria-hidden="true"></span></a>';
+			$data['data'][] = $array;
+			unset($array);
+		}
+		
+		$this->response->body(json_encode($data));
+		return $this->response;
+	}
+
 	/**
      * Fetch new record to add a data in the table
      * 
@@ -113,20 +146,29 @@ class BaseController extends AppController {
 
 	public function save(){
 
-		$table = TableRegistry::get($this->controller);
-		$item = $table->newEntity($this->request->data());
-		if(!$item->id){
-			$item->created_by = $this->Auth->user('id');
-		}
-		$item->modified_by = $this->Auth->user('id');
+		if($this->request->is('post')){
 		
-		if ($table->save($item)){
-			$this->Flash->success("Registro salvo com sucesso!");
+			if($this->Auth->user()){
+				$table = TableRegistry::get($this->controller);
+				$item = $table->newEntity($this->request->data());
+				if(!$item->id){
+					$item->created_by = $this->Auth->user('id');
+				}
+				$item->modified_by = $this->Auth->user('id');
+				
+				if ($table->save($item)){
+					$this->response->body("ok");
+				}
+				else{
+					$this->response->body("error");
+				}
+				return $this->response;
+			}
+			else{
+				$this->response->body('403');
+				return $this->response;
+			}
 		}
-		else{
-			$this->Flash->error("Erro ao inserir Registro");
-		}
-		$this->redirect($this->controller);
 	}
 
 }
