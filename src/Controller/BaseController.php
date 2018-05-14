@@ -163,7 +163,7 @@ class BaseController extends AppController {
 					}
 				}
 				catch (\Cake\ORM\Exception\PersistenceFailedException $e) {
-				    if(strstr(json_encode($e), '_isUnique')){
+				    if(strstr($e, '_isUnique')){
 				    	$this->response->body('unique_error');
 				    }
 				    return $this->response;
