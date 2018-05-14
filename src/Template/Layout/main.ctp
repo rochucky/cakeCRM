@@ -6,6 +6,7 @@
 <div class="row">
 	<div class="col">
 		<a href="" class="btn btn-secondary do-nothing newbtn">Criar</a>
+		<a href="" class="btn btn-danger do-nothing delbtn">Excluir</a>
 	</div>
 </div>
 <div class="row">
@@ -15,9 +16,6 @@
 				<tr>
 					<?php foreach($fields as $field) { ?>
 						<th><?= $field['label'] ?></th>
-					<?php } ?>
-					<?php if($del || $edit) { ?>
-						<th>Ações</th>
 					<?php } ?>
 				</tr>
 			</thead>

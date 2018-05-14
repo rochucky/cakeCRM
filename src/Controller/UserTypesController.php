@@ -26,7 +26,10 @@ class UserTypesController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'name' => ['label' => 'Nome']
+		'name' => [
+			'label' => 'Nome',
+			'type' => 'text'
+		]
 	];
 
 	public $joins = [

@@ -126,6 +126,9 @@ $cakeDescription = 'Software';
                 <li class="nav-item">
                     <a class="nav-link" href="/produtos">Produtos</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/clientes">Clientes</a>
+                </li>
                 <?php if($user_type != 'user'): ?>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>

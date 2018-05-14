@@ -5,6 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
+use Cake\ORM\Rule\IsUnique;
 
 /**
  * Clientes Model
@@ -16,6 +17,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\Cliente patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\Cliente[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\Cliente findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class ClientesTable extends Table
 {
@@ -33,6 +36,18 @@ class ClientesTable extends Table
         $this->setTable('clientes');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->addBehavior('Timestamp');
+
+        $this->belongsTo('CreatedByData', [
+            'className' => 'Users',
+            'foreignKey' => 'created_by'            
+        ]);
+        $this->belongsTo('ModifiedByData', [
+            'className' => 'Users',
+            'foreignKey' => 'modified_by'            
+        ]);
+
     }
 
     /**
@@ -49,16 +64,45 @@ class ClientesTable extends Table
 
         $validator
             ->scalar('name')
-            ->maxLength('name', 100)
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
+            ->maxLength('name', 255)
+            ->allowEmpty('name');
 
         $validator
             ->scalar('cnpj')
-            ->maxLength('cnpj', 15)
-            ->requirePresence('cnpj', 'create')
-            ->notEmpty('cnpj');
+            ->maxLength('cnpj', 255)
+            ->allowEmpty('cnpj');
+
+        $validator
+            ->boolean('is_active')
+            ->allowEmpty('is_active');
+
+        $validator
+            ->integer('created_by')
+            ->allowEmpty('created_by');
+
+        $validator
+            ->integer('modified_by')
+            ->allowEmpty('modified_by');
+
+        $validator
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
+
+        $validator
+            ->integer('deleted_by')
+            ->allowEmpty('deleted_by');
 
         return $validator;
+    }
+
+    public function buildRules(RulesChecker $rules){
+
+        $rules->add($rules->isUnique(
+            ['name', 'cnpj'],
+            'Registro Duplicado'
+        ));
+
+        return $rules;
+
     }
 }

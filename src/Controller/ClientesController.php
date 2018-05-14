@@ -7,6 +7,7 @@ use Cake\Event\Event;
 class ClientesController extends BaseController {
 
 	public $controller = 'Clientes';
+	public $title = 'Cliente';
 	
 	/**
      * Module Permissions CRUD
@@ -25,11 +26,50 @@ class ClientesController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'name' => ['label' => 'Nome'],
-		'cnpj' => ['label' => 'CNPJ']
+		'name' => [
+			'label' => 'Nome',
+			'type' => 'text'
+		],
+		'cnpj' => [
+			'label' =>'CNPJ',
+			'type' => 'text'
+		],
+		// 'is_active' => [
+		// 	'label' => 'Ativo?',
+		// 	'type' => 'boolean'
+		// ],
+		'modified' => [
+			'label' => 'Alterado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		],
+		'modified_by' => [
+			'label' => 'Alterado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'modified_by_data',
+			'readonly' => true
+		],
+		'created' => [
+			'label' => 'Criado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		],
+		'created_by' => [
+			'label' => 'Criado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'created_by_data',
+			'readonly' => true
+		]
 	];
 
-	public $joins = '';
+	public $joins = [
+		'Main' => ['CreatedByData','ModifiedByData'],
+		'Form' => ['Users']
+	];
 
 	public function index(){
 		parent::load_index();

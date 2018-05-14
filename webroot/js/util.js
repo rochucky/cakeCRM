@@ -50,3 +50,4 @@ var loading = function(){
 		modal: true
 	});
 }
+

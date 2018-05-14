@@ -24,10 +24,18 @@ DROP TABLE IF EXISTS `clientes`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `clientes` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL,
-  `cnpj` varchar(15) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
+  `name` varchar(255) DEFAULT NULL,
+  `cnpj` varchar(255) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT NULL,
+  `created` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `deleted` datetime DEFAULT NULL,
+  `deleted_by` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `Unique` (`name`,`cnpj`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -36,7 +44,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (12,'Teste','teste'),(13,'teste','Teste'),(18,'a','a'),(19,'a','a'),(20,'a','a'),(21,'a','a');
+INSERT INTO `clientes` VALUES (15,'Bruno 2','12345',NULL,'2018-05-14 13:54:40',1,'2018-05-14 17:01:05',29,NULL,NULL),(17,'Bruno','123',NULL,'2018-05-14 17:00:49',29,'2018-05-14 17:00:49',29,NULL,NULL);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -52,8 +60,12 @@ CREATE TABLE `produtos` (
   `nome` varchar(100) NOT NULL,
   `preco` decimal(10,2) NOT NULL,
   `descricao` varchar(255) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +74,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (2,'Galaxy S8',3200.00,'Celular caro samsung'),(5,'Alcatel One Touch',1000.00,'Celular de pobre');
+INSERT INTO `produtos` VALUES (81,'Galaxy s8+',1800.00,'Galaxy','2018-05-12 10:25:54',29,'2018-05-12 10:43:56',29);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -114,7 +126,7 @@ CREATE TABLE `users` (
   UNIQUE KEY `username` (`username`),
   KEY `user_type_id` (`user_type_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_type_id`) REFERENCES `user_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +135,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Administrador do Sistema','alves.rodrigo31@outlook.com','admin','$2y$10$0Kz82bm4sY.CfthAeM1Lme9JbszwqMxjQ48I3LC0LruvMLM6zs/EC',2,NULL,NULL,'2018-05-02 23:15:12',NULL,NULL,NULL),(2,'Luciana Digna','lucianadigna@gmail.com','digna','$2y$10$WiBUbkw/a4kas3fh5Hc6/ePePatmsQ.FfPD0/C4YICbhFtlm/Nqx.',1,NULL,NULL,'2018-05-02 23:38:55',1,NULL,NULL),(18,'Bruno Viado','bruno@gmail.com','bviado','$2y$10$owmjDpC9kvoViOrTZVsjAuXhm0q5TQVxXoKGbwWXl34Z/l.PWKbSW',1,'2018-04-17 20:58:06',NULL,NULL,NULL,NULL,NULL),(21,'teste','teste@teste.com','teste','$2y$10$ftf1ALF8.lmm9B7i3UllbOtno95oo5zr78rcvSz8IKQoHIVqdrO9a',1,'2018-05-02 22:28:01',NULL,'2018-05-02 23:30:07',1,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Administrador do Sistema','alves.rodrigo31@outlook.com','admin','$2y$10$0Kz82bm4sY.CfthAeM1Lme9JbszwqMxjQ48I3LC0LruvMLM6zs/EC',3,'2018-05-07 13:48:42',1,'2018-05-07 13:48:42',1,NULL,NULL),(29,'Rodrigo Alves','alves.rodrigo31@outlook.com','ralves','$2y$10$6HANf48m7CaYjGJlqoIC6uaKr0Hse9hVh2Uh.q6CGxOfbyS6fniZC',2,'2018-05-07 13:49:09',1,'2018-05-07 13:49:09',1,NULL,NULL),(30,'Luciana Digna das Neves','lucianadigna@gmail.com','ldigna','$2y$10$QM9hq4apyZWecsxYCUai1u.wbX0W0ENR0VUbJqfQD/KzZc52ixEVa',1,'2018-05-07 13:51:23',29,'2018-05-07 13:51:23',29,NULL,NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -136,4 +148,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-02 23:55:48
+-- Dump completed on 2018-05-14 17:47:04

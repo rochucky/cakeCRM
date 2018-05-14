@@ -41,6 +41,7 @@ class BaseController extends AppController {
 		$items = $table->find('all');
 		$items->contain($this->joins['Main']);
 
+		$data['data'] = array();
 		foreach($items as $item){
 			$array['rowid'] = $item->id;
 			foreach($this->fields as $field_name => $field_params){
@@ -58,12 +59,11 @@ class BaseController extends AppController {
 					$array[] = '<span name="'.$field_name.'">'.$item->$field_name.'</span>';
 				}
 			}
-			$array[] ='<a href="/'. $this->controller .'/editar/'. $item['id'] .'"><span class="oi oi-brush" title="Editar" aria-hidden="true"></span></a>
-		<a href=""><span class="oi oi-x delete do-nothing" data-id="'. $item['id'] .'" title="Excluir" aria-hidden="true"></span></a>';
+			
 			$data['data'][] = $array;
 			unset($array);
 		}
-		
+		// var_dump($data);
 		$this->response->body(json_encode($data));
 		return $this->response;
 	}
@@ -149,20 +149,25 @@ class BaseController extends AppController {
 		if($this->request->is('post')){
 		
 			if($this->Auth->user()){
-				$table = TableRegistry::get($this->controller);
-				$item = $table->newEntity($this->request->data());
-				if(!$item->id){
-					$item->created_by = $this->Auth->user('id');
+				try{
+					$table = TableRegistry::get($this->controller);
+					$item = $table->newEntity($this->request->data());
+					if(!$item->id){
+						$item->created_by = $this->Auth->user('id');
+					}
+					$item->modified_by = $this->Auth->user('id');
+					
+					if ($table->saveOrFail($item)){
+						$this->response->body("ok");
+						return $this->response;
+					}
 				}
-				$item->modified_by = $this->Auth->user('id');
-				
-				if ($table->save($item)){
-					$this->response->body("ok");
+				catch (\Cake\ORM\Exception\PersistenceFailedException $e) {
+				    if(strstr($e->xdebug_message, '_isUnique')){
+				    	$this->response->body('unique_error');
+				    }
+				    return $this->response;
 				}
-				else{
-					$this->response->body("error");
-				}
-				return $this->response;
 			}
 			else{
 				$this->response->body('403');

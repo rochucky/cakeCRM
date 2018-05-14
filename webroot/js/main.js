@@ -14,6 +14,38 @@ $(document).ready(function(){
 		return false;
 	});
 
+	// Data saving function
+	var saveData = function(){
+
+		var data = form.serialize();
+
+		$.ajax({
+			method: 'POST',
+			url: location.href + '/save',
+			data: data,
+			success: function(e){
+				if(e == 'ok'){
+					$('#data-modal').modal('hide');
+					notification('Registro salvo com sucesso.', 'success')
+					dtable.ajax.reload( dtFunctions );
+				}
+				else if(e == 'unique_error'){
+					notification('Erro ao salvar registro, Já existe outro registro com o mesmo valor');
+				}
+				else{
+					notification('Erro ao salvar registro');
+					console.log(e)
+				}
+			},
+			error: function(e){
+				notification('Falha ao salvar, Contacte o administrador do sistema.', 'error');
+				$('html').append(e.responseText);
+			}
+		});
+		
+
+	}
+
 	// datatable functions
 	var dtFunctions = function(){
 		// 
@@ -30,49 +62,20 @@ $(document).ready(function(){
 			$('#data-modal').modal('show');
 		});
 
-		$('.delete').click(function(){
-			var id = $(this).attr('data-id');
-			var cc = customConfirm({
-				text: 'Deseja realmente excluir este registro?',
-				functionYes: function(){
-					var l = loading();
-					$.ajax({
-						method: 'POST',
-						url: location.href + '/delete/' + id,
-						beforeSend: function(){
-							l.show();
-						},
-						success: function(e){
-							if(e == 'ok'){
-								dtable
-									.row($('tr#' + id))
-									.remove()
-									.draw();
-								l.close();
-								notification('Registro excluído com sucesso', 'success');
-							}
-							else if(e == '403'){
-								document.location.href == location.href;
-							}
-							else{
-								notification('Falha ao excluir registro', 'error');
-								l.close();
-							}
-						},
-						error: function(e){
-							notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');
-							l.close();
-							console.log(e)
-						}
-
-					});
-					
-					// location.href = location.href + '/delete/' + id;
+		$('#datatable tbody tr').click(function(){
+			$('#datatable tbody tr').removeClass('selected');
+			$(this).addClass('selected');
+			$(document).on('keyup', function(e){
+				if(e.which == '27'){
+					$('#datatable tbody tr').removeClass('selected');
+					$(document).off('keyup');
 				}
-			});
-
-			return false;
-
+				if(e.which == '46'){
+					$('.delbtn').click();
+					$(document).off('keyup');
+				}
+				
+			})
 		});
 	}
 
@@ -84,11 +87,7 @@ $(document).ready(function(){
 		"scrollX": true,
 		"scrollCollapse": true,
         "paging": false,
-        "fixedColumns":   {
-            "leftColumns": 0,
-            "rightColumns": 1,
-            "heightMatch": 'none'
-        },
+        
         "language": {
 		    "decimal":        "",
 		    "emptyTable":     "Não há dados disponíveis",
@@ -123,6 +122,50 @@ $(document).ready(function(){
 		$('#data-modal').modal('show');
 	});
 
+	$('.delbtn').click(function(){
+		var id = $(this).attr('data-id');
+		var cc = customConfirm({
+			text: 'Deseja realmente excluir este registro?',
+			functionYes: function(){
+				var l = loading();
+				$.ajax({
+					method: 'POST',
+					url: location.href + '/delete/' + $('#datatable tbody tr.selected').attr('id'),
+					beforeSend: function(){
+						l.show();
+					},
+					success: function(e){
+						if(e == 'ok'){
+							dtable
+								.row($('tr.selected'	))
+								.remove()
+								.draw();
+							l.close();
+							notification('Registro excluído com sucesso', 'success');
+						}
+						else if(e == '403'){
+							document.location.href == location.href;
+						}
+						else{
+							notification('Falha ao excluir registro', 'error');
+							l.close();
+						}
+					},
+					error: function(e){
+						notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');
+						l.close();
+						console.log(e)
+					}
+
+				});
+				
+				// location.href = location.href + '/delete/' + id;
+			}
+		});
+
+		return false;
+
+	});
 
 	// data-modal
 	$('#data-modal').on('hidden.bs.modal', function () {
@@ -135,35 +178,11 @@ $(document).ready(function(){
 		$(this).on('keyup', function(e){
 			if(e.which == '13'){
 				$(this).off('keyup');
-				$('.save-data').click();
+				saveData();
 			}
 		});
 	});
 
-	$('.save-data').click(function(){
-
-		var data = form.serialize();
-
-		$.ajax({
-			method: 'POST',
-			url: location.href + '/save',
-			data: data,
-			success: function(e){
-				if(e == 'ok'){
-					$('#data-modal').modal('hide');
-					notification('Registro salvo com sucesso.', 'success')
-					dtable.ajax.reload( dtFunctions );
-				}
-				else{
-					notification('Erro ao salvar registro');
-				}
-			},
-			error: function(){
-				notification('Falha ao salvar, Contacte o administrador do sistema.', 'error');
-			}
-		});
-		
-
-	});
+	$('.save-data').click(saveData);
 
 });
