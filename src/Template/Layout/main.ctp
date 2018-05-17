@@ -5,11 +5,15 @@
 </div>
 <div class="row">
 	<div class="col">
-		<?php if($add): ?>
-			<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal">Criar</button>
-		<?php endif; ?>
-		<?php if($del): ?>
-			<a href="" class="btn btn-danger do-nothing delbtn">Excluir</a>
+		<?php if($usertype == 'recycle'): ?>
+			<button type="button" class="btn btn-secondary restorebtn">Restaurar</button>
+		<?php else: ?>
+			<?php if($add): ?>
+				<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal">Criar</button>
+			<?php endif; ?>
+			<?php if($del): ?>
+				<a href="" class="btn btn-danger do-nothing delbtn">Excluir</a>
+			<?php endif; ?>
 		<?php endif; ?>
 	</div>
 </div>

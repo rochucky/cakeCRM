@@ -22,6 +22,7 @@ class BaseController extends AppController {
 		$this->setFields();
 
 		$this->set('username', $this->Auth->user('username'));
+		$this->set('usertype', $this->Auth->user('type'));
 		$this->set('joins',$join);
 		$this->set('controller',$this->controller);
 		$this->set('add',$this->permission['add']);
@@ -96,6 +97,30 @@ class BaseController extends AppController {
 		$item = $table->get($id);
 		$item->deleted = date('Y-m-d H:i:s');
 		$item->deleted_by = $this->Auth->user('id');
+
+
+		if($table->save($item)){
+			$this->response->body('ok');
+		}
+		else{
+			$this->response->body(json_encode($table));
+		}
+		return $this->response;
+	}
+
+	/**
+     * Restore deleted record
+     *
+     * @param $id - record id
+     * 
+     */
+
+	public function restore($id){
+
+		$table = TableRegistry::get($this->controller);
+		$item = $table->get($id);
+		$item->deleted = NULL;
+		$item->deleted_by = NULL;
 
 
 		if($table->save($item)){

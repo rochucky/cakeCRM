@@ -135,7 +135,7 @@ $(document).ready(function(){
 				functionYes: function(){
 					var l = loading();
 					$.ajax({
-						method: 'POST',
+						method: 'GET',
 						url: location.href + '/delete/' + $('#datatable tbody tr.selected').attr('id'),
 						beforeSend: function(){
 							l.show();
@@ -171,6 +171,47 @@ $(document).ready(function(){
 
 		return false;
 
+	});
+
+	$('.restorebtn').click(function(){
+
+		if($('#datatable tbody tr.selected').length > 0){
+
+			var cc = customConfirm({
+				text: 'Deseja realmente Restaurar este registro?',
+				functionYes: function(){
+					var l = loading();
+					$.ajax({
+						method: 'GET',
+						url: location.href + '/restore/' + $('#datatable tbody tr.selected').attr('id'),
+						beforeSend: function(){
+							l.show();
+						}
+					})
+					.done(function(e){
+						if(e == 'ok'){
+							notification('Registro restaurado com sucesso', 'success');
+							dtable.ajax.reload( dtFunctions );
+						}
+						else{
+							notification('Falha ao restaurar registro', 'error');
+						}
+					})
+					.fail(function(e){
+						if(e.status == '403'){
+							$('#expired-password-modal').modal('show');
+						}
+						else{
+							notification('Falha ao restaurar registro, contacte o administrador do sistema', 'error');	
+						}
+						console.log(e)
+					}).
+					always(function(){
+						l.close();
+					});
+				}
+			});
+		}
 	});
 
 // Data Saving or Editing Modal
