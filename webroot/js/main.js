@@ -62,7 +62,7 @@ $(document).ready(function(){
 	var dtFunctions = function(){
 		// 
 		$('#datatable tbody tr').dblclick(function(){
-			if($("form.no-edit")){
+			if($("form.no-edit").length > 0){
 				notification('Não é possível editar registros nesta tela');
 				return false;
 			}
