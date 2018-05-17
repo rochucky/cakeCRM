@@ -36,32 +36,6 @@ class ProdutosController extends BaseController {
 		'descricao' => [
 			'label' => 'Descrição',
 			'type' => 'text'
-		],
-		'modified' => [
-			'label' => 'Alterado Em',
-			'format' => 'datetime',
-			'readonly' => true
-		],
-		'modified_by' => [
-			'label' => 'Alterado Por',
-			'type' => 'join',
-			'joinController' => 'Users',
-			'joinCol' => 'name',
-			'joinName' => 'modified_by_data',
-			'readonly' => true
-		],
-		'created' => [
-			'label' => 'Criado Em',
-			'format' => 'datetime',
-			'readonly' => true
-		],
-		'created_by' => [
-			'label' => 'Criado Por',
-			'type' => 'join',
-			'joinController' => 'Users',
-			'joinCol' => 'name',
-			'joinName' => 'created_by_data',
-			'readonly' => true
 		]
 	];
 

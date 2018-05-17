@@ -18,6 +18,8 @@ use Cake\Validation\Validator;
  * @method \App\Model\Entity\UserType patchEntity(\Cake\Datasource\EntityInterface $entity, array $data, array $options = [])
  * @method \App\Model\Entity\UserType[] patchEntities($entities, array $data, array $options = [])
  * @method \App\Model\Entity\UserType findOrCreate($search, callable $callback = null, $options = [])
+ *
+ * @mixin \Cake\ORM\Behavior\TimestampBehavior
  */
 class UserTypesTable extends Table
 {
@@ -36,9 +38,21 @@ class UserTypesTable extends Table
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
 
+        $this->addBehavior('Timestamp');
+
         $this->hasMany('Users', [
             'foreignKey' => 'user_type_id'
         ]);
+
+        $this->belongsTo('CreatedByData', [
+            'className' => 'Users',
+            'foreignKey' => 'created_by'            
+        ]);
+        $this->belongsTo('ModifiedByData', [
+            'className' => 'Users',
+            'foreignKey' => 'modified_by'            
+        ]);
+
     }
 
     /**
@@ -58,6 +72,22 @@ class UserTypesTable extends Table
             ->maxLength('name', 100)
             ->requirePresence('name', 'create')
             ->notEmpty('name');
+
+        $validator
+            ->integer('created_by')
+            ->allowEmpty('created_by');
+
+        $validator
+            ->integer('modified_by')
+            ->allowEmpty('modified_by');
+
+        $validator
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
+
+        $validator
+            ->integer('deleted_by')
+            ->allowEmpty('deleted_by');
 
         return $validator;
     }

@@ -44,3 +44,12 @@ form label{
      	max-width: 60%;
     }
 }
+
+/* Expired modal */
+#expired-password-modal{
+	z-index: 9999999999;
+}
+#expired-password-modal .modal-backdrop
+{
+    opacity:0.8 !important;
+}

@@ -8,8 +8,16 @@ use Cake\ORM\Entity;
  *
  * @property int $id
  * @property string $name
+ * @property \Cake\I18n\FrozenTime $created
+ * @property int $created_by
+ * @property \Cake\I18n\FrozenTime $modified
+ * @property int $modified_by
+ * @property \Cake\I18n\FrozenTime $deleted
+ * @property int $deleted_by
  *
  * @property \App\Model\Entity\User[] $users
+ * @property \App\Model\Entity\User $created_by_data
+ * @property \App\Model\Entity\User $modified_by_data
  */
 class UserType extends Entity
 {
@@ -24,6 +32,16 @@ class UserType extends Entity
      * @var array
      */
     protected $_accessible = [
-        '*' => true
+        'id' => true,
+        'name' => true,
+        'created' => true,
+        'created_by' => true,
+        'modified' => true,
+        'modified_by' => true,
+        'deleted' => true,
+        'deleted_by' => true,
+        'users' => true,
+        'created_by_data' => true,
+        'modified_by_data' => true
     ];
 }

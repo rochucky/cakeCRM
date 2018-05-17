@@ -15,9 +15,9 @@ class UsersController extends BaseController {
      * @var add -> Delete
      */
 	public $permission = [
-		'add' => 1,
-		'edit' => 1,
-		'del' => 1
+		'add' => 0,
+		'edit' => 0,
+		'del' => 0
 	];
 
 
@@ -44,31 +44,9 @@ class UsersController extends BaseController {
 			'joinCol' => 'name',
 			'joinName' => 'user_type'
 		],
-		'created' => [
-			'label' => 'Criado Em',
-			'format' => 'datetime',
-			'readonly' => true
-		],
-		'created_by' => [
-			'label' => 'Criado Por',
-			'type' => 'join',
-			'joinController' => 'Users',
-			'joinCol' => 'name',
-			'joinName' => 'created_by_data',
-			'readonly' => true
-		],
-		'modified' => [
-			'label' => 'Alterado Em',
-			'format' => 'datetime',
-			'readonly' => true
-		],
-		'modified_by' => [
-			'label' => 'Alterado Por',
-			'type' => 'join',
-			'joinController' => 'Users',
-			'joinCol' => 'name',
-			'joinName' => 'modified_by_data',
-			'readonly' => true
+		'is_active' => [
+			'label' => 'Ativo?',
+			'type' => 'boolean'
 		]
 	];
 
@@ -78,28 +56,29 @@ class UsersController extends BaseController {
 	];
 
 	public function index(){
+
 		parent::load_index();
 	}
 
-	public function novo(){
-		$this->set('title', 'Criar '.$this->title);
-		$this->fields['password'] = ['label' => 'Senha', "type" => "password"];
-		parent::add(strtolower($this->controller));
-	}
+	// public function novo(){
+	// 	$this->set('title', 'Criar '.$this->title);
+		
+	// 	parent::add(strtolower($this->controller));
+	// }
 
-	public function excluir($id){
-		parent::delete($id);
-	}
+	// public function excluir($id){
+	// 	parent::delete($id);
+	// }
 
-	public function editar($id){
-		$this->set('title', 'Criar '.$this->title);
-		parent::edit($id);
-	}
+	// public function editar($id){
+	// 	$this->set('title', 'Criar '.$this->title);
+	// 	parent::edit($id);
+	// }
 
-	public function salvar(){
-		parent::save();
-		$this->redirect($this->controller);
-	}
+	// public function salvar(){
+	// 	parent::save();
+	// 	$this->redirect($this->controller);
+	// }
 	public function login(){
 
 		if ($this->request->is('post')){
@@ -111,9 +90,20 @@ class UsersController extends BaseController {
 				$user['type'] = $userType->name;
 
 				$this->Auth->setUser($user);
-				return $this->redirect($this->Auth->redirectUrl());
+				if($this->request->here == '/'){ // From login page
+					return $this->redirect($this->Auth->redirectUrl());
+				}else{ // From modal
+					$this->response->body('success');
+					return $this->response;
+				}
 			}
 			else{
+				if($this->request->here == '/'){ // From login page
+					$this->Flash->error('Usuário ou senha inválidos');
+				}else{ // From modal
+					$this->response->body('login_error');
+					return $this->response;
+				}
 				$this->Flash->error('Usuário ou senha inválidos');
 			}
 		}

@@ -25,6 +25,11 @@ class UsersFixture extends TestFixture
         'user_type_id' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
         'created' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         'created_by' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'modified' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'modified_by' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'deleted' => ['type' => 'datetime', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
+        'deleted_by' => ['type' => 'integer', 'length' => 11, 'unsigned' => false, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null, 'autoIncrement' => null],
+        'is_active' => ['type' => 'boolean', 'length' => null, 'null' => true, 'default' => null, 'comment' => '', 'precision' => null],
         '_indexes' => [
             'user_type_id' => ['type' => 'index', 'columns' => ['user_type_id'], 'length' => []],
         ],
@@ -53,8 +58,13 @@ class UsersFixture extends TestFixture
             'username' => 'Lorem ipsum dolor sit amet',
             'password' => 'Lorem ipsum dolor sit amet',
             'user_type_id' => 1,
-            'created' => '2018-04-16 00:17:44',
-            'created_by' => 1
+            'created' => '2018-05-15 21:56:10',
+            'created_by' => 1,
+            'modified' => '2018-05-15 21:56:10',
+            'modified_by' => 1,
+            'deleted' => '2018-05-15 21:56:10',
+            'deleted_by' => 1,
+            'is_active' => 1
         ],
     ];
 }

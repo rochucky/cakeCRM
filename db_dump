@@ -33,9 +33,8 @@ CREATE TABLE `clientes` (
   `modified_by` int(11) DEFAULT NULL,
   `deleted` datetime DEFAULT NULL,
   `deleted_by` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `Unique` (`name`,`cnpj`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -44,7 +43,7 @@ CREATE TABLE `clientes` (
 
 LOCK TABLES `clientes` WRITE;
 /*!40000 ALTER TABLE `clientes` DISABLE KEYS */;
-INSERT INTO `clientes` VALUES (15,'Bruno 2','12345',NULL,'2018-05-14 13:54:40',1,'2018-05-14 17:01:05',29,NULL,NULL),(17,'Bruno','123',NULL,'2018-05-14 17:00:49',29,'2018-05-14 17:00:49',29,NULL,NULL);
+INSERT INTO `clientes` VALUES (17,'Bruno','12345',1,'2018-05-14 17:00:49',29,'2018-05-15 00:39:59',29,'2018-05-15 00:39:59',29),(21,'Teste','3592892392',1,'2018-05-15 00:53:53',29,'2018-05-15 01:33:04',29,'2018-05-15 01:33:04',29),(22,'Teste 2','123',1,'2018-05-15 01:06:08',29,'2018-05-15 01:33:53',29,'2018-05-15 01:33:53',29),(23,'teste 3','123',1,'2018-05-15 01:06:23',29,'2018-05-15 01:07:50',29,'2018-05-15 01:07:50',29),(24,'teste','123',0,'2018-05-15 01:34:07',29,'2018-05-15 01:34:21',29,'2018-05-15 01:34:21',29),(25,'alksd','12',1,'2018-05-15 01:34:16',29,'2018-05-15 23:35:16',29,'2018-05-15 23:35:16',1),(26,'aslkdad','123',0,'2018-05-15 01:34:50',29,'2018-05-15 01:35:05',29,'2018-05-15 01:35:05',29),(27,'alsdalksdm','1212',1,'2018-05-15 01:34:56',29,'2018-05-15 01:35:51',29,'2018-05-15 01:35:51',29),(29,'Teste 2','1234',0,'2018-05-16 04:16:05',1,'2018-05-16 17:31:04',1,'2018-05-16 17:31:04',1),(31,'Teste','123',1,'2018-05-16 04:17:38',1,'2018-05-16 04:27:21',1,'2018-05-16 04:27:15',1),(32,'Teste','123',1,'2018-05-16 04:17:47',1,'2018-05-16 04:24:21',1,'2018-05-16 04:24:21',1),(33,'Teste','123',1,'2018-05-16 04:18:31',1,'2018-05-16 04:18:37',1,'2018-05-16 04:18:36',1),(34,'Teste','123',1,'2018-05-16 04:22:08',1,'2018-05-16 04:24:11',1,'2018-05-16 04:24:11',1),(35,'Teste','123',1,'2018-05-16 04:22:16',1,'2018-05-16 04:24:09',1,'2018-05-16 04:24:09',1),(36,'Teste','123',1,'2018-05-16 04:23:52',1,'2018-05-16 04:24:06',1,'2018-05-16 04:24:06',1),(37,'Teste','123',1,'2018-05-16 04:23:59',1,'2018-05-16 04:24:03',1,'2018-05-16 04:24:03',1),(38,'Teste','123',1,'2018-05-16 04:35:29',1,'2018-05-16 17:02:26',1,'2018-05-16 17:02:26',1),(39,'Teste 1','123',1,'2018-05-16 17:29:45',1,'2018-05-16 17:55:19',1,'2018-05-16 17:55:19',1),(40,'teste','123',1,'2018-05-16 17:55:31',1,'2018-05-16 17:55:31',1,NULL,NULL),(41,'teste','1234',0,'2018-05-16 17:55:42',1,'2018-05-16 18:00:47',1,'2018-05-16 18:00:47',1),(42,'Teste','1888',1,'2018-05-16 18:01:02',1,'2018-05-16 22:03:31',1,NULL,NULL),(43,'Teste 3','123',1,'2018-05-16 18:01:12',1,'2018-05-16 18:01:33',1,'2018-05-16 18:01:33',1),(44,'Teste 3','123',1,'2018-05-16 22:04:57',1,'2018-05-16 22:09:19',1,NULL,NULL);
 /*!40000 ALTER TABLE `clientes` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -64,8 +63,10 @@ CREATE TABLE `produtos` (
   `created_by` int(11) DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
   `modified_by` int(11) DEFAULT NULL,
+  `deleted` datetime DEFAULT NULL,
+  `deleted_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=87 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -74,7 +75,7 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (81,'Galaxy s8+',1800.00,'Galaxy','2018-05-12 10:25:54',29,'2018-05-12 10:43:56',29);
+INSERT INTO `produtos` VALUES (81,'Galaxy s8+',180.00,'Galaxy','2018-05-12 10:25:54',29,'2018-05-16 02:57:30',1,NULL,NULL),(82,'Iphone',1900.00,'64gb','2018-05-15 01:39:49',29,'2018-05-16 00:06:14',29,'2018-05-16 00:06:14',1),(83,'Moto G5s',1800.00,'Bom e barato','2018-05-15 01:41:32',29,'2018-05-15 01:47:19',29,'2018-05-15 01:47:19',29),(84,'Teste',1200.00,'kajdshkajs','2018-05-15 22:00:55',29,'2018-05-15 22:01:20',29,'2018-05-15 22:01:20',29),(85,'Iphone',1800.00,'teste','2018-05-16 02:57:41',1,'2018-05-16 03:36:23',1,'2018-05-16 03:36:23',1),(86,'Teste',1000.00,'kasjdnkaj','2018-05-16 03:06:14',1,'2018-05-16 03:06:20',1,'2018-05-16 03:06:20',1);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -88,8 +89,14 @@ DROP TABLE IF EXISTS `user_types`;
 CREATE TABLE `user_types` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
+  `created` datetime DEFAULT NULL,
+  `created_by` int(11) DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+  `modified_by` int(11) DEFAULT NULL,
+  `deleted` datetime DEFAULT NULL,
+  `deleted_by` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +105,7 @@ CREATE TABLE `user_types` (
 
 LOCK TABLES `user_types` WRITE;
 /*!40000 ALTER TABLE `user_types` DISABLE KEYS */;
-INSERT INTO `user_types` VALUES (1,'user'),(2,'admin'),(3,'dev');
+INSERT INTO `user_types` VALUES (1,'user','2018-05-15 02:00:10',1,'2018-05-15 02:00:10',1,NULL,NULL),(2,'admin','2018-05-15 02:00:10',1,'2018-05-15 02:00:10',1,NULL,NULL),(3,'dev','2018-05-15 02:00:10',1,'2018-05-15 02:00:10',1,NULL,NULL),(4,'recycle','2018-05-15 02:01:14',29,'2018-05-15 02:01:14',29,NULL,NULL);
 /*!40000 ALTER TABLE `user_types` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -122,11 +129,12 @@ CREATE TABLE `users` (
   `modified_by` int(11) DEFAULT NULL,
   `deleted` datetime DEFAULT NULL,
   `deleted_by` int(11) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`),
   KEY `user_type_id` (`user_type_id`),
   CONSTRAINT `users_ibfk_1` FOREIGN KEY (`user_type_id`) REFERENCES `user_types` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -135,7 +143,7 @@ CREATE TABLE `users` (
 
 LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
-INSERT INTO `users` VALUES (1,'Administrador do Sistema','alves.rodrigo31@outlook.com','admin','$2y$10$0Kz82bm4sY.CfthAeM1Lme9JbszwqMxjQ48I3LC0LruvMLM6zs/EC',3,'2018-05-07 13:48:42',1,'2018-05-07 13:48:42',1,NULL,NULL),(29,'Rodrigo Alves','alves.rodrigo31@outlook.com','ralves','$2y$10$6HANf48m7CaYjGJlqoIC6uaKr0Hse9hVh2Uh.q6CGxOfbyS6fniZC',2,'2018-05-07 13:49:09',1,'2018-05-07 13:49:09',1,NULL,NULL),(30,'Luciana Digna das Neves','lucianadigna@gmail.com','ldigna','$2y$10$QM9hq4apyZWecsxYCUai1u.wbX0W0ENR0VUbJqfQD/KzZc52ixEVa',1,'2018-05-07 13:51:23',29,'2018-05-07 13:51:23',29,NULL,NULL);
+INSERT INTO `users` VALUES (1,'Administrador do Sistema','alves.rodrigo31@outlook.com','admin','$2y$10$0Kz82bm4sY.CfthAeM1Lme9JbszwqMxjQ48I3LC0LruvMLM6zs/EC',3,'2018-05-07 13:48:42',1,'2018-05-07 13:48:42',1,NULL,NULL,1),(29,'Rodrigo Alves','alves.rodrigo31@outlook.com','ralves','$2y$10$6HANf48m7CaYjGJlqoIC6uaKr0Hse9hVh2Uh.q6CGxOfbyS6fniZC',2,'2018-05-07 13:49:09',1,'2018-05-07 13:49:09',1,NULL,NULL,1),(30,'Luciana Digna','lucianadigna@gmail.com','ldigna','$2y$10$QM9hq4apyZWecsxYCUai1u.wbX0W0ENR0VUbJqfQD/KzZc52ixEVa',1,'2018-05-07 13:51:23',29,'2018-05-16 22:23:51',1,NULL,NULL,0),(31,'recycle','recycle@teste.com','recycle','$2y$10$temt/Yi9vhvZaHekF638XuTFbGugpYkmT2FszmuSCGv.CGkDW8Rgy',4,'2018-05-15 02:17:55',29,'2018-05-15 02:18:50',29,NULL,NULL,1);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -148,4 +156,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2018-05-14 17:47:04
+-- Dump completed on 2018-05-16 22:31:18

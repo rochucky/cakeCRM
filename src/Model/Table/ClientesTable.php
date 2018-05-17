@@ -47,6 +47,10 @@ class ClientesTable extends Table
             'className' => 'Users',
             'foreignKey' => 'modified_by'            
         ]);
+        $this->belongsTo('DeletedByData', [
+            'className' => 'Users',
+            'foreignKey' => 'deleted_by'            
+        ]);
 
     }
 
@@ -98,7 +102,7 @@ class ClientesTable extends Table
     public function buildRules(RulesChecker $rules){
 
         $rules->add($rules->isUnique(
-            ['name', 'cnpj'],
+            ['name', 'cnpj', 'deleted'],
             'Registro Duplicado'
         ));
 

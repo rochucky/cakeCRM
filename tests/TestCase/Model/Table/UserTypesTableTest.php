@@ -25,7 +25,9 @@ class UserTypesTableTest extends TestCase
      */
     public $fixtures = [
         'app.user_types',
-        'app.users'
+        'app.users',
+        'app.created_by_data',
+        'app.modified_by_data'
     ];
 
     /**

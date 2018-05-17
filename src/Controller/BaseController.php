@@ -13,17 +13,15 @@ class BaseController extends AppController {
      */
 	public function load_index($var = 'items'){
 
-		$table = TableRegistry::get($this->controller);
-		$items = $table->find('all');
-			$items->contain($this->joins['Main']);
-
 		$join = [];
 		foreach ($this->joins['Form'] as $val){
 			$joinTable = TableRegistry::get($val);
 			$join[$val] = $joinTable->find('all');
 		}
+		
+		$this->setFields();
 
-		$this->set($var, $items);
+		$this->set('username', $this->Auth->user('username'));
 		$this->set('joins',$join);
 		$this->set('controller',$this->controller);
 		$this->set('add',$this->permission['add']);
@@ -37,11 +35,23 @@ class BaseController extends AppController {
 
 	public function getData(){
 		
+		$this->setFields();
+
+		if($this->Auth->user('type') == 'recycle'){
+			$conditions = array('conditions'=>array(array('not' => array($this->controller.'.deleted is null'))));	
+			
+				
+		}
+		else{
+			$conditions = array('conditions'=>array($this->controller.'.deleted is null'));
+		}
+
 		$table = TableRegistry::get($this->controller);
-		$items = $table->find('all');
+		$items = $table->find('all', $conditions);
 		$items->contain($this->joins['Main']);
 
 		$data['data'] = array();
+
 		foreach($items as $item){
 			$array['rowid'] = $item->id;
 			foreach($this->fields as $field_name => $field_params){
@@ -54,6 +64,11 @@ class BaseController extends AppController {
 					$joinName = $field_params['joinName'];
 					$joinCol = $field_params['joinCol'];
 					$array[] = '<span name="'.$field_name.'" data-id="'.$item->$joinName->id.'">'.$item->$joinName->$joinCol.'</span>';
+				}
+				else if ($field_params['type'] == 'boolean'){
+					$boolean[0] = 'Não';
+					$boolean[1] = 'Sim';
+					$array[] = '<span name="'.$field_name.'" data-id="'.(($item->$field_name) ? '1': '0').'">'.$boolean[$item->$field_name].'</span>';
 				}
 				else{
 					$array[] = '<span name="'.$field_name.'">'.$item->$field_name.'</span>';
@@ -69,31 +84,6 @@ class BaseController extends AppController {
 	}
 
 	/**
-     * Fetch new record to add a data in the table
-     * 
-     */
-	public function add(){
-
-		$table = TableRegistry::get($this->controller);
-		$item = $table->newEntity();
-		$join = [];
-		foreach ($this->joins['Form'] as $val){
-			$joinTable = TableRegistry::get($val);
-			$join[$val] = $joinTable->find('all');
-		}
-			
-
-		$this->set('item',$item);
-		$this->set('controller',$this->controller);
-		$this->set('fields',$this->fields);
-		$this->set('joins',$join);
-		$this->set('title','Criar '.$this->title);
-		$this->set('back',$this->request->referer());
-		$this->render('/Layout/form');
-
-	}
-
-	/**
      * Delete record
      *
      * @param $id - record id
@@ -104,39 +94,17 @@ class BaseController extends AppController {
 
 		$table = TableRegistry::get($this->controller);
 		$item = $table->get($id);
-		
-		if($table->delete($item)){
+		$item->deleted = date('Y-m-d H:i:s');
+		$item->deleted_by = $this->Auth->user('id');
+
+
+		if($table->save($item)){
 			$this->response->body('ok');
 		}
 		else{
 			$this->response->body(json_encode($table));
 		}
 		return $this->response;
-	}
-
-	/**
-     * Get record to edit
-     *
-     * @param $id - record id
-     * 
-     */
-
-	public function edit($id){
-
-		$table = TableRegistry::get($this->controller);
-		$item = $table->get($id);
-		$join = [];
-		foreach ($this->joins['Form'] as $val){
-			$joinTable = TableRegistry::get($val);
-			$join[$val] = $joinTable->find('all');
-		}
-
-		$this->set('item', $item);
-		$this->set('controller',$this->controller);
-		$this->set('fields',$this->fields);
-		$this->set('joins',$join);
-		$this->set('title','Editar '.$this->title);
-		$this->render('/Layout/form');
 	}
 
 	/**
@@ -154,8 +122,13 @@ class BaseController extends AppController {
 					$item = $table->newEntity($this->request->data());
 					if(!$item->id){
 						$item->created_by = $this->Auth->user('id');
+						if($this->controller = 'Users'){
+							$item->password = '123456';
+						}
 					}
 					$item->modified_by = $this->Auth->user('id');
+
+
 					
 					if ($table->saveOrFail($item)){
 						$this->response->body("ok");
@@ -173,6 +146,49 @@ class BaseController extends AppController {
 				$this->response->body('403');
 				return $this->response;
 			}
+		}
+	}
+
+	// Set default fields
+	private function setFields(){
+		$this->fields['modified'] = [
+			'label' => 'Alterado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		];
+		$this->fields['modified_by'] = [
+			'label' => 'Alterado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'modified_by_data',
+			'readonly' => true
+		];
+		$this->fields['created'] = [
+			'label' => 'Criado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		];
+		$this->fields['created_by'] = [
+			'label' => 'Criado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'created_by_data',
+			'readonly' => true
+		];
+		if($this->Auth->user('type') == 'recycle'){
+			$this->fields['deleted'] = [
+				'label' => 'Excluido Em',
+				'format' => 'datetime'
+			];
+			$this->fields['deleted_by'] = [
+				'label' => 'Excluido Por',
+				'type' => 'join',
+				'joinController' => 'Users',
+				'joinCol' => 'name',
+				'joinName' => 'deleted_by_data'
+			];
 		}
 	}
 

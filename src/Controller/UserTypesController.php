@@ -16,9 +16,9 @@ class UserTypesController extends BaseController {
      * @var add -> Delete
      */
 	public $permission = [
-		'add' => 1,
-		'edit' => 1,
-		'del' => 1
+		'add' => 0,
+		'edit' => 0,
+		'del' => 0
 	];
 
 
@@ -29,12 +29,38 @@ class UserTypesController extends BaseController {
 		'name' => [
 			'label' => 'Nome',
 			'type' => 'text'
+		],
+		'modified' => [
+			'label' => 'Alterado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		],
+		'modified_by' => [
+			'label' => 'Alterado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'modified_by_data',
+			'readonly' => true
+		],
+		'created' => [
+			'label' => 'Criado Em',
+			'format' => 'datetime',
+			'readonly' => true
+		],
+		'created_by' => [
+			'label' => 'Criado Por',
+			'type' => 'join',
+			'joinController' => 'Users',
+			'joinCol' => 'name',
+			'joinName' => 'created_by_data',
+			'readonly' => true
 		]
 	];
 
 	public $joins = [
-		'Main' => [],
-		'Form' => []
+		'Main' => ['CreatedByData','ModifiedByData'],
+		'Form' => ['Users']
 	];
 	
 	public function index(){
@@ -57,29 +83,5 @@ class UserTypesController extends BaseController {
 		parent::save();
 		$this->redirect($this->controller);
 	}
-	public function login(){
-
-		if ($this->request->is('post')){
-			$user = $this->Auth->identify();
-
-			if($user){
-				$this->Auth->setUser($user);
-				return $this->redirect($this->Auth->redirectUrl());
-			}
-			else{
-				$this->Flash->error('Usuário ou senha inválidos');
-			}
-		}
-		else{
-			if($this->Auth->user()){
-				return $this->redirect($this->Auth->redirectUrl());
-			}
-		}
-
-    }
-
-    public function logout(){
-    	$this->redirect($this->Auth->logout());
-    }
 }
 ?>

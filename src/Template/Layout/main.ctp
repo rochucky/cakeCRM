@@ -5,8 +5,12 @@
 </div>
 <div class="row">
 	<div class="col">
-		<a href="" class="btn btn-secondary do-nothing newbtn">Criar</a>
-		<a href="" class="btn btn-danger do-nothing delbtn">Excluir</a>
+		<?php if($add): ?>
+			<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal">Criar</button>
+		<?php endif; ?>
+		<?php if($del): ?>
+			<a href="" class="btn btn-danger do-nothing delbtn">Excluir</a>
+		<?php endif; ?>
 	</div>
 </div>
 <div class="row">
@@ -24,7 +28,7 @@
 	</div>
 
 	<!-- Form Modal -->
-	<div class="modal fade" id="data-modal">
+	<div class="modal fade" id="data-modal" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
 
@@ -38,7 +42,7 @@
           <div class="modal-body">
             <div class="row">
                 <div class="col-md-12">
-					<form method="POST" action="/<?= $controller ?>/salvar">
+					<form method="POST" id="data-modal-form" class="<?= ($edit) ? '' : 'no-edit' ?>" action="">
 						<input type="hidden" id="id" name="id" value=""/>
 						<?php foreach ($fields as $key => $data): ?>
 							<?php if(!isset($data['type'])): ?>
@@ -68,6 +72,22 @@
 								       	</div>
 								    </div>
 								</div>
+							<?php elseif($data['type'] == 'boolean'): ?>
+								<div class="form-group">
+									<div class="row">
+										<div class="col-md-2">
+								    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
+								    	</div>
+								    	<div class="col">
+										    <select id="<?= $key ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> >
+										    	<option value="null"></option>
+										    	<option value="1" >Sim</option>
+										    	<option value="0" >Não</option>
+										    	
+										    </select>
+								       	</div>
+								    </div>
+								</div>
 							<?php else: ?>
 								<div class="form-group">
 								    <div class="row">
@@ -88,7 +108,7 @@
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary do-nothing save-data" data-dismiss="modal">Salvar</button>
+            <button type="submit" form="data-modal-form" class="btn btn-primary do-nothing save-data" data-dismiss="modal">Salvar</button>
             <button type="button" class="btn btn-secondary cancel-data"  data-dismiss="modal">Cancelar</button>
           </div>
 

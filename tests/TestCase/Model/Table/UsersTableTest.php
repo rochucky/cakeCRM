@@ -24,7 +24,10 @@ class UsersTableTest extends TestCase
      * @var array
      */
     public $fixtures = [
-        'app.users'
+        'app.users',
+        'app.user_types',
+        'app.created_by_data',
+        'app.modified_by_data'
     ];
 
     /**
@@ -52,11 +55,21 @@ class UsersTableTest extends TestCase
     }
 
     /**
-     * Test initial setup
+     * Test initialize method
      *
      * @return void
      */
-    public function testInitialization()
+    public function testInitialize()
+    {
+        $this->markTestIncomplete('Not implemented yet.');
+    }
+
+    /**
+     * Test validationDefault method
+     *
+     * @return void
+     */
+    public function testValidationDefault()
     {
         $this->markTestIncomplete('Not implemented yet.');
     }

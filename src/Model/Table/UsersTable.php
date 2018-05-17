@@ -9,7 +9,7 @@ use Cake\Validation\Validator;
 /**
  * Users Model
  *
- * @property |\Cake\ORM\Association\BelongsTo $UserTypes
+ * @property \App\Model\Table\UserTypesTable|\Cake\ORM\Association\BelongsTo $UserTypes
  *
  * @method \App\Model\Entity\User get($primaryKey, $options = [])
  * @method \App\Model\Entity\User newEntity($data = null, array $options = [])
@@ -37,20 +37,23 @@ class UsersTable extends Table
         $this->setTable('users');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
-
+    
+    $this->belongsTo('CreatedByData', [
+        'className' => 'Users',
+        'foreignKey' => 'created_by'            
+    ]);
+    $this->belongsTo('ModifiedByData', [
+        'className' => 'Users',
+        'foreignKey' => 'modified_by'            
+    ]);
+    $this->belongsTo('DeletedByData', [
+        'className' => 'Users',
+        'foreignKey' => 'deleted_by'            
+    ]);
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('UserTypes', [
-            'className' => 'UserTypes',
             'foreignKey' => 'user_type_id'
-        ]);
-        $this->belongsTo('CreatedByData', [
-            'className' => 'Users',
-            'foreignKey' => 'created_by'            
-        ]);
-        $this->belongsTo('ModifiedByData', [
-            'className' => 'Users',
-            'foreignKey' => 'modified_by'            
         ]);
     }
 
@@ -93,6 +96,22 @@ class UsersTable extends Table
         $validator
             ->integer('created_by')
             ->allowEmpty('created_by');
+
+        $validator
+            ->integer('modified_by')
+            ->allowEmpty('modified_by');
+
+        $validator
+            ->dateTime('deleted')
+            ->allowEmpty('deleted');
+
+        $validator
+            ->integer('deleted_by')
+            ->allowEmpty('deleted_by');
+
+        $validator
+            ->boolean('is_active')
+            ->allowEmpty('is_active');
 
         return $validator;
     }

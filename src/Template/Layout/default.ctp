@@ -65,7 +65,7 @@ $cakeDescription = 'Software';
           <div class="modal-body">
             <div class="row">
                 <div class="col">
-                    <form id="password-form" action="/Users/salvar">
+                    <form id="password-form">
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4">
@@ -79,7 +79,7 @@ $cakeDescription = 'Software';
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="current">Nova Senha</label>
+                                    <label for="new">Nova Senha</label>
                                 </div>
                                 <div class="col">
                                     <input type="password" class="form-control" name="new" />
@@ -89,7 +89,7 @@ $cakeDescription = 'Software';
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4">
-                                    <label for="current">Confirmar Senha</label>
+                                    <label for="confirm">Confirmar Senha</label>
                                 </div>
                                 <div class="col">
                                     <input type="password" class="form-control" name="confirm" />
@@ -103,8 +103,54 @@ $cakeDescription = 'Software';
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button type="button" class="btn btn-primary do-nothing save-new-password" data-dismiss="modal">Salvar</button>
+            <button type="submit" form="password-form" class="btn btn-primary do-nothing save-new-password" data-dismiss="modal">Salvar</button>
             <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    
+    <!-- Expired Password Modal -->
+    <div class="modal fade" id="expired-password-modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+
+          <!-- Modal Header -->
+          <div class="modal-header">
+            <h4 class="modal-title">Sessão Expirada</h4>
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <form id="expired-password-form" action="">
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="username">Usuário: <?= $username ?></label>
+                                    <input type="hidden" class="form-control" name="username" value="<?= $username ?>"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col">
+                                    <label for="password">Senha</label>
+                                    <input type="password" class="form-control" name="password" />   
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+          </div>
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button type="submit" form="expired-password-form" class="btn btn-primary do-nothing modal-login-button" data-dismiss="modal">Entrar</button>
           </div>
 
         </div>

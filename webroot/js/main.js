@@ -18,30 +18,42 @@ $(document).ready(function(){
 	var saveData = function(){
 
 		var data = form.serialize();
+		var l = loading();
+		l.show();
 
 		$.ajax({
 			method: 'POST',
 			url: location.href + '/save',
-			data: data,
-			success: function(e){
-				if(e == 'ok'){
-					$('#data-modal').modal('hide');
-					notification('Registro salvo com sucesso.', 'success')
-					dtable.ajax.reload( dtFunctions );
-				}
-				else if(e == 'unique_error'){
-					notification('Erro ao salvar registro, Já existe outro registro com o mesmo valor');
-				}
-				else{
-					notification('Erro ao salvar registro');
-					console.log(e)
-				}
-			},
-			error: function(e){
-				notification('Falha ao salvar, Contacte o administrador do sistema.', 'error');
-				$('html').append(e.responseText);
+			data: data
+		})
+		.done(function(e){
+			if(e == 'ok'){
+				$('#data-modal').modal('hide');
+				notification('Registro salvo com sucesso.', 'success')
+				dtable.ajax.reload( dtFunctions );
 			}
+			else if(e == 'unique_error'){
+				notification('Erro ao salvar registro, Já existe outro registro com o mesmo valor');
+			}
+			else{
+				notification('Erro ao salvar registro');
+				console.log(e)
+			}
+		})
+		.fail(function(e){
+			if(e.status == '403'){
+				$('#expired-password-modal').modal('show');
+			}
+			else{
+				notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');	
+			}
+			console.log(e)
+		})
+		.always(function(){
+			l.close();
 		});
+
+		
 		
 
 	}
@@ -50,6 +62,10 @@ $(document).ready(function(){
 	var dtFunctions = function(){
 		// 
 		$('#datatable tbody tr').dblclick(function(){
+			if($("form.no-edit")){
+				notification('Não é possível editar registros nesta tela');
+				return false;
+			}
 			$(this).children('td').each(function(){
 				if($(this).children('span').attr('data-id')){
 					$('#' + $(this).children('span').attr('name')).val($(this).children('span').attr('data-id').trim());	
@@ -65,17 +81,6 @@ $(document).ready(function(){
 		$('#datatable tbody tr').click(function(){
 			$('#datatable tbody tr').removeClass('selected');
 			$(this).addClass('selected');
-			$(document).on('keyup', function(e){
-				if(e.which == '27'){
-					$('#datatable tbody tr').removeClass('selected');
-					$(document).off('keyup');
-				}
-				if(e.which == '46'){
-					$('.delbtn').click();
-					$(document).off('keyup');
-				}
-				
-			})
 		});
 	}
 
@@ -117,72 +122,153 @@ $(document).ready(function(){
 	});
 
 	
-
-	$('.newbtn').click(function(){
-		$('#data-modal').modal('show');
-	});
-
+// Delete Record
 	$('.delbtn').click(function(){
-		var id = $(this).attr('data-id');
-		var cc = customConfirm({
-			text: 'Deseja realmente excluir este registro?',
-			functionYes: function(){
-				var l = loading();
-				$.ajax({
-					method: 'POST',
-					url: location.href + '/delete/' + $('#datatable tbody tr.selected').attr('id'),
-					beforeSend: function(){
-						l.show();
-					},
-					success: function(e){
-						if(e == 'ok'){
-							dtable
-								.row($('tr.selected'	))
-								.remove()
-								.draw();
-							l.close();
-							notification('Registro excluído com sucesso', 'success');
+		// If there is an open modal, do nothing
+		if($('.modal.show').length > 0){
+			return false;
+		}
+		if($('#datatable tbody tr.selected').length > 0){
+
+			var cc = customConfirm({
+				text: 'Deseja realmente excluir este registro?',
+				functionYes: function(){
+					var l = loading();
+					$.ajax({
+						method: 'POST',
+						url: location.href + '/delete/' + $('#datatable tbody tr.selected').attr('id'),
+						beforeSend: function(){
+							l.show();
 						}
-						else if(e == '403'){
-							document.location.href == location.href;
+					})
+					.done(function(e){
+						if(e == 'ok'){
+							notification('Registro excluído com sucesso', 'success');
+							dtable.ajax.reload( dtFunctions );
 						}
 						else{
 							notification('Falha ao excluir registro', 'error');
-							l.close();
 						}
-					},
-					error: function(e){
-						notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');
-						l.close();
+					})
+					.fail(function(e){
+						if(e.status == '403'){
+							$('#expired-password-modal').modal('show');
+						}
+						else{
+							notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');	
+						}
 						console.log(e)
-					}
-
-				});
-				
-				// location.href = location.href + '/delete/' + id;
-			}
-		});
+					}).
+					always(function(){
+						l.close();
+					});
+				}
+			});
+		}
+		else{
+			notification('Nenhum registro selecionado');
+		}
 
 		return false;
 
 	});
 
-	// data-modal
+// Data Saving or Editing Modal
 	$('#data-modal').on('hidden.bs.modal', function () {
 		form[0].reset();
 		$('input#id').val('');
+		$(this).off('keyup');
 	});
 
 	$('#data-modal').on('shown.bs.modal', function () {
 		$('.first').focus();
-		$(this).on('keyup', function(e){
-			if(e.which == '13'){
-				$(this).off('keyup');
-				saveData();
-			}
-		});
 	});
 
 	$('.save-data').click(saveData);
+
+// Expired Password Modal
+	$('#expired-password-modal').on('shown.bs.modal', function () {
+		$('#expired-password-form input[name=password]').focus();
+		$('#expired-password-form').on('keyup', function(){
+		})
+	});
+
+	$('.modal-login-button').click(function(){
+
+		var data = $('#expired-password-form').serialize();
+
+		$.ajax({
+			url: window.location.origin + '/Users/login',
+			type: 'POST',
+			data: data
+		})
+		.done(function(e) {
+			if(e == 'login_error'){
+				notification('Usuário ou senha inválidos');
+			}
+			else{
+				notification('Login efetuado com sucesso!', 'success');
+				$('#expired-password-modal').modal('hide');
+			}
+		})
+		.fail(function(e) {
+			notification('Houve um erro inesperado, contacte o administrador do sistema', 'error');
+			console.log(e);
+		})
+		.always(function() {
+			$('#expired-password-form')[0].reset();
+		});
+		
+	});
+// Change Password Modal
+	$('#expired-password-modal').on('shown.bs.modal', function () {
+		$('#expired-password-form input[name=password]').focus();
+		$('#expired-password-form').on('keyup', function(){
+		})
+	});
+
+	$('.save-new-password').click(function(){
+
+		var password = $('#password-form input[name=new]').val();
+		var confirm = $('#password-form input[name=confirm]').val();
+
+		if(password == confirm){
+			notification('ok');
+		}
+		else{
+			notification('Nova senha e confirmação não batem');
+		}
+		
+
+		// $.$.ajax({
+		// 	url: window.location.origin + '/Users/save',
+		// 	type: 'POST',
+		// 	data: {
+		// 		password: password
+		// 	}
+		// })
+		// .done(function() {
+		// 	console.log("success");
+		// })
+		// .fail(function() {
+		// 	console.log("error");
+		// })
+		// .always(function() {
+		// 	console.log("complete");
+		// });
+		
+
+	});
+
+// Keymapping
+	$(document).on('keyup', function(e){
+		if(e.which == '27'){
+			$('#datatable tbody tr').removeClass('selected');
+		}
+		if(e.which == '46'){
+			$('.delbtn').click();
+		}
+		
+	})
 
 });

@@ -10,7 +10,6 @@ var customConfirm = function(param){
 				$(document).on('keyup', function(e){
 					if (e.keyCode == '27'){
 						n.close();
-						$(document).off('keyup');
 						// $('.datatable')[0].row( $(this).parents('tr') ).remove()
 					}
 				});
@@ -23,7 +22,6 @@ var customConfirm = function(param){
 			}),
 			Noty.button('Não', 'btn btn-secondary confirm-button', function () {
 			    n.close();
-			    $(document).off('keyup');
 			    return false;
 			})
 		]
