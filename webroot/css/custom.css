@@ -1,4 +1,7 @@
 /*General*/
+html{
+	font-size: 14px;
+}
 .fill{
 	width: 100% !important;
 }
@@ -17,20 +20,24 @@ p.header{
 }
 
 /*Table*/
+table.display{
+	border: 0;
+}
+table.display th{
+	border-top: 0;
+}
+table.display tbody tr:hover{
+	background-color: rgba(150,150,150,0.8);
+}
+table.display tbody tr.selected{
+	background-color: rgba(100,100,100,0.8);
+}
 #datatable{
 	width: 100% !important;
 }
-#datatable td.actions{
-	width: 10%;
-}
-#datatable tbody tr{
-	height: 20px;
-}
-.oi-x{
-	color: rgba(255,0,0,0.6);
-}
-.oi-brush{
-	color: rgba(0,0,255,0.6);
+#datatable tbody tr td{
+	padding-top: 2px;
+	padding-bottom: 2px;
 }
 
 /*Form*/

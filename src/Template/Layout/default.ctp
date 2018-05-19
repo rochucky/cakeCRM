@@ -26,7 +26,8 @@ $cakeDescription = 'Software';
     </title>
     <?= $this->Html->meta('icon') ?>
 
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+    
+    <?= $this->Html->css('jquery-ui.css') ?>
     <?= $this->Html->css('open-iconic-master/font/css/open-iconic-bootstrap.css') ?>
     <?= $this->Html->css('bootstrap.min.css') ?>
     <?= $this->Html->css('../js/datatable/datatables.min.css') ?>
@@ -34,12 +35,13 @@ $cakeDescription = 'Software';
     <?= $this->Html->css('custom.css') ?>
     
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-    
+    <?= $this->Html->script('jquery.min.js') ?>
+    <?= $this->Html->script('jquery-ui.min.js') ?>
     <?= $this->Html->script('popper.min.js') ?>
     <?= $this->Html->script('bootstrap.min.js') ?>
     <?= $this->Html->script('datatable/datatables.min.js') ?>
+    <?= $this->Html->script('jquery.validate.min.js') ?>
+    <?= $this->Html->script('additional-methods.min.js') ?>
     <?= $this->Html->script('noty.js') ?>
     <?= $this->Html->script('util.js') ?>
     <?= $this->Html->script('main.js') ?>

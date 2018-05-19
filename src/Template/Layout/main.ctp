@@ -3,7 +3,7 @@
 		<p class="header"><?= $title ?></p>
 	</div>
 </div>
-<div class="row">
+<div class="row" id="buttons">
 	<div class="col">
 		<?php if($add): ?>
 			<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal">Criar</button>
@@ -15,7 +15,7 @@
 </div>
 <div class="row">
 	<div class="col-md-12">
-		<table id="datatable" class="display nowrap">
+		<table id="datatable" class="display nowrap table-striped table-bordered">
 			<thead>
 				<tr>
 					<?php foreach($fields as $field) { ?>
@@ -52,7 +52,7 @@
 									    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 										</div>
 										<div class="col">
-									    	<input type="text" class="form-control" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> <?= ($data == reset($fields)) ? 'autofocus' : '' ?> value=""/>
+									    	<input type="text" class="form-control" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
 										</div>	
 									</div>
 								</div>
@@ -63,7 +63,7 @@
 								    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
 								    	</div>
 								    	<div class="col">
-										    <select id="<?= $key ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> >
+										    <select id="<?= $key ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> <?= ($data['required']) ? 'required' : '' ?> >
 										    	<option value="null"></option>
 										    	<?php foreach($joins[$data['joinController']] as $join): ?>
 													<option value="<?= $join['id'] ?>" ><?= $join[$data['joinCol']] ?></option>
@@ -79,7 +79,7 @@
 								    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
 								    	</div>
 								    	<div class="col">
-										    <select id="<?= $key ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> >
+										    <select id="<?= $key ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> <?= ($data['required']) ? 'required' : '' ?> >
 										    	<option value="null"></option>
 										    	<option value="1" >Sim</option>
 										    	<option value="0" >Não</option>
@@ -95,7 +95,7 @@
 									    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 										</div>
 										<div class="col">
-									    	<input type="<?= $data['type'] ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> value=""/>
+									    	<input type="<?= $data['type'] ?>" class="form-control <?= ($data == reset($fields)) ? 'first' : '' ?>" id="<?= $key ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
 										</div>	
 									</div>
 								</div>

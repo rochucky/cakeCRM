@@ -90,20 +90,30 @@ class BaseController extends AppController {
      * 
      */
 
-	public function delete($id){
+	public function delete(){
 
 		$table = TableRegistry::get($this->controller);
-		$item = $table->get($id);
-		$item->deleted = date('Y-m-d H:i:s');
-		$item->deleted_by = $this->Auth->user('id');
+		$data = $this->request->data();
+		
+		$response = [
+			'success' => 0,
+			'error' => 0
+		];
+
+		foreach($data['ids'] as $id){
+			$item = $table->get($id);
+			$item->deleted = date('Y-m-d H:i:s');
+			$item->deleted_by = $this->Auth->user('id');
 
 
-		if($table->save($item)){
-			$this->response->body('ok');
+			if($table->save($item)){
+				$response['success']++;
+			}
+			else{
+				$response['error']++;
+			}
 		}
-		else{
-			$this->response->body(json_encode($table));
-		}
+		$this->response->body(json_encode($response));
 		return $this->response;
 	}
 
@@ -154,7 +164,8 @@ class BaseController extends AppController {
 		$this->fields['modified'] = [
 			'label' => 'Alterado Em',
 			'format' => 'datetime',
-			'readonly' => true
+			'readonly' => true,
+			'required' => false
 		];
 		$this->fields['modified_by'] = [
 			'label' => 'Alterado Por',
@@ -162,12 +173,14 @@ class BaseController extends AppController {
 			'joinController' => 'Users',
 			'joinCol' => 'name',
 			'joinName' => 'modified_by_data',
-			'readonly' => true
+			'readonly' => true,
+			'required' => false
 		];
 		$this->fields['created'] = [
 			'label' => 'Criado Em',
 			'format' => 'datetime',
-			'readonly' => true
+			'readonly' => true,
+			'required' => false
 		];
 		$this->fields['created_by'] = [
 			'label' => 'Criado Por',
@@ -175,7 +188,8 @@ class BaseController extends AppController {
 			'joinController' => 'Users',
 			'joinCol' => 'name',
 			'joinName' => 'created_by_data',
-			'readonly' => true
+			'readonly' => true,
+			'required' => false
 		];
 		if($this->Auth->user('type') == 'recycle'){
 			$this->fields['deleted'] = [

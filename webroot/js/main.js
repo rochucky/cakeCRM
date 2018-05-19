@@ -79,42 +79,43 @@ $(document).ready(function(){
 		});
 
 		$('#datatable tbody tr').click(function(){
-			$('#datatable tbody tr').removeClass('selected');
-			$(this).addClass('selected');
+			
+			$(this).toggleClass('selected');
 		});
+        	
 	}
 
 	// Datatable
 	var dtable = $('#datatable').DataTable({
-		"ajax": location.href + '/getData',
-		"rowId": 'rowid',
-		"scrollY": "50vh",
-		"scrollX": true,
-		"scrollCollapse": true,
-        "paging": false,
-        
-        "language": {
-		    "decimal":        "",
-		    "emptyTable":     "Não há dados disponíveis",
-		    // "info":           "Showing _START_ to _END_ of _TOTAL_ entries",
-		    "info":           "Exibindo _TOTAL_ registros",
-		    "infoEmpty":      "Exibindo 0 registros",
-		    "infoFiltered":   "(de um total de _MAX_)",
-		    "infoPostFix":    "",
-		    "thousands":      ".",
-		    "loadingRecords": "Carregando...",
-		    "processing":     "Processando...",
-		    "search":         "Buscar:",
-		    "zeroRecords":    "Nenhum registro encontrado",
-		    "paginate": {
-		        "first":      "<<",
-		        "last":       ">>",
-		        "next":       ">",
-		        "previous":   "<"
+		ajax: location.href + '/getData',
+		rowId: 'rowid',
+		scrollY: '50vh',
+		scrollX: true,
+		scrollCollapse: true,
+        paging: false,
+        buttons: [ 'csv' ],
+        language: {
+		    decimal:        '',
+		    emptyTable:     'Não há dados disponíveis',
+		    // info:           Showing _START_ to _END_ of _TOTAL_ entries,
+		    info:           'Exibindo _TOTAL_ registros',
+		    infoEmpty:      'Exibindo 0 registros',
+		    infoFiltered:   '(de um total de _MAX_)',
+		    infoPostFix:    '',
+		    thousands:      '.',
+		    loadingRecords: 'Carregando...',
+		    processing:     'Processando...',
+		    search:         'Buscar:',
+		    zeroRecords:    'Nenhum registro encontrado',
+		    paginate: {
+		        first:      '<<',
+		        last:       '>>',
+		        next:       '>',
+		        previous:   '<'
 		    },
-		    "aria": {
-		        "sortAscending":  ": activate to sort column ascending",
-		        "sortDescending": ": activate to sort column descending"
+		    aria: {
+		        sortAscending:  ': activate to sort column ascending',
+		        sortDescending: ': activate to sort column descending'
 		    }
 		},
 		initComplete: dtFunctions
@@ -129,25 +130,32 @@ $(document).ready(function(){
 			return false;
 		}
 		if($('#datatable tbody tr.selected').length > 0){
-
+			var data = []
 			var cc = customConfirm({
 				text: 'Deseja realmente excluir este registro?',
 				functionYes: function(){
 					var l = loading();
+					$('#datatable tbody tr.selected').each(function(){
+						data.push($(this).attr('id'));
+					});
+					console.log(data);
 					$.ajax({
 						method: 'POST',
-						url: location.href + '/delete/' + $('#datatable tbody tr.selected').attr('id'),
+						url: location.href + '/delete',
+						data: {ids: data},
 						beforeSend: function(){
 							l.show();
 						}
 					})
 					.done(function(e){
-						if(e == 'ok'){
-							notification('Registro excluído com sucesso', 'success');
+						var data = JSON.parse(e);
+						console.log(data);
+						if(data.success > 0){
+							notification(data.success + ' registros excluído com sucesso', 'success');
 							dtable.ajax.reload( dtFunctions );
 						}
-						else{
-							notification('Falha ao excluir registro', 'error');
+						if(data.error > 0){
+							notification(data.erro + ' registros não podem ser excluidos', 'error');
 						}
 					})
 					.fail(function(e){
