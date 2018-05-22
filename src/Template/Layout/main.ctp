@@ -28,6 +28,14 @@
 				</tr>
 			</thead>
 			
+			<tfoot>
+				<tr>
+					<?php foreach($fields as $field) { ?>
+						<th><input type="text" class="form-control" placeholder="Buscar <?= $field['label'] ?>" /></th>
+					<?php } ?>
+				</tr>
+			</tfoot>
+
 		</table>
 	</div>
 

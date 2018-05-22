@@ -86,6 +86,21 @@ $(document).ready(function(){
 			
 			$(this).toggleClass('selected');
 		});
+	 
+	    // Apply the search
+	    dtable.columns().every( function () {
+	        var that = this;
+
+	        console.log(this)
+
+	        $( 'input', this.footer() ).on( 'keyup change', function () {
+	            if ( that.search() !== this.value ) {
+	                that
+	                    .search( this.value )
+	                    .draw();
+	            }
+	        } );
+	    } );
         	
 	}
 
@@ -127,6 +142,7 @@ $(document).ready(function(){
 		initComplete: dtFunctions
 		
 	});
+
 
 	
 // Delete Record
@@ -180,7 +196,7 @@ $(document).ready(function(){
 			});
 		}
 		else{
-			notification('Nenhum registro selecionado');
+			return false;
 		}
 
 		return false;
