@@ -76,7 +76,11 @@ $(document).ready(function(){
 			})
 			form.find('[name=id]').val($(this).attr('id'));
 			$('#data-modal').modal('show');
+
+
 		});
+
+		dtable.buttons().container().appendTo('#buttons > div');
 
 		$('#datatable tbody tr').click(function(){
 			
@@ -93,7 +97,9 @@ $(document).ready(function(){
 		scrollX: true,
 		scrollCollapse: true,
         paging: false,
-        buttons: [ 'csv' ],
+        buttons: [
+            {extend: 'csv', text: 'Exportar'}
+        ],
         language: {
 		    decimal:        '',
 		    emptyTable:     'Não há dados disponíveis',

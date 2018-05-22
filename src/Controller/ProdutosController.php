@@ -27,15 +27,18 @@ class ProdutosController extends BaseController {
 	public $fields = [
 		'nome' => [
 			'label' => 'Nome',
-			'type' => 'text'
+			'type' => 'text',
+			'required' => true
 		],
 		'preco' => [
 			'label' =>'Preço',
-			'type' => 'number'
+			'type' => 'number',
+			'required' => true
 		],
 		'descricao' => [
 			'label' => 'Descrição',
-			'type' => 'text'
+			'type' => 'text',
+			'required' => false
 		]
 	];
 
