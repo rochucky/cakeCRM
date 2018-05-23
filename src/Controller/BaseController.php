@@ -13,27 +13,15 @@ class BaseController extends AppController {
      */
 	public function load_index($var = 'items'){
 
-		$menu = [
-			'Produtos' => 'produtos',
-			'Clientes' => [
-				'Cadastro de Clientes' => 'clientes',
-				'Produtos/Clientes' => 'produtos'
-			],
-			'Admin' => [
-				'Usuários' => 'users',
-				'Tipos de usuários' => 'userTypes'
-			]
-		];
+		$this->setMenus();
+		$this->setFields();
 
 		$join = [];
 		foreach ($this->joins['Form'] as $val){
 			$joinTable = TableRegistry::get($val);
 			$join[$val] = $joinTable->find('all');
-		}
-		
-		$this->setFields();
+		}		
 
-		$this->set('menus', $menu);
 		$this->set('username', $this->Auth->user('username'));
 		$this->set('usertype', $this->Auth->user('type'));
 		$this->set('joins',$join);
@@ -69,6 +57,7 @@ class BaseController extends AppController {
 		foreach($items as $item){
 			$array['rowid'] = $item->id;
 			foreach($this->fields as $field_name => $field_params){
+				$data['columns'][] = $field_params['label'];
 				if(isset($field_params['format'])){
 					if($field_params['format'] == 'datetime'){
 						$array[] = '<span name="'.$field_params['col'].'">'.date('d/m/Y H:i:s', strtotime($item->$field_params['col']->nice())).'</span>';
@@ -259,6 +248,24 @@ class BaseController extends AppController {
 				'joinName' => 'deleted_by_data'
 			];
 		}
+	}
+
+	public function setMenus(){
+
+		$menu = [
+			'Produtos' => 'produtos',
+			'Clientes' => [
+				'Cadastro de Clientes' => 'clientes',
+				'Produtos/Clientes' => 'produtos'
+			],
+			'Admin' => [
+				'Usuários' => 'users',
+				'Tipos de usuários' => 'userTypes'
+			]
+		];
+
+		$this->set('menus', $menu);
+
 	}
 
 }

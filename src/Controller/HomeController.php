@@ -10,6 +10,7 @@ class HomeController extends BaseController {
 
 	public function index(){
 		$this->set('user', $this->Auth->User('name'));
+		$this->setMenus();
 		// parent::load_index();
 	}
 
