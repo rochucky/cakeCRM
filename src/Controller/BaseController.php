@@ -13,6 +13,18 @@ class BaseController extends AppController {
      */
 	public function load_index($var = 'items'){
 
+		$menu = [
+			'Produtos' => 'produtos',
+			'Clientes' => [
+				'Cadastro de Clientes' => 'clientes',
+				'Produtos/Clientes' => 'produtos'
+			],
+			'Admin' => [
+				'Usuários' => 'users',
+				'Tipos de usuários' => 'userTypes'
+			]
+		];
+
 		$join = [];
 		foreach ($this->joins['Form'] as $val){
 			$joinTable = TableRegistry::get($val);
@@ -21,6 +33,7 @@ class BaseController extends AppController {
 		
 		$this->setFields();
 
+		$this->set('menus', $menu);
 		$this->set('username', $this->Auth->user('username'));
 		$this->set('usertype', $this->Auth->user('type'));
 		$this->set('joins',$join);

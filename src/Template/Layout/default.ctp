@@ -161,7 +161,7 @@ $cakeDescription = 'Software';
     
     <!-- Menu -->
     <nav class="navbar navbar-expand-md navbar-light">
-        <a class="navbar-brand" href="#">Instore</a>
+        <a class="navbar-brand" href="#">Logo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -171,21 +171,22 @@ $cakeDescription = 'Software';
                 <li class="nav-item active">
                     <a class="nav-link" href="/">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/produtos">Produtos</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/clientes">Clientes</a>
-                </li>
-                <?php if($user_type != 'user'): ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/users">Usuários</a>
-                        <a class="dropdown-item" href="/userTypes">Tipos de Usuário</a>
-                    </div>
-                </li>
-                <?php endif; ?>
+                <?php foreach($menus as $key => $menu): ?>
+                    <?php if(is_array($menu)): ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?= $key ?></a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <?php foreach($menu as $subkey => $submenu): ?>
+                                <a class="dropdown-item" href="/<?= $submenu ?>"><?= $subkey ?></a>
+                            <?php endforeach; ?>
+                            </div>
+                        </li>
+                    <?php else: ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/<?= $menu ?>"><?= $key ?></a>
+                        </li>
+                    <?php endif; ?>
+                <?php endforeach; ?>
             </ul>
             <ul class="navbar-nav">
                 <a href="" class="nav-link" data-toggle="modal" data-target="#password-modal">

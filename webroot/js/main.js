@@ -107,6 +107,7 @@ $(document).ready(function(){
 	            }
 	        });
 	    });
+	    //$('#datatable_filter').closest('.row').remove();
         	
 	}
 

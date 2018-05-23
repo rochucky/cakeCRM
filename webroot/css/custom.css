@@ -3,7 +3,7 @@ html{
 	font-size: 14px;
 }
 body{
-	background-color: rgba(0, 0, 0, 0.04);
+	background-color: rgba(0, 0, 0, 0.03);
 }
 .fill{
 	width: 100% !important;
@@ -44,8 +44,11 @@ table.display tbody tr.selected{
 	padding-right: 8px;
 	padding-left: 4px;
 }
+#datatable_filter{
+	display: none;
+}
 div.dataTables_scrollBody{
-	min-height: 50vh;
+	min-height: 55vh;
 }
 div.dataTables_scroll{
 	border: 1px solid lightgray !important;
