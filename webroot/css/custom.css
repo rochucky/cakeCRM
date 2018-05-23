@@ -23,6 +23,9 @@ p.header{
 }
 
 /*Table*/
+table{
+	cursor: context-menu;
+}
 table.display{
 	border: 0;
 }

@@ -76,6 +76,8 @@ $(document).ready(function(){
 			})
 			form.find('[name=id]').val($(this).attr('id'));
 			$('#data-modal').modal('show');
+			$('#datatable tbody tr').removeClass('selected');
+
 
 
 		});
@@ -90,8 +92,6 @@ $(document).ready(function(){
 	    // Apply the search
 	    dtable.columns().every( function () {
 	        var that = this;
-
-	        console.log(this)
 
 	        $( 'input', this.footer() ).on( 'keyup change', function (e) {
 	            if ( that.search() !== this.value ) {
