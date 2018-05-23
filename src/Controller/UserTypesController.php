@@ -26,35 +26,15 @@ class UserTypesController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'name' => [
-			'label' => 'Nome',
+		'id' => [
+			'col' => 'id',
+			'label' => 'Id',
 			'type' => 'text'
 		],
-		'modified' => [
-			'label' => 'Alterado Em',
-			'format' => 'datetime',
-			'readonly' => true
-		],
-		'modified_by' => [
-			'label' => 'Alterado Por',
-			'type' => 'join',
-			'joinController' => 'Users',
-			'joinCol' => 'name',
-			'joinName' => 'modified_by_data',
-			'readonly' => true
-		],
-		'created' => [
-			'label' => 'Criado Em',
-			'format' => 'datetime',
-			'readonly' => true
-		],
-		'created_by' => [
-			'label' => 'Criado Por',
-			'type' => 'join',
-			'joinController' => 'Users',
-			'joinCol' => 'name',
-			'joinName' => 'created_by_data',
-			'readonly' => true
+		'name' => [
+			'col' => 'name',
+			'label' => 'Nome',
+			'type' => 'text'
 		]
 	];
 

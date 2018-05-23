@@ -27,16 +27,19 @@ class ClientesController extends BaseController {
      */
 	public $fields = [
 		'name' => [
+			'col' => 'name',
 			'label' => 'Nome',
 			'type' => 'text',
 			'required' => true
 		],
 		'cnpj' => [
+			'col' => 'cnpj',
 			'label' =>'CNPJ',
 			'type' => 'text',
 			'required' => true
 		],
 		'is_active' => [
+			'col' => 'is_active',
 			'label' => 'Ativo?',
 			'type' => 'boolean',
 			'required' => true

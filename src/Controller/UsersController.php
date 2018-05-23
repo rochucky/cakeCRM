@@ -26,18 +26,22 @@ class UsersController extends BaseController {
      */
 	public $fields = [
 		'name' => [
+			'col' => 'name',
 			'label' => 'Nome',
 			'type' => 'text',
 		],
 		'email' => [
+			'col' => 'email',
 			'label' => 'E-mail',
 			'type' => 'email'
 		],
 		'username' => [
+			'col'  => 'username',
 			'label' => 'Usuário',
 			'type' => 'text'
 		],
-		'user_type_id' => [
+		'user_type' => [
+			'col' => 'user_type_id',
 			'label' => 'Tipo',
 			'type' => 'join',
 			'joinController' => 'UserTypes',
@@ -45,6 +49,7 @@ class UsersController extends BaseController {
 			'joinName' => 'user_type'
 		],
 		'is_active' => [
+			'col' => 'is_active',
 			'label' => 'Ativo?',
 			'type' => 'boolean'
 		]

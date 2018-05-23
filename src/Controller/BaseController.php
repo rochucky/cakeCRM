@@ -71,21 +71,21 @@ class BaseController extends AppController {
 			foreach($this->fields as $field_name => $field_params){
 				if(isset($field_params['format'])){
 					if($field_params['format'] == 'datetime'){
-						$array[] = '<span name="'.$field_name.'">'.date('d/m/Y H:i:s', strtotime($item->$field_name->nice())).'</span>';
+						$array[] = '<span name="'.$field_params['col'].'">'.date('d/m/Y H:i:s', strtotime($item->$field_params['col']->nice())).'</span>';
 					}
 				}
 				else if ($field_params['type'] == 'join'){
 					$joinName = $field_params['joinName'];
 					$joinCol = $field_params['joinCol'];
-					$array[] = '<span name="'.$field_name.'" data-id="'.$item->$joinName->id.'">'.$item->$joinName->$joinCol.'</span>';
+					$array[] = '<span name="'.$field_params['col'].'" data-id="'.$item->$joinName->id.'">'.$item->$joinName->$joinCol.'</span>';
 				}
 				else if ($field_params['type'] == 'boolean'){
 					$boolean[0] = 'Não';
 					$boolean[1] = 'Sim';
-					$array[] = '<span name="'.$field_name.'" data-id="'.(($item->$field_name) ? '1': '0').'">'.$boolean[$item->$field_name].'</span>';
+					$array[] = '<span name="'.$field_params['col'].'" data-id="'.(($item->$field_params['col']) ? '1': '0').'">'.$boolean[$item->$field_params['col']].'</span>';
 				}
 				else{
-					$array[] = '<span name="'.$field_name.'">'.$item->$field_name.'</span>';
+					$array[] = '<span name="'.$field_params['col'].'">'.$item->$field_params['col'].'</span>';
 				}
 			}
 			
@@ -211,12 +211,14 @@ class BaseController extends AppController {
 	// Set default fields
 	private function setFields(){
 		$this->fields['modified'] = [
+			'col' => 'modified',
 			'label' => 'Alterado Em',
 			'format' => 'datetime',
 			'readonly' => true,
 			'required' => false
 		];
 		$this->fields['modified_by'] = [
+			'col' => 'modified_by',
 			'label' => 'Alterado Por',
 			'type' => 'join',
 			'joinController' => 'Users',
@@ -226,12 +228,14 @@ class BaseController extends AppController {
 			'required' => false
 		];
 		$this->fields['created'] = [
+			'col' => 'created',
 			'label' => 'Criado Em',
 			'format' => 'datetime',
 			'readonly' => true,
 			'required' => false
 		];
 		$this->fields['created_by'] = [
+			'col' => 'created_by',
 			'label' => 'Criado Por',
 			'type' => 'join',
 			'joinController' => 'Users',
@@ -242,10 +246,12 @@ class BaseController extends AppController {
 		];
 		if($this->Auth->user('type') == 'recycle'){
 			$this->fields['deleted'] = [
+				'col' => 'deleted',
 				'label' => 'Excluido Em',
 				'format' => 'datetime'
 			];
 			$this->fields['deleted_by'] = [
+				'col' => 'deleted_by',
 				'label' => 'Excluido Por',
 				'type' => 'join',
 				'joinController' => 'Users',
