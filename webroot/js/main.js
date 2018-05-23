@@ -93,14 +93,20 @@ $(document).ready(function(){
 
 	        console.log(this)
 
-	        $( 'input', this.footer() ).on( 'keyup change', function () {
+	        $( 'input', this.footer() ).on( 'keyup change', function (e) {
 	            if ( that.search() !== this.value ) {
 	                that
 	                    .search( this.value )
 	                    .draw();
 	            }
-	        } );
-	    } );
+	            if (e.which == '27'){
+	            	$(this).val('');
+	            	that
+	                    .search( this.value )
+	                    .draw();
+	            }
+	        });
+	    });
         	
 	}
 
@@ -205,26 +211,34 @@ $(document).ready(function(){
 
 	$('.restorebtn').click(function(){
 
-		if($('#datatable tbody tr.selected').length > 0){
 
+		if($('#datatable tbody tr.selected').length > 0){
+			var data = []
 			var cc = customConfirm({
-				text: 'Deseja realmente Restaurar este registro?',
+				text: 'Deseja realmente restaurar os registros selecionados?',
 				functionYes: function(){
 					var l = loading();
+					$('#datatable tbody tr.selected').each(function(){
+						data.push($(this).attr('id'));
+					});
+					console.log(data);
 					$.ajax({
-						method: 'GET',
-						url: location.href + '/restore/' + $('#datatable tbody tr.selected').attr('id'),
+						method: 'POST',
+						url: location.href + '/restore',
+						data: {ids: data},
 						beforeSend: function(){
 							l.show();
 						}
 					})
 					.done(function(e){
-						if(e == 'ok'){
-							notification('Registro restaurado com sucesso', 'success');
+						var data = JSON.parse(e);
+						console.log(data);
+						if(data.success > 0){
+							notification(data.success + ' registros restaurados com sucesso', 'success');
 							dtable.ajax.reload( dtFunctions );
 						}
-						else{
-							notification('Falha ao restaurar registro', 'error');
+						if(data.error > 0){
+							notification(data.erro + ' registros não puderam ser restaurados', 'error');
 						}
 					})
 					.fail(function(e){
@@ -241,6 +255,9 @@ $(document).ready(function(){
 					});
 				}
 			});
+		}
+		else{
+			return false;
 		}
 	});
 

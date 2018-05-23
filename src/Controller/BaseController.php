@@ -125,21 +125,32 @@ class BaseController extends AppController {
      * 
      */
 
-	public function restore($id){
+	public function restore(){
 
 		$table = TableRegistry::get($this->controller);
-		$item = $table->get($id);
-		$item->deleted = NULL;
-		$item->deleted_by = NULL;
+		$data = $this->request->data();
+		
+		$response = [
+			'success' => 0,
+			'error' => 0
+		];
+
+		foreach($data['ids'] as $id){
+			$item = $table->get($id);
+			$item->deleted = NULL;
+			$item->deleted_by = NULL;
 
 
-		if($table->save($item)){
-			$this->response->body('ok');
+			if($table->save($item)){
+				$response['success']++;
+			}
+			else{
+				$response['error']++;
+			}
 		}
-		else{
-			$this->response->body(json_encode($table));
-		}
+		$this->response->body(json_encode($response));
 		return $this->response;
+
 	}
 
 	/**

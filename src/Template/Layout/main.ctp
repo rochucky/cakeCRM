@@ -31,7 +31,7 @@
 			<tfoot>
 				<tr>
 					<?php foreach($fields as $field) { ?>
-						<th><input type="text" class="form-control" placeholder="Buscar <?= $field['label'] ?>" /></th>
+						<th><input type="text" class="form-control search" placeholder="Buscar <?= $field['label'] ?>" /></th>
 					<?php } ?>
 				</tr>
 			</tfoot>
