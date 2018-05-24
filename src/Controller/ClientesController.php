@@ -51,6 +51,11 @@ class ClientesController extends BaseController {
 		'Form' => ['Users']
 	];
 
+	public $applets =  [
+		'Clientes',
+		'Produtos'
+	];
+
 	public function index(){
 		parent::load_index();
 	}

@@ -82,7 +82,7 @@ $(document).ready(function(){
 
 		});
 
-		dtable.buttons().container().appendTo('#buttons > div');
+		dtable.buttons().container().appendTo('.buttons > div');
 
 		$('#datatable tbody tr').click(function(){
 			

@@ -22,6 +22,7 @@ class BaseController extends AppController {
 			$join[$val] = $joinTable->find('all');
 		}		
 
+		$this->set('applets', $this->applets);
 		$this->set('username', $this->Auth->user('username'));
 		$this->set('usertype', $this->Auth->user('type'));
 		$this->set('joins',$join);

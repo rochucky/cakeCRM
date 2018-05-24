@@ -1,42 +1,44 @@
-<div class="row">
-	<div class="col-md-3">
-		<p class="header"><?= $title ?></p>
+<div class="row applet" data="<?= $controller ?>">
+	<div class="row title">
+		<div class="col-md-3">
+			<?= $title ?>
+		</div>
 	</div>
-</div>
-<div class="row" id="buttons">
-	<div class="col">
-		<?php if($usertype == 'recycle'): ?>
-			<button type="button" class="btn btn-secondary restorebtn">Restaurar</button>
-		<?php else: ?>
-			<?php if($add): ?>
-				<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal">Criar</button>
+	<div class="row buttons">
+		<div class="col">
+			<?php if($usertype == 'recycle'): ?>
+				<button type="button" class="btn btn-secondary restorebtn">Restaurar</button>
+			<?php else: ?>
+				<?php if($add): ?>
+					<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal">Criar</button>
+				<?php endif; ?>
+				<?php if($del): ?>
+					<button type="button" class="btn btn-danger do-nothing delbtn">Excluir</a>
+				<?php endif; ?>
 			<?php endif; ?>
-			<?php if($del): ?>
-				<a href="" class="btn btn-danger do-nothing delbtn">Excluir</a>
-			<?php endif; ?>
-		<?php endif; ?>
+		</div>
 	</div>
-</div>
-<div class="row">
-	<div class="col-md-12">
-		<table id="datatable" class="display nowrap table-striped table-bordered">
-			<thead>
-				<tr>
-					<?php foreach($fields as $field) { ?>
-						<th><?= $field['label'] ?></th>
-					<?php } ?>
-				</tr>
-			</thead>
-			
-			<tfoot>
-				<tr>
-					<?php foreach($fields as $field) { ?>
-						<th><input type="text" class="form-control search" placeholder="Buscar <?= $field['label'] ?>" /></th>
-					<?php } ?>
-				</tr>
-			</tfoot>
+	<div class="row">
+		<div class="col-md-12">
+			<table id="datatable" class="display nowrap table-striped table-bordered">
+				<thead>
+					<tr>
+						<?php foreach($fields as $field) { ?>
+							<th><?= $field['label'] ?></th>
+						<?php } ?>
+					</tr>
+				</thead>
+				
+				<tfoot>
+					<tr>
+						<?php foreach($fields as $field) { ?>
+							<th><input type="text" class="form-control search" placeholder="Buscar <?= $field['label'] ?>" /></th>
+						<?php } ?>
+					</tr>
+				</tfoot>
 
-		</table>
+			</table>
+		</div>
 	</div>
 
 	<!-- Form Modal -->
@@ -127,5 +129,4 @@
         </div>
       </div>
     </div>
-	
 </div>
