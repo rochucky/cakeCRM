@@ -52,29 +52,12 @@ class ClientesController extends BaseController {
 	];
 
 	public $applets =  [
-		'Clientes',
-		'Produtos'
+		'Clientes' => 'clientes',
+		'Produtos' => 'produtos'
 	];
 
 	public function index(){
 		parent::load_index();
-	}
-
-	public function novo(){
-		parent::add(strtolower($this->controller));
-	}
-
-	public function excluir($id){
-		parent::delete($id);
-	}
-
-	public function editar($id){
-		parent::edit($id);
-	}
-
-	public function salvar(){
-		parent::save();
-		$this->redirect($this->controller);
 	}
 }
 ?>

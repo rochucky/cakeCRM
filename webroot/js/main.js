@@ -59,8 +59,10 @@ $(document).ready(function(){
 	}
 
 	// datatable functions
-	var dtFunctions = function(){
+	var dtFunctions = function(e){
 		// 
+
+		console.log(e);
 
 		$('.datatable tbody tr').dblclick(function(){
 			if($("form.no-edit").length > 0){
@@ -112,9 +114,10 @@ $(document).ready(function(){
         	
 	}
 
-	$(".datatable").each(function(){
+	$(".applet").each(function(){
+		var controller = $(this).attr('data');
 		// Datatable
-		var dtable = $(this).DataTable({
+		var dtable = $('.datatable_' + controller).DataTable({
 			ajax: location.href + '/getData',
 			rowId: 'rowid',
 			scrollY: '50vh',
@@ -148,8 +151,58 @@ $(document).ready(function(){
 			        sortDescending: ': activate to sort column descending'
 			    }
 			},
-			initComplete: dtFunctions
-			
+			initComplete: function(e){
+				// 
+
+				console.log(e);
+
+				$('.datatable_' + controller + ' tbody tr').dblclick(function(){
+					if($("form.no-edit").length > 0){
+						notification('Não é possível editar registros nesta tela');
+						return false;
+					}
+					$(this).children('td').each(function(){
+						if($(this).children('span').attr('data-id')){
+							$('#' + $(this).children('span').attr('name')).val($(this).children('span').attr('data-id').trim());	
+						}
+						else{
+							$('#' + $(this).children('span').attr('name')).val($(this).children('span').text().trim());	
+						}
+					})
+					form.find('[name=id]').val($(this).attr('id'));
+					$('#data-modal').modal('show');
+					$('.datatable tbody tr').removeClass('selected');
+
+
+
+				});
+
+				dtable.buttons().container().appendTo('.buttons > div');
+
+				$('.datatable_' + controller + ' tbody tr').click(function(){
+					
+					$(this).toggleClass('selected');
+				});
+			 
+			    // Apply the search
+			    dtable.columns().every( function () {
+			        var that = this;
+
+			        $( 'input', this.footer() ).on( 'keyup change', function (e) {
+			            if ( that.search() !== this.value ) {
+			                that
+			                    .search( this.value )
+			                    .draw();
+			            }
+			            if (e.which == '27'){
+			            	$(this).val('');
+			            	that
+			                    .search( this.value )
+			                    .draw();
+			            }
+			        });
+			    });
+			}
 		});
 		
 	})

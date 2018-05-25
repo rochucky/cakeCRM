@@ -1,8 +1,8 @@
-<?php foreach($applets as $applet): ?>
+<?php foreach($applets as $applet => $controller): ?>
 	<div class="row applet" data="<?= $applet ?>">
 		<div class="row title">
 			<div class="col-md-3">
-				<?= $title ?>
+				<?= $applet ?>
 			</div>
 		</div>
 		<div class="row buttons_<?= $applet ?>">
