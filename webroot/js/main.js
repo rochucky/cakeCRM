@@ -61,7 +61,8 @@ $(document).ready(function(){
 	// datatable functions
 	var dtFunctions = function(){
 		// 
-		$('#datatable tbody tr').dblclick(function(){
+
+		$('.datatable tbody tr').dblclick(function(){
 			if($("form.no-edit").length > 0){
 				notification('Não é possível editar registros nesta tela');
 				return false;
@@ -76,7 +77,7 @@ $(document).ready(function(){
 			})
 			form.find('[name=id]').val($(this).attr('id'));
 			$('#data-modal').modal('show');
-			$('#datatable tbody tr').removeClass('selected');
+			$('.datatable tbody tr').removeClass('selected');
 
 
 
@@ -84,7 +85,7 @@ $(document).ready(function(){
 
 		dtable.buttons().container().appendTo('.buttons > div');
 
-		$('#datatable tbody tr').click(function(){
+		$('.datatable tbody tr').click(function(){
 			
 			$(this).toggleClass('selected');
 		});
@@ -107,48 +108,51 @@ $(document).ready(function(){
 	            }
 	        });
 	    });
-	    //$('#datatable_filter').closest('.row').remove();
+	    //$('.datatable_filter').closest('.row').remove();
         	
 	}
 
-	// Datatable
-	var dtable = $('#datatable').DataTable({
-		ajax: location.href + '/getData',
-		rowId: 'rowid',
-		scrollY: '50vh',
-		scrollX: true,
-		scrollCollapse: true,
-        paging: false,
-        buttons: [
-            {extend: 'csv', text: 'Exportar'}
-        ],
-        language: {
-		    decimal:        '',
-		    emptyTable:     'Não há dados disponíveis',
-		    // info:           Showing _START_ to _END_ of _TOTAL_ entries,
-		    info:           'Exibindo _TOTAL_ registros',
-		    infoEmpty:      'Exibindo 0 registros',
-		    infoFiltered:   '(de um total de _MAX_)',
-		    infoPostFix:    '',
-		    thousands:      '.',
-		    loadingRecords: 'Carregando...',
-		    processing:     'Processando...',
-		    search:         'Buscar:',
-		    zeroRecords:    'Nenhum registro encontrado',
-		    paginate: {
-		        first:      '<<',
-		        last:       '>>',
-		        next:       '>',
-		        previous:   '<'
-		    },
-		    aria: {
-		        sortAscending:  ': activate to sort column ascending',
-		        sortDescending: ': activate to sort column descending'
-		    }
-		},
-		initComplete: dtFunctions
+	$(".datatable").each(function(){
+		// Datatable
+		var dtable = $(this).DataTable({
+			ajax: location.href + '/getData',
+			rowId: 'rowid',
+			scrollY: '50vh',
+			scrollX: true,
+			scrollCollapse: true,
+	        paging: false,
+	        buttons: [
+	            {extend: 'csv', text: 'Exportar'}
+	        ],
+	        language: {
+			    decimal:        '',
+			    emptyTable:     'Não há dados disponíveis',
+			    // info:           Showing _START_ to _END_ of _TOTAL_ entries,
+			    info:           'Exibindo _TOTAL_ registros',
+			    infoEmpty:      'Exibindo 0 registros',
+			    infoFiltered:   '(de um total de _MAX_)',
+			    infoPostFix:    '',
+			    thousands:      '.',
+			    loadingRecords: 'Carregando...',
+			    processing:     'Processando...',
+			    search:         'Buscar:',
+			    zeroRecords:    'Nenhum registro encontrado',
+			    paginate: {
+			        first:      '<<',
+			        last:       '>>',
+			        next:       '>',
+			        previous:   '<'
+			    },
+			    aria: {
+			        sortAscending:  ': activate to sort column ascending',
+			        sortDescending: ': activate to sort column descending'
+			    }
+			},
+			initComplete: dtFunctions
+			
+		});
 		
-	});
+	})
 
 
 	
@@ -158,13 +162,13 @@ $(document).ready(function(){
 		if($('.modal.show').length > 0){
 			return false;
 		}
-		if($('#datatable tbody tr.selected').length > 0){
+		if($('.datatable tbody tr.selected').length > 0){
 			var data = []
 			var cc = customConfirm({
 				text: 'Deseja realmente excluir este registro?',
 				functionYes: function(){
 					var l = loading();
-					$('#datatable tbody tr.selected').each(function(){
+					$('.datatable tbody tr.selected').each(function(){
 						data.push($(this).attr('id'));
 					});
 					console.log(data);
@@ -213,13 +217,13 @@ $(document).ready(function(){
 	$('.restorebtn').click(function(){
 
 
-		if($('#datatable tbody tr.selected').length > 0){
+		if($('.datatable tbody tr.selected').length > 0){
 			var data = []
 			var cc = customConfirm({
 				text: 'Deseja realmente restaurar os registros selecionados?',
 				functionYes: function(){
 					var l = loading();
-					$('#datatable tbody tr.selected').each(function(){
+					$('.datatable tbody tr.selected').each(function(){
 						data.push($(this).attr('id'));
 					});
 					console.log(data);
@@ -352,7 +356,7 @@ $(document).ready(function(){
 // Keymapping
 	$(document).on('keyup', function(e){
 		if(e.which == '27'){
-			$('#datatable tbody tr').removeClass('selected');
+			$('.datatable tbody tr').removeClass('selected');
 		}
 		if(e.which == '46'){
 			$('.delbtn').click();
