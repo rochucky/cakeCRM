@@ -4,9 +4,9 @@ namespace App\Controller;
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
 
-class ClientesController extends BaseController {
+class ProdutosClientesController extends BaseController {
 
-	public $controller = 'Clientes';
+	public $controller = 'ProdutosClientes';
 	public $title = 'Cliente';
 	
 	/**
@@ -54,6 +54,9 @@ class ClientesController extends BaseController {
 	public $applets =  [
 		'Clientes' => [
 			'title' => 'Clientes'
+		],
+		'Produtos' => [
+			'title' => 'Produtos'
 		]
 	];
 

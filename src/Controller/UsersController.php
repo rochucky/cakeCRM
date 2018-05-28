@@ -60,6 +60,12 @@ class UsersController extends BaseController {
 		'Form' => ['UserTypes', 'Users']
 	];
 
+	public $applets = [
+		'Users' => [
+			'title' => 'Usuários'
+		]
+	];
+
 	public function index(){
 
 		parent::load_index();

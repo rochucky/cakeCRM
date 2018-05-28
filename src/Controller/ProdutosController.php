@@ -50,6 +50,12 @@ class ProdutosController extends BaseController {
 		'Form' => ['Users']
 	];	
 
+	public $applets = [
+		'Produtos' => [
+			'title' => 'Produtos'
+		]
+	];
+
 	public function index(){
 		$this->set('title', $this->title);
 		parent::load_index();

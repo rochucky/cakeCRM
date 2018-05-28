@@ -20,7 +20,12 @@ class BaseController extends AppController {
 		foreach ($this->joins['Form'] as $val){
 			$joinTable = TableRegistry::get($val);
 			$join[$val] = $joinTable->find('all');
-		}		
+		}
+
+		foreach($this->applets as $applet => $appletData){
+			$controller = $this->getController($applet);
+			$this->applets[$applet]['fields'] = $controller->getFields();
+		}
 
 		$this->set('applets', $this->applets);
 		$this->set('username', $this->Auth->user('username'));
@@ -34,6 +39,11 @@ class BaseController extends AppController {
 		$this->set('title',$this->title);
 		$this->render('/Layout/main');
 	
+	}
+
+	public function teste(){
+		echo 'teste';
+		die();
 	}
 
 	public function getData(){
@@ -93,6 +103,11 @@ class BaseController extends AppController {
      * @param $id - record id
      * 
      */
+
+	public function getFields(){
+		$this->setFields();
+		return $this->fields;
+	}
 
 	public function delete(){
 
@@ -257,7 +272,7 @@ class BaseController extends AppController {
 			'Produtos' => 'produtos',
 			'Clientes' => [
 				'Cadastro de Clientes' => 'clientes',
-				'Produtos/Clientes' => 'produtos'
+				'Produtos/Clientes' => 'produtosClientes'
 			],
 			'Admin' => [
 				'Usuários' => 'users',

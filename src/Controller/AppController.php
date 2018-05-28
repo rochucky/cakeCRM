@@ -73,4 +73,26 @@ class AppController extends Controller
         //$this->loadComponent('Security');
         //$this->loadComponent('Csrf');
     }
+
+    public function getController($controller){
+        switch($controller){
+            case 'Clientes':
+                $controller = new ClientesController();
+                return ($controller);
+                break;
+            case 'Produtos':
+                $controller = new ProdutosController();
+                return ($controller);
+                break;
+            case 'Users':
+                $controller = new UsersController();
+                return ($controller);
+                break;
+            case 'UserTypes':
+                $controller = new UserTypesController();
+                return ($controller);
+                break;
+        }
+
+    }
 }
