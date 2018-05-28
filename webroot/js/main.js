@@ -71,8 +71,8 @@ $(document).ready(function(){
 
 		    $('.datatable_' + controller + ' tbody tr').click(function(){
 		    	if(child){
-		    		datatables['Produtos'].ajax.url('/'+child+'/getData');
-					datatables['Produtos'].ajax.reload();
+		    		datatables[child].ajax.url('/'+child+'/getData');
+					datatables[child].ajax.reload();
 					$('.datatable_' + controller + ' tbody tr').removeClass('selected');
 					$(this).toggleClass('selected');
 		    	}

@@ -46,7 +46,7 @@ class UsersController extends BaseController {
 			'type' => 'join',
 			'joinController' => 'UserTypes',
 			'joinCol' => 'name',
-			'joinName' => 'user_type'
+			'joinName' => 'user_type',
 		],
 		'is_active' => [
 			'col' => 'is_active',

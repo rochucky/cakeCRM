@@ -49,7 +49,7 @@ class BaseController extends AppController {
 	public function getData(){
 		
 		$this->setFields();
-
+		$delExeption = [];
 		if($this->Auth->user('type') == 'recycle'){
 			$conditions = array('conditions'=>array(array('not' => array($this->controller.'.deleted is null'))));	
 			
@@ -61,7 +61,14 @@ class BaseController extends AppController {
 
 		$table = TableRegistry::get($this->controller);
 		$items = $table->find('all', $conditions);
-		$items->contain($this->joins['Main']);
+		foreach($this->joins['Main'] as $join => $filter){
+			if($filter){
+				$items->contain(array($join => function($q){ return $q->where($this->controller.'.deleted is null'); }));	
+			}
+			else{
+				$items->contain([$join]);		
+			}
+		}
 
 		$data['data'] = array();
 

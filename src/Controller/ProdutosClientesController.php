@@ -7,7 +7,7 @@ use Cake\Event\Event;
 class ProdutosClientesController extends BaseController {
 
 	public $controller = 'ProdutosClientes';
-	public $title = 'Cliente';
+	public $title = 'Produtos';
 	
 	/**
      * Module Permissions CRUD
@@ -26,40 +26,44 @@ class ProdutosClientesController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'name' => [
-			'col' => 'name',
-			'label' => 'Nome',
-			'type' => 'text',
-			'required' => true
+		'id_produto' => [
+			'col' => 'id_produto',
+			'label' => 'Produto',
+			'type' => 'join',
+			'joinController' => 'Produtos',
+			'joinCol' => 'nome',
+			'joinName' => 'produtos'
 		],
-		'cnpj' => [
-			'col' => 'cnpj',
-			'label' =>'CNPJ',
-			'type' => 'text',
-			'required' => true
-		],
-		'is_active' => [
-			'col' => 'is_active',
-			'label' => 'Ativo?',
-			'type' => 'boolean',
-			'required' => true
-		],
+		'id_cliente' => [
+			'col' => 'id_cliente',
+			'label' => 'Cliente',
+			'type' => 'join',
+			'joinController' => 'Clientes',
+			'joinCol' => 'name',
+			'joinName' => 'clientes'
+		]
 	];
 
 	public $joins = [
-		'Main' => ['CreatedByData','ModifiedByData', 'DeletedByData'],
-		'Form' => ['Users']
+		'Main' => [
+			'CreatedByData' => '',
+			'ModifiedByData' => '', 
+			'DeletedByData' => '', 
+			'Produtos' => '.deleted is null', 
+			'Clientes' => '.deleted is null'
+	],
+		'Form' => ['Users','Produtos','Clientes']
 	];
 
 	public $applets =  [
 		'Clientes' => [
 			'title' => 'Clientes',
 			'child' => [
-				'controller' => 'Produtos',
+				'controller' => 'ProdutosClientes',
 				'field' => 'id_clientes'
 			]
 		],
-		'Produtos' => [
+		'ProdutosClientes' => [
 			'title' => 'Produtos'
 		]
 	];

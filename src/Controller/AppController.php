@@ -92,6 +92,10 @@ class AppController extends Controller
                 $controller = new UserTypesController();
                 return ($controller);
                 break;
+            case 'ProdutosClientes':
+                $controller = new ProdutosClientesController();
+                return ($controller);
+                break;
         }
 
     }

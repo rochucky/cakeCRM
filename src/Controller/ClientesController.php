@@ -47,7 +47,11 @@ class ClientesController extends BaseController {
 	];
 
 	public $joins = [
-		'Main' => ['CreatedByData','ModifiedByData', 'DeletedByData'],
+		'Main' => [
+			'CreatedByData' => '',
+			'ModifiedByData' => '', 
+			'DeletedByData' => ''
+		],
 		'Form' => ['Users']
 	];
 
