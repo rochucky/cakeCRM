@@ -53,7 +53,11 @@ class ProdutosClientesController extends BaseController {
 
 	public $applets =  [
 		'Clientes' => [
-			'title' => 'Clientes'
+			'title' => 'Clientes',
+			'child' => [
+				'controller' => 'Produtos',
+				'field' => 'id_clientes'
+			]
 		],
 		'Produtos' => [
 			'title' => 'Produtos'

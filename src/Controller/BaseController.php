@@ -97,21 +97,23 @@ class BaseController extends AppController {
 		return $this->response;
 	}
 
-	/**
-     * Delete record
-     *
-     * @param $id - record id
-     * 
-     */
+	
 
 	public function getFields(){
 		$this->setFields();
 		return $this->fields;
 	}
 
-	public function delete(){
 
-		$table = TableRegistry::get($this->controller);
+	/**
+     * Delete record
+     *
+     * @param $id - record id
+     * 
+     */
+	public function delete($controller){
+
+		$table = TableRegistry::get($controller);
 		$data = $this->request->data();
 		
 		$response = [

@@ -1,5 +1,5 @@
 <?php foreach($applets as $applet => $appletData): ?>
-	<div class="row applet" data="<?= $applet ?>">
+	<div class="row applet" data="<?= $applet ?>" data-child="<?= $appletData['child']['controller']?>">
 		<div class="row title">
 			<div class="col-md-3">
 				<?= $appletData['title'] ?>
@@ -11,10 +11,10 @@
 					<button type="button" class="btn btn-secondary restorebtn">Restaurar</button>
 				<?php else: ?>
 					<?php if($add): ?>
-						<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal">Criar</button>
+						<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal_<?= $applet ?>">Criar</button>
 					<?php endif; ?>
 					<?php if($del): ?>
-						<button type="button" class="btn btn-danger do-nothing delbtn">Excluir</a>
+						<button type="button" class="btn btn-danger do-nothing delbtn_<?= $applet ?>">Excluir</a>
 					<?php endif; ?>
 				<?php endif; ?>
 			</div>

@@ -8,6 +8,8 @@ $(document).ready(function(){
 		notification(msg.text(), msg.attr('type'));
 	}
 
+	var datatables = {};
+	
 	// Just returns false
 	$('.do-nothing').click(function(){
 		return false;
@@ -17,9 +19,11 @@ $(document).ready(function(){
 
 	$(".applet").each(function(){
 		var controller = $(this).attr('data');
+		var child = $(this).attr('data-child');
 		var form = $('.data-modal-form_'+controller);
+
+		// Datatable functions
 		var dtFunctions = function(e){
-				// 
 
 			$('.datatable_' + controller + ' tbody tr').dblclick(function(){
 				if($(".data-modal-form_"+controller+".no-edit").length > 0){
@@ -43,11 +47,6 @@ $(document).ready(function(){
 			});
 
 			dtable.buttons().container().appendTo('.buttons_'+controller+' > div');
-
-			$('.datatable_' + controller + ' tbody tr').click(function(){
-				
-				$(this).toggleClass('selected');
-			});
 		 
 		    // Apply the search
 		    dtable.columns().every( function () {
@@ -69,6 +68,19 @@ $(document).ready(function(){
 		    });
 
 		    $('.save-data_'+controller).click(saveData);
+
+		    $('.datatable_' + controller + ' tbody tr').click(function(){
+		    	if(child){
+		    		datatables['Produtos'].ajax.url('/'+child+'/getData');
+					datatables['Produtos'].ajax.reload();
+					$('.datatable_' + controller + ' tbody tr').removeClass('selected');
+					$(this).toggleClass('selected');
+		    	}
+		    	else{
+					$(this).toggleClass('selected');
+				}
+				
+			});
 			
 		}
 		// Datatable
@@ -108,6 +120,8 @@ $(document).ready(function(){
 			},
 			initComplete: dtFunctions
 		});
+
+		datatables[controller] = dtable;
 
 		// Data saving function
 		
@@ -151,7 +165,7 @@ $(document).ready(function(){
 		}
 
 		// Delete Record
-		$('.delbtn').click(function(){
+		$('.delbtn_'+controller).click(function(){
 			// If there is an open modal, do nothing
 			if($('.modal.show').length > 0){
 				return false;
@@ -168,7 +182,7 @@ $(document).ready(function(){
 						console.log(data);
 						$.ajax({
 							method: 'POST',
-							url: location.href + '/delete',
+							url: location.href + '/delete/'+controller,
 							data: {ids: data},
 							beforeSend: function(){
 								l.show();
@@ -207,12 +221,23 @@ $(document).ready(function(){
 			return false;
 
 		});
+
+		// Data Saving or Editing Modal
+		$('#data-modal_'+controller).on('hidden.bs.modal', function () {
+			form[0].reset();
+			$('input#id_'+controller).val('');
+			$(this).off('keyup');
+		});
+
+		$('#data-modal_'+controller).on('shown.bs.modal', function () {
+			$('.first').focus();
+		});
 		
 	});
 
 
 	
-
+	console.log(datatables);
 
 	$('.restorebtn').click(function(){
 
@@ -266,16 +291,7 @@ $(document).ready(function(){
 		}
 	});
 
-// Data Saving or Editing Modal
-	$('#data-modal').on('hidden.bs.modal', function () {
-		form[0].reset();
-		$('input#id').val('');
-		$(this).off('keyup');
-	});
 
-	$('#data-modal').on('shown.bs.modal', function () {
-		$('.first').focus();
-	});
 
 	
 
@@ -354,14 +370,14 @@ $(document).ready(function(){
 	});
 
 // Keymapping
-	$(document).on('keyup', function(e){
-		if(e.which == '27'){
-			$('.datatable tbody tr').removeClass('selected');
-		}
-		if(e.which == '46'){
-			$('.delbtn').click();
-		}
+	// $(document).on('keyup', function(e){
+	// 	if(e.which == '27'){
+	// 		$('.datatable tbody tr').removeClass('selected');
+	// 	}
+	// 	if(e.which == '46'){
+	// 		$('.delbtn').click();
+	// 	}
 		
-	})
+	// })
 
 });

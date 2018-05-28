@@ -53,8 +53,14 @@ class ClientesController extends BaseController {
 
 	public $applets =  [
 		'Clientes' => [
-			'title' => 'Clientes'
+			'title' => 'Clientes',
+			'controller' => 'ProdutosController'
+		],
+		'Produtos' => [
+			'title' => 'Produtos do Bruno',
+			'controller' => 'ProdutosController'
 		]
+
 	];
 
 	public function index(){
