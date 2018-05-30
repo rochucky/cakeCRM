@@ -39,6 +39,10 @@ class ClientesTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->hasMany('ProdutosClientes', [
+            'foreignKey' => 'id_cliente'
+        ]);
+
         $this->belongsTo('CreatedByData', [
             'className' => 'Users',
             'foreignKey' => 'created_by'            

@@ -39,26 +39,26 @@ class ProdutosClientesTable extends Table
         $this->addBehavior('Timestamp');
 
         $this->belongsTo('CreatedByData', [
-        'className' => 'Users',
-        'foreignKey' => 'created_by'            
-    ]);
-    $this->belongsTo('ModifiedByData', [
-        'className' => 'Users',
-        'foreignKey' => 'modified_by'            
-    ]);
-    $this->belongsTo('DeletedByData', [
-        'className' => 'Users',
-        'foreignKey' => 'deleted_by'            
-    ]);
-    $this->belongsTo('Produtos', [
-        'className' => 'Produtos',
-        'foreignKey' => 'id_produto'           
-    ]);
-    $this->belongsTo('Clientes', [
-        'className' => 'Clientes',
-        'foreignKey' => 'id_cliente'          
-    ]);
-    }
+            'className' => 'Users',
+            'foreignKey' => 'created_by'            
+        ]);
+        $this->belongsTo('ModifiedByData', [
+            'className' => 'Users',
+            'foreignKey' => 'modified_by'            
+        ]);
+        $this->belongsTo('DeletedByData', [
+            'className' => 'Users',
+            'foreignKey' => 'deleted_by'            
+        ]);
+        $this->belongsTo('Produtos', [
+            'className' => 'Produtos',
+            'foreignKey' => 'id_produto'           
+        ]);
+        $this->belongsTo('Clientes', [
+            'className' => 'Clientes',
+            'foreignKey' => 'id_cliente'          
+        ]);
+        }
 
     
 

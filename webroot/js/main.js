@@ -20,6 +20,7 @@ $(document).ready(function(){
 	$(".applet").each(function(){
 		var controller = $(this).attr('data');
 		var child = $(this).attr('data-child');
+		var link = $(this).attr('data-link');
 		var form = $('.data-modal-form_'+controller);
 
 		// Datatable functions
@@ -71,7 +72,10 @@ $(document).ready(function(){
 
 		    $('.datatable_' + controller + ' tbody tr').click(function(){
 		    	if(child){
-		    		datatables[child].ajax.url('/'+child+'/getData');
+		    		// Stop last ajax request
+		    		datatables[child].settings()[0].jqXHR
+		    		
+		    		$('.applet[data-child='+child+']').attr('data-link-val', $(this).attr('id'));
 					datatables[child].ajax.reload();
 					$('.datatable_' + controller + ' tbody tr').removeClass('selected');
 					$(this).toggleClass('selected');
@@ -85,7 +89,20 @@ $(document).ready(function(){
 		}
 		// Datatable
 		var dtable = $('.datatable_' + controller).DataTable({
-			ajax: '/' + controller + '/getData',
+			ajax: {
+				url: '/' + controller + '/getData',
+				data: function(d){
+					if($('.applet[data-child='+controller+']').length > 0){
+						var data = { 
+							filter:{
+								field: $('.applet[data-child='+controller+']').attr('data-link'), 
+								val: $('.applet[data-child='+controller+']').attr('data-link-val')
+							}	 
+						};
+						return $.extend( {}, d, data);
+					}
+				}
+			},
 			rowId: 'rowid',
 			scrollY: '50vh',
 			scrollX: true,

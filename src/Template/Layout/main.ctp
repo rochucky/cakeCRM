@@ -1,5 +1,5 @@
 <?php foreach($applets as $applet => $appletData): ?>
-	<div class="row applet" data="<?= $applet ?>" data-child="<?= isset($appletData['child']['controller']) ? $appletData['child']['controller'] : '' ?>">
+	<div class="row applet" data="<?= $applet ?>" data-child="<?= isset($appletData['child']['controller']) ? $appletData['child']['controller'] : '' ?>" data-link="<?= isset($appletData['child']['link']) ? $appletData['child']['link'] : '' ?>" data-link-val="0">
 		<div class="row title">
 			<div class="col-md-3">
 				<?= $appletData['title'] ?>

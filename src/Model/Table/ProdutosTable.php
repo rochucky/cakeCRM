@@ -38,6 +38,10 @@ class ProdutosTable extends Table
 
         $this->addBehavior('Timestamp');
 
+        $this->hasMany('ProdutosClientes', [
+            'foreignKey' => 'id_produto'
+        ]);
+
         $this->belongsTo('CreatedByData', [
             'className' => 'Users',
             'foreignKey' => 'created_by'            

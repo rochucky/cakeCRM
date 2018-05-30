@@ -19,7 +19,7 @@ class BaseController extends AppController {
 		$join = [];
 		foreach ($this->joins['Form'] as $val){
 			$joinTable = TableRegistry::get($val);
-			$join[$val] = $joinTable->find('all');
+			$join[$val] = $joinTable->find('all', array('conditions'=>array(array($val.'.deleted is null'))));
 		}
 
 		foreach($this->applets as $applet => $appletData){
@@ -49,25 +49,27 @@ class BaseController extends AppController {
 	public function getData(){
 		
 		$this->setFields();
-		$delExeption = [];
+
 		if($this->Auth->user('type') == 'recycle'){
-			$conditions = array('conditions'=>array(array('not' => array($this->controller.'.deleted is null'))));	
-			
-				
+			$conditions = array('conditions'=>array(array('not' => array($this->controller.'.deleted is null'))));			
 		}
 		else{
-			$conditions = array('conditions'=>array($this->controller.'.deleted is null'));
+			$conditions = array('conditions'=>[
+				$this->controller.'.deleted is null'
+
+			]);
 		}
+
+		if(isset($_GET['filter'])){
+			$filter = $_GET['filter'];
+			$conditions['conditions'][$filter['field']] = $filter['val'];
+		}
+		
 
 		$table = TableRegistry::get($this->controller);
 		$items = $table->find('all', $conditions);
-		foreach($this->joins['Main'] as $join => $filter){
-			if($filter){
-				$items->contain(array($join => function($q){ return $q->where($this->controller.'.deleted is null'); }));	
-			}
-			else{
-				$items->contain([$join]);		
-			}
+		foreach($this->joins['Main'] as $join){
+				$items->contain(array($join => function($q){ return $q->where($this->controller.'.deleted is null'); }));
 		}
 
 		$data['data'] = array();

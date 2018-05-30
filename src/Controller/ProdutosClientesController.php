@@ -32,7 +32,7 @@ class ProdutosClientesController extends BaseController {
 			'type' => 'join',
 			'joinController' => 'Produtos',
 			'joinCol' => 'nome',
-			'joinName' => 'produtos'
+			'joinName' => 'produto'
 		],
 		'id_cliente' => [
 			'col' => 'id_cliente',
@@ -40,18 +40,12 @@ class ProdutosClientesController extends BaseController {
 			'type' => 'join',
 			'joinController' => 'Clientes',
 			'joinCol' => 'name',
-			'joinName' => 'clientes'
+			'joinName' => 'cliente'
 		]
 	];
 
 	public $joins = [
-		'Main' => [
-			'CreatedByData' => '',
-			'ModifiedByData' => '', 
-			'DeletedByData' => '', 
-			'Produtos' => '.deleted is null', 
-			'Clientes' => '.deleted is null'
-	],
+		'Main' => ['CreatedByData','ModifiedByData','DeletedByData','Produtos','Clientes'],
 		'Form' => ['Users','Produtos','Clientes']
 	];
 
@@ -60,7 +54,7 @@ class ProdutosClientesController extends BaseController {
 			'title' => 'Clientes',
 			'child' => [
 				'controller' => 'ProdutosClientes',
-				'field' => 'id_clientes'
+				'link' => 'id_cliente'
 			]
 		],
 		'ProdutosClientes' => [
