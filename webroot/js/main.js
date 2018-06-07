@@ -172,9 +172,7 @@ $(document).ready(function(){
 
 		form.off('keyup').on('keyup', function(e){
 			if(e.which == '13'){
-				$('save-data_'+controller).click();
-			}else{
-				alert('teste');
+				$('.save-data_'+controller).click();
 			}
 		});
 
@@ -351,6 +349,10 @@ $(document).ready(function(){
 
 		$('#data-modal_'+controller).on('shown.bs.modal', function () {
 			$('.first').focus();
+		});
+
+		$('#data-modal_'+controller).draggable({
+		    handle: ".modal-header"
 		});
 
 	}
