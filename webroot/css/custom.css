@@ -29,7 +29,7 @@ div.buttons button{
 	height: 20px;
 	padding-top: 0px;
 	font-size: 11px;
-	margin-left: 3px;
+	margin-bottom: 3px;
 }
 div.btn-group{
 	margin-left: 6px;
@@ -73,9 +73,14 @@ div.dataTables_scrollBody{
 }
 div.dataTables_scroll{
 	border: 1px solid lightgray !important;
+	background-color: #EFEFEF;
 }
 div.dataTables_wrapper {
 	padding-left: 0px;
+    padding-right: 0px;
+    border: 1px solid lightgray;
+    background-color: lightgray;
+    box-shadow: 2px 2px rgba(0,0,0,0.3);
 }
 div.dataTables_info{
 	padding-top: 0px !important;
