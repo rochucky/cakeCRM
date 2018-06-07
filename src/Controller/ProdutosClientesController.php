@@ -26,7 +26,7 @@ class ProdutosClientesController extends BaseController {
      * Fields to be used on screen
      */
 	public $fields = [
-		'id_produto' => [
+		'nome_produto' => [
 			'col' => 'id_produto',
 			'label' => 'Produto',
 			'type' => 'join',
@@ -37,10 +37,7 @@ class ProdutosClientesController extends BaseController {
 		'id_cliente' => [
 			'col' => 'id_cliente',
 			'label' => 'Cliente',
-			'type' => 'join',
-			'joinController' => 'Clientes',
-			'joinCol' => 'name',
-			'joinName' => 'cliente'
+			'type' => 'link'
 		]
 	];
 

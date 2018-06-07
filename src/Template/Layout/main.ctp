@@ -25,7 +25,9 @@
 					<thead>
 						<tr>
 							<?php foreach($appletData['fields'] as $field) { ?>
-								<th><?= $field['label'] ?></th>
+								<?php if($field['type'] !== 'link'): ?>
+									<th><?= $field['label'] ?></th>
+								<?php endif; ?>
 							<?php } ?>
 						</tr>
 					</thead>
@@ -33,7 +35,9 @@
 					<tfoot>
 						<tr>
 							<?php foreach($appletData['fields'] as $field) { ?>
-								<th><input type="text" class="form-control search" placeholder="Buscar <?= $field['label'] ?>" /></th>
+								<?php if($field['type'] !== 'link'): ?>
+									<th><input type="text" class="form-control search" placeholder="Buscar <?= $field['label'] ?>" /></th>
+								<?php endif; ?>
 							<?php } ?>
 						</tr>
 					</tfoot>
@@ -67,7 +71,7 @@
 										    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 											</div>
 											<div class="col">
-										    	<input type="text" class="form-control" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
+										    	<input type="text" class="form-control" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
 											</div>	
 										</div>
 									</div>
@@ -78,7 +82,7 @@
 									    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
 									    	</div>
 									    	<div class="col">
-											    <select id="<?= $key ?>_<?= $applet ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> <?= ($data['required']) ? 'required' : '' ?> >
+											    <select id="<?= $key ?>_<?= $applet ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"'?> <?= ($data['required']) ? 'required' : '' ?> >
 											    	<option value="null"></option>
 											    	<?php foreach($joins[$data['joinController']] as $join): ?>
 														<option value="<?= $join['id'] ?>" ><?= $join[$data['joinCol']] ?></option>
@@ -94,7 +98,7 @@
 									    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
 									    	</div>
 									    	<div class="col">
-											    <select id="<?= $key ?>_<?= $applet ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"'?> <?= ($data['required']) ? 'required' : '' ?> >
+											    <select id="<?= $key ?>_<?= $applet ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"'?> <?= ($data['required']) ? 'required' : '' ?> >
 											    	<option value="null"></option>
 											    	<option value="1" >Sim</option>
 											    	<option value="0" >Não</option>
@@ -103,6 +107,8 @@
 									       	</div>
 									    </div>
 									</div>
+								<?php elseif($data['type'] == 'link'): ?>
+									<input type="hidden" class="form-control link" id="<?= $key ?>_<?= $applet ?>" name="<?= $key ?>" value=""/>
 								<?php else: ?>
 									<div class="form-group">
 									    <div class="row">
@@ -110,7 +116,7 @@
 										    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 											</div>
 											<div class="col">
-										    	<input type="<?= $data['type'] ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$key.'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
+										    	<input type="<?= $data['type'] ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
 											</div>	
 										</div>
 									</div>
@@ -123,7 +129,7 @@
 
 	          <!-- Modal footer -->
 	          <div class="modal-footer">
-	            <button type="submit" form="data-modal-form_<?= $applet ?>" class="btn btn-primary do-nothing save-data_<?= $applet ?>" data-dismiss="modal_<?= $applet ?>">Salvar</button>
+	            <button type="button" class="btn btn-primary do-nothing save-data_<?= $applet ?>" data-dismiss="modal_<?= $applet ?>">Salvar</button>
 	            <button type="button" class="btn btn-secondary cancel-data"  data-dismiss="modal_<?= $applet ?>">Cancelar</button>
 	          </div>
 

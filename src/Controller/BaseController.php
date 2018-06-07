@@ -41,11 +41,6 @@ class BaseController extends AppController {
 	
 	}
 
-	public function teste(){
-		echo 'teste';
-		die();
-	}
-
 	public function getData(){
 		
 		$this->setFields();
@@ -92,6 +87,9 @@ class BaseController extends AppController {
 					$boolean[0] = 'Não';
 					$boolean[1] = 'Sim';
 					$array[] = '<span name="'.$col.'" data-id="'.(($item->$col) ? '1': '0').'">'.$boolean[$item->$col].'</span>';
+				}
+				else if ($field_params['type'] == 'link'){
+					continue;
 				}
 				else{
 					$array[] = '<span name="'.$col.'">'.$item->$col.'</span>';
@@ -229,6 +227,7 @@ class BaseController extends AppController {
 		$this->fields['modified'] = [
 			'col' => 'modified',
 			'label' => 'Alterado Em',
+			'type' => 'text',
 			'format' => 'datetime',
 			'readonly' => true,
 			'required' => false
@@ -246,6 +245,7 @@ class BaseController extends AppController {
 		$this->fields['created'] = [
 			'col' => 'created',
 			'label' => 'Criado Em',
+			'type' => 'text',
 			'format' => 'datetime',
 			'readonly' => true,
 			'required' => false

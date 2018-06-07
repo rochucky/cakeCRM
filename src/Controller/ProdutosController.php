@@ -61,24 +61,5 @@ class ProdutosController extends BaseController {
 		parent::load_index();
 	}
 
-	public function novo(){
-		$this->set('title', 'Criar '.$this->title);
-		parent::add(strtolower($this->controller));
-	}
-
-	public function excluir($id){
-		parent::delete($id);
-	}
-
-	public function editar($id){
-		$this->set('title', 'Editar '.$this->title);
-		parent::edit($id);
-	}
-
-	public function salvar(){
-		parent::save();
-		$this->redirect($this->controller);
-	}
-
 }
 ?>

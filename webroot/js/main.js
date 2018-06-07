@@ -1,5 +1,6 @@
 $(document).ready(function(){
 	
+	$('.row').addClass('fill');
 
 	// Cutom Flash notifications
 	var msg = $('.message');
@@ -16,11 +17,11 @@ $(document).ready(function(){
 	});
 
 	
+	var loadApplet = function(applet){
 
-	$(".applet").each(function(){
-		var controller = $(this).attr('data');
-		var child = $(this).attr('data-child');
-		var link = $(this).attr('data-link');
+		var controller = applet.attr('data');
+		var child = applet.attr('data-child');
+		var link = applet.attr('data-link');
 		var form = $('.data-modal-form_'+controller);
 
 		// Datatable functions
@@ -29,6 +30,9 @@ $(document).ready(function(){
 			$('.datatable_' + controller + ' tbody tr').dblclick(function(){
 				if($(".data-modal-form_"+controller+".no-edit").length > 0){
 					notification('Não é possível editar registros nesta tela');
+					return false;
+				}
+				if($(this).children('td:first').hasClass('dataTables_empty')){
 					return false;
 				}
 				$(this).children('td').each(function(){
@@ -47,6 +51,7 @@ $(document).ready(function(){
 
 			});
 
+			// Export button
 			dtable.buttons().container().appendTo('.buttons_'+controller+' > div');
 		 
 		    // Apply the search
@@ -68,17 +73,23 @@ $(document).ready(function(){
 		        });
 		    });
 
-		    $('.save-data_'+controller).click(saveData);
+		    $('.save-data_'+controller).off('click').click(saveData);
 
 		    $('.datatable_' + controller + ' tbody tr').click(function(){
+		    	
+
 		    	if(child){
-		    		// Stop last ajax request
-		    		datatables[child].settings()[0].jqXHR
-		    		
+		    		// Reload child applet
+		    		datatables[child].destroy();	
 		    		$('.applet[data-child='+child+']').attr('data-link-val', $(this).attr('id'));
-					datatables[child].ajax.reload();
+		    		$('.applet[data='+child+']').attr('data-link-val', $(this).attr('id'));
+
+					loadApplet($('.applet[data='+child+']'));
+					
 					$('.datatable_' + controller + ' tbody tr').removeClass('selected');
 					$(this).toggleClass('selected');
+
+
 		    	}
 		    	else{
 					$(this).toggleClass('selected');
@@ -87,6 +98,53 @@ $(document).ready(function(){
 			});
 			
 		}
+
+		// Data saving function
+		var saveData = function(){
+
+			if(form.find('.link').length > 0){
+				form.children('.link').val($('.applet[data='+controller+']').attr('data-link-val'));
+			}
+
+			var data = form.serialize();
+			var l = loading();
+			l.show();
+
+			$.ajax({
+				method: 'POST',
+				url: '/' + controller + '/save',
+				data: data
+			})
+			.done(function(e){
+				if(e == 'ok'){
+					$('#data-modal_'+controller).modal('hide');
+					notification('Registro salvo com sucesso.', 'success')
+					datatables[controller].destroy();
+					loadApplet(applet);
+				}
+				else if(e == 'unique_error'){
+					notification('Erro ao salvar registro, Já existe outro registro com o mesmo valor');
+				}
+				else{
+					notification('Erro ao salvar registro');
+					console.log(e)
+				}
+			})
+			.fail(function(e){
+				if(e.status == '403'){
+					$('#expired-password-modal').modal('show');
+				}
+				else{
+					notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');	
+				}
+				console.log(e)
+			})
+			.always(function(){
+				l.close();
+			});
+		}
+
+
 		// Datatable
 		var dtable = $('.datatable_' + controller).DataTable({
 			ajax: {
@@ -140,49 +198,10 @@ $(document).ready(function(){
 
 		datatables[controller] = dtable;
 
-		// Data saving function
 		
-		var saveData = function(){
-
-			var data = form.serialize();
-			var l = loading();
-			l.show();
-
-			$.ajax({
-				method: 'POST',
-				url: '/' + controller + '/save',
-				data: data
-			})
-			.done(function(e){
-				if(e == 'ok'){
-					$('#data-modal_'+controller).modal('hide');
-					notification('Registro salvo com sucesso.', 'success')
-					dtable.ajax.reload( dtFunctions );
-				}
-				else if(e == 'unique_error'){
-					notification('Erro ao salvar registro, Já existe outro registro com o mesmo valor');
-				}
-				else{
-					notification('Erro ao salvar registro');
-					console.log(e)
-				}
-			})
-			.fail(function(e){
-				if(e.status == '403'){
-					$('#expired-password-modal').modal('show');
-				}
-				else{
-					notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');	
-				}
-				console.log(e)
-			})
-			.always(function(){
-				l.close();
-			});
-		}
 
 		// Delete Record
-		$('.delbtn_'+controller).click(function(){
+		$('.delbtn_'+controller).off('click').click(function(){
 			// If there is an open modal, do nothing
 			if($('.modal.show').length > 0){
 				return false;
@@ -239,6 +258,62 @@ $(document).ready(function(){
 
 		});
 
+		$('.restorebtn').off('click').click(function(){
+
+
+			if($('.datatable_'+controller+' tbody tr.selected').length > 0){
+				var data = []
+				var cc = customConfirm({
+					text: 'Deseja realmente restaurar os registros selecionados?',
+					functionYes: function(){
+						var l = loading();
+						$('.datatable_'+controller+' tbody tr.selected').each(function(){
+							data.push($(this).attr('id'));
+						});
+						console.log(data);
+						$.ajax({
+							method: 'POST',
+							url: '/' + controller + '/restore',
+							data: {ids: data},
+							beforeSend: function(){
+								l.show();
+							}
+						})
+						.done(function(e){
+							var data = JSON.parse(e);
+							console.log(data);
+							if(data.success > 0){
+								notification(data.success + ' registros restaurados com sucesso', 'success');
+								dtable.ajax.reload( dtFunctions );
+							}
+							if(data.error > 0){
+								notification(data.erro + ' registros não puderam ser restaurados', 'error');
+							}
+						})
+						.fail(function(e){
+							if(e.status == '403'){
+								$('#expired-password-modal').modal('show');
+							}
+							else{
+								notification('Falha ao restaurar registro, contacte o administrador do sistema', 'error');	
+							}
+							console.log(e)
+						}).
+						always(function(){
+							l.close();
+						});
+					}
+				});
+			}
+			else{
+				return false;
+			}
+		});
+
+		// applet.children('.newbtn').click(function(){
+		// 	if(applet.attr(''))
+		// });
+
 		// Data Saving or Editing Modal
 		$('#data-modal_'+controller).on('hidden.bs.modal', function () {
 			form[0].reset();
@@ -249,64 +324,16 @@ $(document).ready(function(){
 		$('#data-modal_'+controller).on('shown.bs.modal', function () {
 			$('.first').focus();
 		});
-		
-	});
 
+	}
+
+
+	$(".applet").each(function(){
+		
+		loadApplet($(this));
+	});
 
 	
-	console.log(datatables);
-
-	$('.restorebtn').click(function(){
-
-
-		if($('.datatable tbody tr.selected').length > 0){
-			var data = []
-			var cc = customConfirm({
-				text: 'Deseja realmente restaurar os registros selecionados?',
-				functionYes: function(){
-					var l = loading();
-					$('.datatable tbody tr.selected').each(function(){
-						data.push($(this).attr('id'));
-					});
-					console.log(data);
-					$.ajax({
-						method: 'POST',
-						url: location.href + '/restore',
-						data: {ids: data},
-						beforeSend: function(){
-							l.show();
-						}
-					})
-					.done(function(e){
-						var data = JSON.parse(e);
-						console.log(data);
-						if(data.success > 0){
-							notification(data.success + ' registros restaurados com sucesso', 'success');
-							dtable.ajax.reload( dtFunctions );
-						}
-						if(data.error > 0){
-							notification(data.erro + ' registros não puderam ser restaurados', 'error');
-						}
-					})
-					.fail(function(e){
-						if(e.status == '403'){
-							$('#expired-password-modal').modal('show');
-						}
-						else{
-							notification('Falha ao restaurar registro, contacte o administrador do sistema', 'error');	
-						}
-						console.log(e)
-					}).
-					always(function(){
-						l.close();
-					});
-				}
-			});
-		}
-		else{
-			return false;
-		}
-	});
 
 
 
@@ -385,16 +412,5 @@ $(document).ready(function(){
 		
 
 	});
-
-// Keymapping
-	// $(document).on('keyup', function(e){
-	// 	if(e.which == '27'){
-	// 		$('.datatable tbody tr').removeClass('selected');
-	// 	}
-	// 	if(e.which == '46'){
-	// 		$('.delbtn').click();
-	// 	}
-		
-	// })
 
 });
