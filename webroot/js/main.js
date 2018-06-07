@@ -52,7 +52,9 @@ $(document).ready(function(){
 			});
 
 			// Export button
+			$('.buttons_'+controller+' > div .dt-buttons').remove() // avoid duplicated buttons
 			dtable.buttons().container().appendTo('.buttons_'+controller+' > div');
+			
 		 
 		    // Apply the search
 		    dtable.columns().every( function () {
@@ -69,6 +71,15 @@ $(document).ready(function(){
 		            	that
 		                    .search( this.value )
 		                    .draw();
+		            }
+		            $('.datatable_' + controller + ' tbody tr').removeClass('selected');
+
+		        });
+		         $( 'input', this.footer() ).on('blur', function(e){   
+		            if(datatables[child]){
+			            datatables[child].destroy();
+						$('.applet[data='+controller+']').attr('data-link-val', 0);
+						loadApplet($('.applet[data='+child+']'));	
 		            }
 		        });
 		    });
@@ -158,6 +169,15 @@ $(document).ready(function(){
 		$('.cancel-data_'+controller).off('click').click(function(){
 			$('#data-modal_'+controller).modal('hide');
 		});
+
+		form.off('keyup').on('keyup', function(e){
+			if(e.which == '13'){
+				$('save-data_'+controller).click();
+			}else{
+				alert('teste');
+			}
+		});
+
 		// Data saving function
 		var saveData = function(){
 

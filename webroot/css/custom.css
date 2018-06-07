@@ -32,13 +32,13 @@ div.buttons button{
 	margin-left: 3px;
 }
 div.btn-group{
-	margin-left: 3px;
+	margin-left: 6px;
 }
 
 
 /*Table*/
 table{
-	cursor: context-menu;
+	cursor: default;
 }
 table.display{
 	border: 0;
@@ -52,10 +52,10 @@ table.display tbody tr:hover{
 table.display tbody tr.selected{
 	background-color: rgba(100,100,100,0.8);
 }
-#datatable{
+table{
 	width: 100% !important;
 }
-#datatable tbody tr td{
+table tbody tr td{
 	padding-top: 2px;
 	padding-bottom: 2px;
 	padding-right: 8px;
@@ -65,7 +65,7 @@ table.display tbody tr.selected{
 	display: none;
 }
 div.dataTables_scrollBody{
-	min-height: 55vh;
+	min-height: 45vh;
 }
 div.dataTables_scroll{
 	border: 1px solid lightgray !important;
@@ -86,7 +86,7 @@ form label{
 }
 
 /*Modal*/
-@media screen and (min-width: 800px){
+@media screen and (min-width: 768px){
     .modal-dialog{
      	max-width: 60%;
     }

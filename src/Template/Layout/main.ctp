@@ -5,7 +5,7 @@
 				<?= $appletData['title'] ?>
 			</div>
 		</div>
-		<div class="row buttons_<?= $applet ?>">
+		<div class="row buttons buttons_<?= $applet ?>">
 			<div class="col">
 				<?php if($usertype == 'recycle'): ?>
 					<button type="button" class="btn btn-secondary restorebtn">Restaurar</button>
@@ -129,7 +129,7 @@
 
 	          <!-- Modal footer -->
 	          <div class="modal-footer">
-	            <button type="button" class="btn btn-primary do-nothing save-data_<?= $applet ?>" data-dismiss="modal_<?= $applet ?>">Salvar</button>
+	            <button type="submit" class="btn btn-primary do-nothing save-data_<?= $applet ?>" data-dismiss="modal_<?= $applet ?>">Salvar</button>
 	            <button type="button" class="btn btn-secondary cancel-data_<?= $applet ?>"  data-dismiss="modal_<?= $applet ?>">Cancelar</button>
 	          </div>
 
