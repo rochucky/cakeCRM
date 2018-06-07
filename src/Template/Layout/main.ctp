@@ -82,7 +82,7 @@
 									    		<label for="<?= $key ?>"><?= $data['label'] ?></label>
 									    	</div>
 									    	<div class="col">
-											    <select id="<?= $key ?>_<?= $applet ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"'?> <?= ($data['required']) ? 'required' : '' ?> >
+											    <select id="<?= $data['col'] ?>_<?= $applet ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"'?> <?= ($data['required']) ? 'required' : '' ?> >
 											    	<option value="null"></option>
 											    	<?php foreach($joins[$data['joinController']] as $join): ?>
 														<option value="<?= $join['id'] ?>" ><?= $join[$data['joinCol']] ?></option>
@@ -130,7 +130,7 @@
 	          <!-- Modal footer -->
 	          <div class="modal-footer">
 	            <button type="button" class="btn btn-primary do-nothing save-data_<?= $applet ?>" data-dismiss="modal_<?= $applet ?>">Salvar</button>
-	            <button type="button" class="btn btn-secondary cancel-data"  data-dismiss="modal_<?= $applet ?>">Cancelar</button>
+	            <button type="button" class="btn btn-secondary cancel-data_<?= $applet ?>"  data-dismiss="modal_<?= $applet ?>">Cancelar</button>
 	          </div>
 
 	        </div>

@@ -27,7 +27,7 @@ $(document).ready(function(){
 		// Datatable functions
 		var dtFunctions = function(e){
 
-			$('.datatable_' + controller + ' tbody tr').dblclick(function(){
+			$('.datatable_' + controller + ' tbody tr').off('dblclick').dblclick(function(){
 				if($(".data-modal-form_"+controller+".no-edit").length > 0){
 					notification('Não é possível editar registros nesta tela');
 					return false;
@@ -76,10 +76,12 @@ $(document).ready(function(){
 		    $('.save-data_'+controller).off('click').click(saveData);
 
 		    $('.datatable_' + controller + ' tbody tr').click(function(){
-		    	
-
 		    	if(child){
 		    		// Reload child applet
+		    		if($(this).hasClass('selected')){
+			    		return false;
+			    	}
+
 		    		datatables[child].destroy();	
 		    		$('.applet[data-child='+child+']').attr('data-link-val', $(this).attr('id'));
 		    		$('.applet[data='+child+']').attr('data-link-val', $(this).attr('id'));
@@ -97,51 +99,6 @@ $(document).ready(function(){
 				
 			});
 			
-		}
-
-		// Data saving function
-		var saveData = function(){
-
-			if(form.find('.link').length > 0){
-				form.children('.link').val($('.applet[data='+controller+']').attr('data-link-val'));
-			}
-
-			var data = form.serialize();
-			var l = loading();
-			l.show();
-
-			$.ajax({
-				method: 'POST',
-				url: '/' + controller + '/save',
-				data: data
-			})
-			.done(function(e){
-				if(e == 'ok'){
-					$('#data-modal_'+controller).modal('hide');
-					notification('Registro salvo com sucesso.', 'success')
-					datatables[controller].destroy();
-					loadApplet(applet);
-				}
-				else if(e == 'unique_error'){
-					notification('Erro ao salvar registro, Já existe outro registro com o mesmo valor');
-				}
-				else{
-					notification('Erro ao salvar registro');
-					console.log(e)
-				}
-			})
-			.fail(function(e){
-				if(e.status == '403'){
-					$('#expired-password-modal').modal('show');
-				}
-				else{
-					notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');	
-				}
-				console.log(e)
-			})
-			.always(function(){
-				l.close();
-			});
 		}
 
 
@@ -198,7 +155,58 @@ $(document).ready(function(){
 
 		datatables[controller] = dtable;
 
-		
+		$('.cancel-data_'+controller).off('click').click(function(){
+			$('#data-modal_'+controller).modal('hide');
+		});
+		// Data saving function
+		var saveData = function(){
+
+			if(form.find('.link').length > 0){
+				form.children('.link').val($('.applet[data='+controller+']').attr('data-link-val'));
+			}
+
+			var data = form.serialize();
+			var l = loading();
+			l.show();
+
+			$.ajax({
+				method: 'POST',
+				url: '/' + controller + '/save',
+				data: data
+			})
+			.done(function(e){
+				if(e == 'ok'){
+					$('#data-modal_'+controller).modal('hide');
+					notification('Registro salvo com sucesso.', 'success')
+					datatables[controller].destroy();
+					loadApplet(applet);
+					if(datatables[child]){
+						datatables[child].destroy();
+						$('.applet[data='+controller+']').attr('data-link-val', 0);
+						loadApplet($('.applet[data='+child+']'));
+					}
+				}
+				else if(e == 'unique_error'){
+					notification('Erro ao salvar registro, Já existe outro registro com o mesmo valor');
+				}
+				else{
+					notification('Erro ao salvar registro');
+					console.log(e)
+				}
+			})
+			.fail(function(e){
+				if(e.status == '403'){
+					$('#expired-password-modal').modal('show');
+				}
+				else{
+					notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');	
+				}
+				console.log(e)
+			})
+			.always(function(){
+				l.close();
+			});
+		}
 
 		// Delete Record
 		$('.delbtn_'+controller).off('click').click(function(){
