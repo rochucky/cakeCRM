@@ -5,10 +5,23 @@ html{
 body{
 	background-color: rgba(0, 0, 0, 0.03);
 }
+.container{
+	padding-right: 0px;
+}
+.col-md-*{
+	padding-right: 0px;
+}
 div.row.title{
 	font-size: 30px;
 	width: 100%;
 }
+div.row.datatable{
+	width: 100%;
+}
+div.row.datatable .col-md-12{
+	padding-right: 0px;
+}
+
 .fill{
 	width: 100% !important;
 }

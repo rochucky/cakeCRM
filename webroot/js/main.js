@@ -1,6 +1,4 @@
 $(document).ready(function(){
-	
-	$('.row').addClass('fill');
 
 	// Cutom Flash notifications
 	var msg = $('.message');
@@ -52,10 +50,11 @@ $(document).ready(function(){
 			});
 
 			// Export button
-			$('.buttons_'+controller+' > div .dt-buttons').remove() // avoid duplicated buttons
+			$('.buttons_'+controller+' > div .btn-group').remove() // avoid duplicated buttons
 			dtable.buttons().container().appendTo('.buttons_'+controller+' > div');
 			
-		 
+		 	$('.dt-buttons').removeClass('dt-buttons');
+
 		    // Apply the search
 		    dtable.columns().every( function () {
 		        var that = this;

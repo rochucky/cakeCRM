@@ -19,7 +19,7 @@
 				<?php endif; ?>
 			</div>
 		</div>
-		<div class="row">
+		<div class="row datatable">
 			<div class="col-md-12">
 				<table class="datatable_<?= $applet ?> display nowrap table-striped table-bordered">
 					<thead>
