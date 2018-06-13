@@ -6,7 +6,7 @@ body{
 	background-color: rgba(0, 0, 0, 0.03);
 }
 .container{
-	padding-right: 0px;
+	width: 100%;
 }
 .col-md-*{
 	padding-right: 0px;
@@ -14,9 +14,14 @@ body{
 div.row.title{
 	font-size: 30px;
 	width: 100%;
+	padding-left: 10px;
+}
+div.row.buttons{
+	padding-left: 10px
 }
 div.row.datatable{
 	width: 100%;
+	padding-left: 10px;
 }
 div.row.datatable .col-md-12{
 	padding-right: 0px;
@@ -45,7 +50,7 @@ div.buttons button{
 	margin-bottom: 3px;
 }
 div.btn-group{
-	margin-left: 6px;
+	margin-left: 4px;
 }
 
 /*Applet*/
