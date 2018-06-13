@@ -371,8 +371,6 @@ $(document).ready(function(){
 // Expired Password Modal
 	$('#expired-password-modal').on('shown.bs.modal', function () {
 		$('#expired-password-form input[name=password]').focus();
-		$('#expired-password-form').on('keyup', function(){
-		})
 	});
 
 	$('.modal-login-button').click(function(){
@@ -402,42 +400,61 @@ $(document).ready(function(){
 		});
 		
 	});
-// Change Password Modal
-	$('#expired-password-modal').on('shown.bs.modal', function () {
-		$('#expired-password-form input[name=password]').focus();
-		$('#expired-password-form').on('keyup', function(){
-		})
+	
+
+	// Change Password Modal
+	$('#change-password-modal').on('shown.bs.modal', function () {
+		$('#change-password-form input[name=current]').focus();
 	});
 
 	$('.save-new-password').click(function(){
 
-		var password = $('#password-form input[name=new]').val();
-		var confirm = $('#password-form input[name=confirm]').val();
+		$('#change-password-form input').removeClass('invalid');
+
+		var password = $('#change-password-form input[name=new]').val();
+		var confirm = $('#change-password-form input[name=confirm]').val();
 
 		if(password == confirm){
-			notification('ok');
+			
+			if(password.length < 6){
+				notification('A senha deve ter no minimo 6 caracteres');
+				$('#change-password-form input[name=new]').addClass('invalid');
+				$('#change-password-form input[name=confirm]').addClass('invalid');
+				return false;
+			}
+
+			var data = $('#change-password-form').serialize();
+
+			$.ajax({
+				url: window.location.origin + '/Users/change_password',
+				type: 'POST',
+				data: data
+			})
+			.done(function(e) {
+				if(e == 'password_error'){
+					notification('Senha Incorreta', 'error');
+					$('#change-password-modal input[name=password]').addClass('invalid');
+				}
+				else{
+					notification('Senha alterada com sucesso.', 'success');
+					$('#change-password-modal').modal('hide');
+				}
+			})
+			.fail(function() {
+				console.log("error");
+			})
+			.always(function() {
+				console.log("complete");
+			});
 		}
 		else{
 			notification('Nova senha e confirmação não batem');
+			$('#change-password-form input[name=new]').addClass('invalid');
+			$('#change-password-form input[name=confirm]').addClass('invalid');
 		}
 		
 
-		// $.$.ajax({
-		// 	url: window.location.origin + '/Users/save',
-		// 	type: 'POST',
-		// 	data: {
-		// 		password: password
-		// 	}
-		// })
-		// .done(function() {
-		// 	console.log("success");
-		// })
-		// .fail(function() {
-		// 	console.log("error");
-		// })
-		// .always(function() {
-		// 	console.log("complete");
-		// });
+		
 		
 
 	});

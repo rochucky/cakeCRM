@@ -3,6 +3,7 @@ namespace App\Controller;
 
 use Cake\ORM\TableRegistry;
 use Cake\Event\Event;
+use Cake\Auth\DefaultPasswordHasher;
 
 class UsersController extends BaseController {
 
@@ -128,6 +129,34 @@ class UsersController extends BaseController {
 
     public function logout(){
     	$this->redirect($this->Auth->logout());
+    }
+
+    public function changePassword(){
+    	if ($this->request->is('post')){
+			$user = $this->Auth->identify();
+
+			if($user){
+				$table = TableRegistry::get($this->controller);
+				$userData = $table->get($this->request->data('id'));
+				$hasher = new DefaultPasswordHasher();
+				$userData->password = $hasher->hash($this->request->data('new'));
+
+				if($table->saveOrFail($userData)){
+					$this->response->body('ok');
+					return $this->response;
+				}
+				else{
+					$this->response->body('error_1');
+					return $this->response;	
+				}
+
+
+			}
+			else{
+				$this->response->body('password_error');
+				return $this->response;	
+			}
+    	}
     }
 }
 ?>

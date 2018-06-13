@@ -21,8 +21,7 @@ $cakeDescription = 'Software';
     <?= $this->Html->charset() ?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
-        <?= $cakeDescription ?>:
-        <?= $this->fetch('title') ?>
+        CakeRM
     </title>
     <?= $this->Html->meta('icon') ?>
 
@@ -53,7 +52,7 @@ $cakeDescription = 'Software';
 <body>
     
     <!-- Change Password Modal -->
-    <div class="modal fade" id="password-modal">
+    <div class="modal fade" id="change-password-modal">
       <div class="modal-dialog">
         <div class="modal-content">
 
@@ -67,14 +66,16 @@ $cakeDescription = 'Software';
           <div class="modal-body">
             <div class="row">
                 <div class="col">
-                    <form id="password-form">
+                    <form id="change-password-form">
+                        <input type="hidden" name="id" value="<?= $userid ?>" />
+                        <input type="hidden" name="username" value="<?= $username ?>" />
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-4">
                                     <label for="current">Senha Atual</label>
                                 </div>
                                 <div class="col">
-                                    <input type="password" class="form-control" name="current" />
+                                    <input type="password" class="form-control" name="password" />
                                 </div>
                             </div>
                         </div>
@@ -105,7 +106,7 @@ $cakeDescription = 'Software';
 
           <!-- Modal footer -->
           <div class="modal-footer">
-            <button type="submit" form="password-form" class="btn btn-primary do-nothing save-new-password" data-dismiss="modal">Salvar</button>
+            <button type="submit" form="change-password-form" class="btn btn-primary do-nothing save-new-password" data-dismiss="modal">Salvar</button>
             <button type="button" class="btn btn-secondary"  data-dismiss="modal">Cancelar</button>
           </div>
 
@@ -189,7 +190,7 @@ $cakeDescription = 'Software';
                 <?php endforeach; ?>
             </ul>
             <ul class="navbar-nav">
-                <a href="" class="nav-link" data-toggle="modal" data-target="#password-modal">
+                <a href="" class="nav-link" data-toggle="modal" data-target="#change-password-modal">
                     <span class="oi oi-lock-locked" title="Alterar Senha" aria-hidden="true"></span>
                 </a>
                 <a href="/users/logout" class="nav-link">

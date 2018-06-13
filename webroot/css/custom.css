@@ -111,6 +111,10 @@ tfoot tr th{
 form label{
 	padding-top: 10px;
 }
+input.invalid{
+	border-color: red;
+}
+
 
 /*Modal*/
 @media screen and (min-width: 768px){

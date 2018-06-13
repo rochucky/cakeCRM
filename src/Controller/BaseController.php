@@ -30,6 +30,7 @@ class BaseController extends AppController {
 		$this->set('applets', $this->applets);
 		$this->set('username', $this->Auth->user('username'));
 		$this->set('usertype', $this->Auth->user('type'));
+		$this->set('userid', $this->Auth->user('id'));
 		$this->set('joins',$join);
 		$this->set('controller',$this->controller);
 		$this->set('add',$this->permission['add']);
