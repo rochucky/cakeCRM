@@ -3,6 +3,11 @@ $(document).ready(function(){
 	// Cutom Flash notifications
 	var msg = $('.message');
 
+	$('.join-select').select2({
+		width: '100%',
+		selectOnClose: true
+	});
+
 	if(msg.text() != ''){
 		notification(msg.text(), msg.attr('type'));
 	}
@@ -35,7 +40,7 @@ $(document).ready(function(){
 				}
 				$(this).children('td').each(function(){
 					if($(this).children('span').attr('data-id')){
-						$('#' + $(this).children('span').attr('name') + '_' + controller).val($(this).children('span').attr('data-id').trim());	
+						$('#' + $(this).children('span').attr('name') + '_' + controller).val($(this).children('span').attr('data-id').trim()).trigger('change');	
 					}
 					else{
 						$('#' + $(this).children('span').attr('name') + '_' + controller).val($(this).children('span').text().trim());	
@@ -240,7 +245,6 @@ $(document).ready(function(){
 						$('.datatable_'+controller+' tbody tr.selected').each(function(){
 							data.push($(this).attr('id'));
 						});
-						console.log(data);
 						$.ajax({
 							method: 'POST',
 							url: location.href + '/delete/'+controller,
@@ -251,10 +255,10 @@ $(document).ready(function(){
 						})
 						.done(function(e){
 							var data = JSON.parse(e);
-							console.log(data);
 							if(data.success > 0){
 								notification(data.success + ' registros excluído com sucesso', 'success');
-								dtable.ajax.reload( dtFunctions );
+								datatables[controller].destroy();
+								loadApplet(applet);
 							}
 							if(data.error > 0){
 								notification(data.erro + ' registros não podem ser excluidos', 'error');

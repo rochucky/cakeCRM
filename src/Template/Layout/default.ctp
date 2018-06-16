@@ -30,6 +30,7 @@ $cakeDescription = 'Software';
     <?= $this->Html->css('open-iconic-master/font/css/open-iconic-bootstrap.css') ?>
     <?= $this->Html->css('bootstrap.min.css') ?>
     <?= $this->Html->css('../js/datatable/datatables.min.css') ?>
+    <?= $this->Html->css('select2.min.css') ?>
     <?= $this->Html->css('noty.css') ?>
     <?= $this->Html->css('custom.css') ?>
     
@@ -41,6 +42,7 @@ $cakeDescription = 'Software';
     <?= $this->Html->script('datatable/datatables.min.js') ?>
     <?= $this->Html->script('jquery.validate.min.js') ?>
     <?= $this->Html->script('additional-methods.min.js') ?>
+    <?= $this->Html->script('select2.min.js') ?>
     <?= $this->Html->script('noty.js') ?>
     <?= $this->Html->script('util.js') ?>
     <?= $this->Html->script('main.js') ?>

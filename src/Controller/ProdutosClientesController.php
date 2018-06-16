@@ -32,7 +32,8 @@ class ProdutosClientesController extends BaseController {
 			'type' => 'join',
 			'joinController' => 'Produtos',
 			'joinCol' => 'nome',
-			'joinName' => 'produto'
+			'joinName' => 'produto',
+			'required' => true
 		],
 		'id_cliente' => [
 			'col' => 'id_cliente',
