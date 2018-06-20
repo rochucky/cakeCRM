@@ -131,6 +131,15 @@ $(document).ready(function(){
 						};
 						return $.extend( {}, d, data);
 					}
+				},
+				error: function(xhr,error,thrown){
+					if(thrown == 'Forbidden'){
+						$('#expired-password-modal').modal('show');
+					}
+					else{
+						notification('Erro: ' + thrown, 'error');	
+					}
+					
 				}
 			},
 			rowId: 'rowid',
