@@ -239,6 +239,13 @@ $(document).ready(function(){
 			});
 		}
 
+		$('.newbtn_'+controller).off('click').click(function(){
+			form.find('.join-select').each(function(e,item){
+				$(this).val('').trigger('change');
+			});
+			$('#data-modal_'+controller).modal('show');
+		});
+
 		// Delete Record
 		$('.delbtn_'+controller).off('click').click(function(){
 			// If there is an open modal, do nothing

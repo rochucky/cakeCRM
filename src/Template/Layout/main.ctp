@@ -11,7 +11,7 @@
 					<button type="button" class="btn btn-secondary restorebtn">Restaurar</button>
 				<?php else: ?>
 					<?php if($add): ?>
-						<button type="button" class="btn btn-secondary newbtn" data-toggle="modal" data-target="#data-modal_<?= $applet ?>">Criar</button>
+						<button type="button" class="btn btn-secondary newbtn_<?= $applet ?>">Criar</button>
 					<?php endif; ?>
 					<?php if($del): ?>
 						<button type="button" class="btn btn-danger do-nothing delbtn_<?= $applet ?>">Excluir</a>
