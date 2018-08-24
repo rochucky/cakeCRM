@@ -1,6 +1,6 @@
 <div class="row">
 	<div class="col-md-12">
-		<p class="text-center header">INSTORE</p>
+		<p class="text-center header">Vue</p>
 	</div>
 </div>
 <div class="row">
