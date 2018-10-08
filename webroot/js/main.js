@@ -49,6 +49,7 @@ $(document).ready(function(){
 				form.find('[name=id]').val($(this).attr('id'));
 				$('#data-modal_'+controller).modal('show');
 				$('.datatable_'+controller+' tbody tr').removeClass('selected');
+				$('input, select, textarea').removeClass('invalid');
 
 
 
@@ -203,7 +204,26 @@ $(document).ready(function(){
 			$.ajax({
 				method: 'POST',
 				url: '/' + controller + '/save',
-				data: data
+				data: data,
+				/*
+					Required fields validation
+				*/
+				beforeSend: function (){
+					var requiredFields = [];
+					var requiredCheck = false;
+					form.find('[required]').each(function(index, item){
+						if(item.value == '' || item.value == null){
+							var label = $('label[for='+item.name+']').html();
+							notification('Campo obrigatório: '+label, 'error');
+							item.className += " invalid";
+							requiredCheck = true;
+						}
+					});
+					if(requiredCheck){
+						return false;	
+					}
+					
+				}	
 			})
 			.done(function(e){
 				if(e == 'ok'){
@@ -229,8 +249,8 @@ $(document).ready(function(){
 				if(e.status == '403'){
 					$('#expired-password-modal').modal('show');
 				}
-				else{
-					notification('Falha ao deletar registro, contacte o administrador do sistema', 'error');	
+				else if(e.statusText != "canceled"){
+					notification('Falha ao salvar registro, contacte o administrador do sistema', 'error');	
 				}
 				console.log(e)
 			})
@@ -243,7 +263,9 @@ $(document).ready(function(){
 			form.find('.join-select').each(function(e,item){
 				$(this).val('').trigger('change');
 			});
+			$('input, select, textarea').removeClass('invalid');
 			$('#data-modal_'+controller).modal('show');
+
 		});
 
 		// Delete Record
