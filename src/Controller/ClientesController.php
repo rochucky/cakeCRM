@@ -8,6 +8,7 @@ class ClientesController extends BaseController {
 
 	public $controller = 'Clientes';
 	public $title = 'Cliente';
+	public $customScript = true;
 	
 	/**
      * Module Permissions CRUD
@@ -36,7 +37,8 @@ class ClientesController extends BaseController {
 			'col' => 'cnpj',
 			'label' =>'CNPJ',
 			'type' => 'text',
-			'required' => true
+			'required' => true,
+			'mask' => 'cnpj'
 		],
 		'is_active' => [
 			'col' => 'is_active',

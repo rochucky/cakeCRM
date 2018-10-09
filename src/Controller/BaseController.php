@@ -14,7 +14,6 @@ class BaseController extends AppController {
 	public function load_index($var = 'items'){
 
 		$this->setMenus();
-		$this->setFields();
 
 		$join = [];
 		foreach ($this->joins['Form'] as $val){
@@ -38,6 +37,7 @@ class BaseController extends AppController {
 		$this->set('del',$this->permission['del']);
 		$this->set('fields',$this->fields);
 		$this->set('title',$this->title);
+		$this->set('customScript',($this->customScript) ? $this->customScript : false);
 		$this->render('/Layout/main');
 	
 	}
@@ -109,6 +109,9 @@ class BaseController extends AppController {
 
 	public function getFields(){
 		$this->setFields();
+		foreach($this->fields as $field => $fieldData){
+			$this->fields[$field]['mask'] = (isset($fieldData['mask']) ? $fieldData['mask'] : '');
+		}
 		return $this->fields;
 	}
 

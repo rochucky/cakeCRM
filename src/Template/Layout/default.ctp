@@ -13,7 +13,7 @@
  * @license       https://opensource.org/licenses/mit-license.php MIT License
  */
 
-$cakeDescription = 'Software';
+$cakeDescription = 'Cake CRM';
 ?>
 <!DOCTYPE html>
 <html>
@@ -35,15 +35,15 @@ $cakeDescription = 'Software';
     <?= $this->Html->css('custom.css') ?>
     
 
-    <?= $this->Html->script('jquery.min.js') ?>
-    <?= $this->Html->script('jquery-ui.min.js') ?>
-    <?= $this->Html->script('popper.min.js') ?>
-    <?= $this->Html->script('bootstrap.min.js') ?>
+    <?= $this->Html->script('lib/jquery.min.js') ?>
+    <?= $this->Html->script('lib/jquery-ui.min.js') ?>
+    <?= $this->Html->script('lib/popper.min.js') ?>
+    <?= $this->Html->script('lib/bootstrap.min.js') ?>
     <?= $this->Html->script('datatable/datatables.min.js') ?>
-    <?= $this->Html->script('jquery.validate.min.js') ?>
-    <?= $this->Html->script('additional-methods.min.js') ?>
-    <?= $this->Html->script('select2.min.js') ?>
-    <?= $this->Html->script('noty.js') ?>
+    <?= $this->Html->script('lib/jquery.mask.min.js') ?>
+    <?= $this->Html->script('lib/select2.min.js') ?>
+    <?= $this->Html->script('lib/noty.js') ?>
+    
     <?= $this->Html->script('util.js') ?>
     <?= $this->Html->script('main.js') ?>
 
@@ -214,5 +214,8 @@ $cakeDescription = 'Software';
     </div>
     <footer>
     </footer>
+    <?php if($customScript): ?>
+        <?= $this->Html->script(strtolower($controller).'/script.js'); ?>
+    <?php endif; ?>
 </body>
 </html>

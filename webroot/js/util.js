@@ -49,3 +49,15 @@ var loading = function(){
 	});
 }
 
+var button = function(controller, name, callback){
+
+	var btnClass = name.replace(/ /g, "_");
+	var newBtn = '<button type="button" class="btn btn-secondary btn-custom btn_'+btnClass+'">'+name+'</button>';
+
+	var applet = $('div[data='+controller+']');
+	applet.find('.buttons_'+controller+' > div').append(newBtn);
+
+	$('.btn_'+btnClass).click(function(){
+		callback();
+	});
+}

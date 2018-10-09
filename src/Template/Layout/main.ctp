@@ -14,7 +14,7 @@
 						<button type="button" class="btn btn-secondary newbtn_<?= $applet ?>">Criar</button>
 					<?php endif; ?>
 					<?php if($del): ?>
-						<button type="button" class="btn btn-danger do-nothing delbtn_<?= $applet ?>">Excluir</a>
+						<button type="button" class="btn btn-danger do-nothing delbtn_<?= $applet ?>">Excluir</button>
 					<?php endif; ?>
 				<?php endif; ?>
 			</div>
@@ -71,7 +71,7 @@
 										    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 											</div>
 											<div class="col">
-										    	<input type="text" class="form-control" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
+										    	<input type="text" class="form-control <?= $data['mask'] ?>" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
 											</div>	
 										</div>
 									</div>
@@ -115,7 +115,7 @@
 										    	<label for="<?= $key ?>"><?= $data['label'] ?></label>
 											</div>
 											<div class="col">
-										    	<input type="<?= $data['type'] ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?>" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
+										    	<input type="<?= $data['type'] ?>" class="form-control <?= ($data == reset($appletData['fields'])) ? 'first' : '' ?> <?= $data['mask'] ?>" id="<?= $key ?>_<?= $applet ?>" <?= isset($data['readonly']) ? 'disabled' : 'name="'.$data['col'].'"' ?> <?= ($data['required']) ? 'required' : '' ?> value=""/>
 											</div>	
 										</div>
 									</div>

@@ -43,19 +43,15 @@ p.header{
 	width: 46%;
 	margin-left: 2%;
 }
-div.buttons button{
-	height: 20px;
-	padding-top: 0px;
-	font-size: 11px;
-	margin-bottom: 3px;
-}
-div.btn-group{
-	margin-left: 4px;
-}
 
 /*Applet*/
 .applet{
 	margin-bottom: 20px;
+}
+.row.buttons button{
+	margin-left: 2px;
+	margin-right: 2px;
+	margin-bottom: 4px;
 }
 
 /*Table*/
